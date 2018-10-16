@@ -1,5 +1,5 @@
 initialBoard([
-                     [emptyCell, emptyCell, emptyCell, emptyCell, cityPiece, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+                     [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
                      [emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
                      [emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
                      [emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
@@ -8,7 +8,7 @@ initialBoard([
                      [blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell],
                      [blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell],
                      [blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell],
-                     [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell,emptyCell, emptyCell,  cityPiece, emptyCell]
+                     [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell,emptyCell, emptyCell,  emptyCell, emptyCell]
            ]).
 
 intermediumBoard([

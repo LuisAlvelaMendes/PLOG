@@ -4,6 +4,9 @@
 
 /*Separador de cima/baixo/meio do taubleiro*/
 printGenericSeparator:-write(' _______________________________________'), nl.
+                       
+/*Spearador do meio */
+printMiddleSeparator:-write('|___|___|___|___|___|___|___|___|___|___|'), nl.
 
 /*TODO: Espaco que fica entre o | e o _ no tabuleiro*/
 
@@ -17,7 +20,7 @@ getSymbol(cityPiece, 'C').
 printCell(Char):- write('| '), write(Char), write(' ').
 
 /*Caso base: quando ja consumiu toda a linha (sublista da lista grande) so imprime uma barra final e um espaco*/
-display_board_line([]):- write('| ') , nl, printGenericSeparator.
+display_board_line([]):- write('| ') , nl, printMiddleSeparator.
 
 /*Para cada linha, ou seja, sublista, vai tentando encontrar uma correspondencia entre o elemento a analisar nesta etapa, que vai sendo a cabeca, e o charater a imprimir. Depois usa-se tail rescursion para ir passando ao proximo elemento*/
 display_board_line([Head|Tail]):- getSymbol(Head,Char), printCell(Char), display_board_line(Tail).
