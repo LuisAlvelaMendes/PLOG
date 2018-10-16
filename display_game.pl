@@ -7,7 +7,7 @@ printGenericSeparator:-write('   _______________________________________'), nl.
 printMiddleSeparator:-write('  |___|___|___|___|___|___|___|___|___|___|'), nl.
 
 /*Letras do fim */
-printLetters:- write('  A   B   C   D   E   F   G   H   I   J '), nl.
+printLetters:- write('    A   B   C   D   E   F   G   H   I   J '), nl.
 
 /*TODO: Espaco que fica entre o | e o _ no tabuleiro*/
 
@@ -30,9 +30,9 @@ displayID(ID):- ID \= '10', write(ID), write(' ').
 displayID(ID):- ID = '10', write(ID).
 
 /*Vai consumindo cada sublista da lista grande, cada linha [emptyCell, emptyCell, ...] neste caso e um "Head", vai-se usando tail recursion para chegar as outras linhas*/
-display_game_aux([], []):-nl.
+display_game_aux([], []):-printLetters, nl.
 display_game_aux([Head|Tail], [RHead|RTail]):- displayID(RHead), display_board_line(Head), display_game_aux(Tail, RTail).
 
-display_game(Board):- printGenericSeparator, display_game_aux(Board, ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']).
+display_game(Board):- printGenericSeparator, display_game_aux(Board, ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']).
 
 /*display_game(+Board,+Player)*/
