@@ -15,7 +15,8 @@ printLetters:- write('    A   B   C   D   E   F   G   H   I   J '), nl.
 getSymbol(emptyCell, ' ').
 getSymbol(redSoldier, 'R').
 getSymbol(blackSoldier, 'B').
-getSymbol(cityPiece, 'C').
+getSymbol(redCityPiece, '#').
+getSymbol(blackCityPiece, '$').
 
 /*Imprime um daqueles carateres com barras a volta*/
 printCell(Char):- write('| '), write(Char), write(' ').
