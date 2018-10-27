@@ -1,6 +1,6 @@
 :-include('boardLists.pl').
 
-/*Separador de cima/baixo/meio do taubleiro*/
+/*Separador de cima */
 printGenericSeparator:-write('   _______________________________________'), nl.
                        
 /*Spearador do meio */
@@ -8,8 +8,6 @@ printMiddleSeparator:-write('  |___|___|___|___|___|___|___|___|___|___|'), nl.
 
 /*Letras do fim */
 printLetters:- write('    A   B   C   D   E   F   G   H   I   J '), nl.
-
-/*TODO: Espaco que fica entre o | e o _ no tabuleiro*/
 
 /*Varios carateres e a sua correspondencia com elementos na lista interna*/
 getSymbol(emptyCell, ' ').
