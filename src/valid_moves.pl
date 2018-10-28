@@ -13,29 +13,72 @@
 /* Predicate to determine frontal adjacency (checks if the spot is empty so he can move) */
 
 /* Right side position, 1 row head and one column to the right */
-moveRightAdjacent(Row, Column, Row1, Column1, Board):-
+
+/* Relative to red soldiers */
+moveRightAdjacentFront(Row, Column, Board):-
+  getPiece(Row, Column, Board, Piece),
+  Piece == redSoldier,
   Row1 is Row + 1,
   Column1 is Column + 1,
   Row1 =< 9,
   Column1 =< 9,
-  getPiece(Row1,Column1, Board, Piece),
-  Piece == emptyCell.
+  getPiece(Row1, Column1, Board, OtherPiece),
+  OtherPiece == emptyCell.
+
+/* Relative to black soldiers */
+moveLeftAdjacentFront(Row, Column, Board):-
+  getPiece(Row, Column, Board, Piece),
+  Piece == blackSoldier,
+  Row1 is Row - 1,
+  Column1 is Column + 1,
+  Row1 =< 9,
+  Column1 =< 9,
+  getPiece(Row1, Column1, Board, OtherPiece),
+  OtherPiece == emptyCell.
 
 /* Left side position, 1 row head and one column to the left */
-moveLeftAdjacent(Row, Column, Row1, Column1, Board):-
+
+/* Relative to red soldiers */
+moveLeftAdjacentFront(Row, Column, Board):-
+  getPiece(Row, Column, Board, Piece),
+  Piece == redSoldier,
   Row1 is Row + 1,
   Column1 is Column - 1,
   Row1 =< 9,
-  Column1 >= 0,
-  getPiece(Row1,Column1, Board, Piece),
-  Piece == emptyCell.
+  Column1 =< 9,
+  getPiece(Row1, Column1, Board, OtherPiece),
+  OtherPiece == emptyCell.
+
+/* Relative to black soldiers */
+moveLeftAdjacentFront(Row, Column, Board):-
+  getPiece(Row, Column, Board, Piece),
+  Piece == blackSoldier,
+  Row1 is Row - 1,
+  Column1 is Column - 1,
+  Row1 =< 9,
+  Column1 =< 9,
+  getPiece(Row1, Column1, Board, OtherPiece),
+  OtherPiece == emptyCell.
 
 /* Position directly in front */
-moveFrontAdjacent(Row, Column, Row1, Column, Board):-
+
+/* Relative to red soldiers */
+moveFront(Row, Column, Board):-      
+  getPiece(Row, Column, Board, Piece),
+  Piece == redSoldier,
   Row1 is Row + 1,
   Row1 =< 9,
-  getPiece(Row1,Column, Board, Piece),
-  Piece = emptyCell.
+  getPiece(Row1, Column, Board, OtherPiece),
+  OtherPiece == emptyCell.
+
+/* Relative to black soldiers */
+moveFront(Row, Column, Board):-
+  getPiece(Row, Column, Board, Piece),
+  Piece == blackSoldier,
+  Row1 is Row - 1,
+  Row1 =< 9,
+  getPiece(Row1, Column, Board, OtherPiece),
+  OtherPiece = emptyCell.
 
 /* Option 1.2: capture */
 
