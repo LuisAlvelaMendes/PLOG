@@ -210,58 +210,119 @@ captureFront(Row, Column, Board):-
 
 /* Relative to red soldiers */
   retreatLeft(Row, Column, Board):-
-    /* Verify if there is an adjacent enemy piece */
-    adjacentEnemy(Row,Column,Board,EnemyPiece),
-    EnemyPiece == blackSoldier.
-    /* Verify if the two cells are empty ( nao sei se podemos reutilizar o otherpiece. se calhar temos de fazer loop )*/
     getPiece(Row, Column, Board, Piece),
     Piece == redSoldier,
+    /* Verify if there is an adjacent enemy piece */
+    adjacentEnemy(Row,Column,Board,EnemyPiece),
+    EnemyPiece == blackSoldier,
+    /* Verify if the two cells are empty ( nao sei se podemos reutilizar o otherpiece. se calhar temos de fazer loop )*/
     pieceDownLeft(Row,Column,Board,OtherPiece),
     OtherPiece == emptyCell,
     Row1 is Row - 1,
     Column1 is Column - 1,
     pieceDownLeft(Row1,Column1,Board,OtherPiece),
-    OtherPiece = emptyCell,
+    OtherPiece = emptyCell.
 
 /* Relative to black soldiers */
   retreatRight(Row, Column, Board):-
-    /* Verify if there is an adjacent enemy piece */
-    adjacentEnemy(Row,Column,Board,EnemyPiece),
-    EnemyPiece == blackSoldier.
-    /* Verify if the two cells are empty ( nao sei se podemos reutilizar o otherpiece. se calhar temos de fazer loop )*/
     getPiece(Row, Column, Board, Piece),
     Piece == blackSoldier,
+    /* Verify if there is an adjacent enemy piece */
+    adjacentEnemy(Row,Column,Board,EnemyPiece),
+    EnemyPiece == redSoldier,
+    /* Verify if the two cells are empty ( nao sei se podemos reutilizar o otherpiece. se calhar temos de fazer loop )*/
     pieceUpLeft(Row,Column,Board,OtherPiece),
     OtherPiece == emptyCell,
     Row1 is Row + 1,
     Column1 is Column - 1,
     pieceUpLeft(Row1,Column1,Board,OtherPiece),
-    OtherPiece = emptyCell,
+    OtherPiece = emptyCell.
 
+/* Right side, 2 row back and two columns to the right */
 
+/* Relative to red soldiers */
+  retreatRight(Row, Column, Board):-
+    getPiece(Row, Column, Board, Piece),
+    Piece == redSoldier,
+    /* Verify if there is an adjacent enemy piece */
+    adjacentEnemy(Row,Column,Board,EnemyPiece),
+    EnemyPiece == blackSoldier,
+    /* Verify if the two cells are empty ( nao sei se podemos reutilizar o otherpiece. se calhar temos de fazer loop )*/
+    pieceDownRight(Row,Column,Board,OtherPiece),
+    OtherPiece == emptyCell,
+    Row1 is Row - 1,
+    Column1 is Column + 1,
+    pieceDownRight(Row1,Column1,Board,OtherPiece),
+    OtherPiece = emptyCell.
 
 /* Relative to black soldiers */
-  captureRight(Row, Column, Board):-
+  retreatLeft(Row, Column, Board):-
     getPiece(Row, Column, Board, Piece),
     Piece == blackSoldier,
-    Row1 is Row - 1,
-    Row1 >= 0,
+    /* Verify if there is an adjacent enemy piece */
+    adjacentEnemy(Row,Column,Board,EnemyPiece),
+    EnemyPiece == redSoldier,
+    /* Verify if the two cells are empty ( nao sei se podemos reutilizar o otherpiece. se calhar temos de fazer loop )*/
+    pieceUpRight(Row,Column,Board,OtherPiece),
+    OtherPiece == emptyCell,
+    Row1 is Row + 1,
     Column1 is Column + 1,
-    Column1 <= 9,
-    getPiece(Row,Column1, Board, OtherPiece),
-    OtherPiece = redSoldier.
+    pieceUpRight(Row1,Column1,Board,OtherPiece),
+    OtherPiece = emptyCell.
 
-
-
+/* Retreat vertically */
+  /* Relative to red soldiers */
+  retreatBack(Row, Column, Board):-
+    getPiece(Row, Column, Board, Piece),
+    Piece == redSoldier,
+    /* Verify if there is an adjacent enemy piece */
+    adjacentEnemy(Row,Column,Board,EnemyPiece),
+    EnemyPiece == blackSoldier,
+    /* Verify if the two cells are empty ( nao sei se podemos reutilizar o otherpiece. se calhar temos de fazer loop )*/
+    pieceDown(Row,Column,Board,OtherPiece),
+    OtherPiece == emptyCell,
+    Row1 is Row - 1,
+    pieceDown(Row1,Column,Board,OtherPiece),
+    OtherPiece = emptyCell.
+  /* Relative to black soldiers */
+  retreatBack(Row, Column, Board):-
+    getPiece(Row, Column, Board, Piece),
+    Piece == blackSoldier,
+    /* Verify if there is an adjacent enemy piece */
+    adjacentEnemy(Row,Column,Board,EnemyPiece),
+    EnemyPiece == redSoldier,
+    /* Verify if the two cells are empty ( nao sei se podemos reutilizar o otherpiece. se calhar temos de fazer loop )*/
+    pieceUp(Row,Column,Board,OtherPiece),
+    OtherPiece == emptyCell,
+    Row1 is Row + 1,
+    pieceUp(Row1,Column,Board,OtherPiece),
+    OtherPiece = emptyCell.
 
 
 /* Option 2: use cannon */
 
-/* Option 2.1: capture cannon */
+/* Move cannon front */
+  /* Relative to red soldiers */
+  /*
+  moveCannonFront(Row, Column, Row2, Column2, Board):-
+    isCannon(Row,Column,Row2,Column2,Board).
+*/
 
-/* Option 2.2: move cannon */
+/* Option 2.1: move cannon */
 
-/* Utility functions */
+/* Option 2.2: capture cannon */
+
+/* Useful functions */
+  isRedCannon(Row,Column,Row2,Column2,Board):-
+    getPiece(Row, Column, Board, Piece),
+    Piece == redSoldier,
+
+
+  isBlackCannon(Row,Column,Row2,Column2,Board):-
+    getPiece(Row, Column, Board, Piece),
+    Piece ==
+
+
   pieceUp(Row,Column,Board,Piece):-
     Row1 is Row + 1,
     Row1 =< 9,
