@@ -35,9 +35,7 @@ humanVsHuman:-
         intermediumBoard(T), 
         display_game(T),
         askCoords(Row, Column),
-        /*getPiece(Row, Column, T, Piece), 
-        write(Piece),*/
-        moveFront(Row, Column, T).
+        validatePlaceBlackCityPiece(Row, Column, T).
 
 /* TODO: humanVsComputer:-
 TODO: computerVsComputer */

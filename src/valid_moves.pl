@@ -5,6 +5,21 @@
 
 /* Obtenção de uma lista de jogadas possíveis valid_moves(+Board, +Player, -ListOfMoves) */
 
+/* Option 0: place city, placing the city also counts as part of the game, and the city must be placed in a given row without counting the corners */
+validatePlaceRedCityPiece(Row, Column, Board):-
+  getPiece(Row, Column, Board, Piece),
+  Piece == redCityPiece,
+  Row == 0,
+  Column \= 0,
+  Column \= 9.
+
+validatePlaceBlackCityPiece(Row, Column, Board):-
+  getPiece(Row, Column, Board, Piece),
+  Piece == blackCityPiece,
+  Row == 9,
+  Column \= 0,
+  Column \= 9.
+
 /* Option 1: move soldier */
 
 /* Option 1.1: forward */
@@ -15,7 +30,7 @@
 /* Right side position, 1 row head and one column to the right */
 
 /* Relative to red soldiers */
-moveRightAdjacentFront(Row, Column, Board):-
+validateMoveRightAdjacentFront(Row, Column, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   Row1 is Row + 1,
@@ -26,7 +41,7 @@ moveRightAdjacentFront(Row, Column, Board):-
   OtherPiece == emptyCell.
 
 /* Relative to black soldiers */
-moveLeftAdjacentFront(Row, Column, Board):-
+validateMoveLeftAdjacentFront(Row, Column, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
   Row1 is Row - 1,
@@ -39,7 +54,7 @@ moveLeftAdjacentFront(Row, Column, Board):-
 /* Left side position, 1 row head and one column to the left */
 
 /* Relative to red soldiers */
-moveLeftAdjacentFront(Row, Column, Board):-
+validateMoveLeftAdjacentFront(Row, Column, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   Row1 is Row + 1,
@@ -50,7 +65,7 @@ moveLeftAdjacentFront(Row, Column, Board):-
   OtherPiece == emptyCell.
 
 /* Relative to black soldiers */
-moveLeftAdjacentFront(Row, Column, Board):-
+validateMoveLeftAdjacentFront(Row, Column, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
   Row1 is Row - 1,
@@ -63,7 +78,7 @@ moveLeftAdjacentFront(Row, Column, Board):-
 /* Position directly in front */
 
 /* Relative to red soldiers */
-moveFront(Row, Column, Board):-      
+validateMoveFront(Row, Column, Board):-      
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   Row1 is Row + 1,
@@ -72,7 +87,7 @@ moveFront(Row, Column, Board):-
   OtherPiece == emptyCell.
 
 /* Relative to black soldiers */
-moveFront(Row, Column, Board):-
+validateMoveFront(Row, Column, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
   Row1 is Row - 1,

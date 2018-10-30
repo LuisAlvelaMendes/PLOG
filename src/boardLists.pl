@@ -21,7 +21,7 @@ intermediumBoard([
                      [emptyCell, blackSoldier, blackSoldier, emptyCell, emptyCell, blackSoldier, emptyCell, redSoldier, emptyCell, emptyCell],
                      [emptyCell, emptyCell, blackSoldier, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
                      [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, blackSoldier, emptyCell],
-                     [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell,  blackCityPiece, emptyCell]
+                     [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, blackCityPiece, emptyCell]
            ]).
 
 finalBoard([
