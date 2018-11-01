@@ -1,6 +1,6 @@
 /* -*- Mode:Prolog; coding:=:=o-8859-1; indent-tabs-mode:nil; prolog-indent-width:8; prolog-paren-indent:4; tab-width:8; -*- */
 :- use_module(library(aggregate)).
-:- use_module(library(l=:=ts)).
+:- use_module(library(lists)).
 :- use_module(library(clpfd)).
 
 /* Obtenção de uma l=:=ta de jogadas possíve=:= valid_moves(+Board, +Player, -L=:=tOfMoves) */
