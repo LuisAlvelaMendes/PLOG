@@ -28,34 +28,35 @@ menuOption(2, humanVsComputer).
 menuOption(3, computerVsComputer).
 
 /* choosing actions within the game */
-choose_action(Board):-
+choose_action(Board, NewBoard):-
         repeat,
         write('Select your piece!'), nl,
         askCoords(Row, Column),
         check_if_invalid_piece(Row, Column, Board),
         write('Would you like to move (either retreat/forward) (1), capture (2), cannon(3)? '),
         read(Answer),
-        choose_move_option(Row, Column, Board, Answer, Action),
+        choose_move_option(Row, Column, Board, Answer, NewBoard, Action),
         Action.
 
 check_if_invalid_piece(Row, Column, Board):-
         getPiece(Row, Column, Board, Piece),
         (Piece == emptyCell ; Piece == redCityPiece ; Piece == blackCityPiece),
         write('Invalid piece.'), nl,
-        choose_action(Board). 
+        choose_action(Board, _). 
 
 check_if_invalid_piece(_, _, _).                                       
 
-choose_move_option(Row, Column, Board, 1, move_choice(Row, Column, Board)).
-choose_move_option(Row, Column, Board, 2, capture_choice(Row, Column, Board)).
-choose_move_option(Row, Column, Board, 3, cannon_choice(Row, Column, Board)).
+choose_move_option(Row, Column, Board, 1, NewBoard, move_choice(Row, Column, Board, NewBoard)).
+choose_move_option(Row, Column, Board, 2, NewBoard, capture_choice(Row, Column, Board, NewBoard)).
+choose_move_option(Row, Column, Board, 3, NewBoard, cannon_choice(Row, Column, Board, NewBoard)).
 
 /* to move piece forward */
-move_choice(Row, Column, Board):-
+move_choice(Row, Column, Board, NewBoard):-
         repeat,
         write('Where do you want to move?'), nl,
         askCoords(Row1, Column1),
-        validateMove(Row, Column, Row1, Column1, Board).                                                                                                 
+        validateMove(Row, Column, Row1, Column1, Board, CurrentMove),
+        move(CurrentMove, Row, Column, Board, NewBoard).
 
 /*TODO: define retreat validation/execution predicates ..*/
 /* capture_choice(Row, Column, Board):- */
@@ -78,9 +79,11 @@ choose_cannon_option(Row, Column, Board, 6, capture_cannon_choice(Row, Column, B
 /* As of now, only prints the atom in a given row and column of the list */
 
 humanVsHuman:-
+        repeat,
         intermediumBoard(T), 
         display_game(T),
-        choose_action(T).
+        choose_action(T, N),
+        display_game(N).
 
 /* TODO: humanVsComputer:-
 TODO: computerVsComputer */
