@@ -30,7 +30,7 @@ validatePlaceBlackCityPiece(Row, Column, Board):-
 /* Right side position, 1 row head and one column to the right */
 
 /* Relative to red soldiers */
-validateMoveRightAdjacentFront(Row, Column, Board):-
+validateMoveRightAdjacentFront(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   Row1 is Row + 1,
@@ -41,7 +41,7 @@ validateMoveRightAdjacentFront(Row, Column, Board):-
   OtherPiece == emptyCell.
 
 /* Relative to black soldiers */
-validateMoveLeftAdjacentFront(Row, Column, Board):-
+validateMoveLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
   Row1 is Row - 1,
@@ -54,7 +54,7 @@ validateMoveLeftAdjacentFront(Row, Column, Board):-
 /* Left side position, 1 row head and one column to the left */
 
 /* Relative to red soldiers */
-validateMoveLeftAdjacentFront(Row, Column, Board):-
+validateMoveLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   Row1 is Row + 1,
@@ -65,7 +65,7 @@ validateMoveLeftAdjacentFront(Row, Column, Board):-
   OtherPiece == emptyCell.
 
 /* Relative to black soldiers */
-validateMoveLeftAdjacentFront(Row, Column, Board):-
+validateMoveLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
   Row1 is Row - 1,
@@ -78,7 +78,7 @@ validateMoveLeftAdjacentFront(Row, Column, Board):-
 /* Position directly in front */
 
 /* Relative to red soldiers */
-validateMoveFront(Row, Column, Board):-      
+validateMoveFront(Row, Column, Row1, _, Board):-      
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   Row1 is Row + 1,
@@ -87,13 +87,22 @@ validateMoveFront(Row, Column, Board):-
   OtherPiece == emptyCell.
 
 /* Relative to black soldiers */
-validateMoveFront(Row, Column, Board):-
+validateMoveFront(Row, Column, Row1, _, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
   Row1 is Row - 1,
   Row1 =< 9,
   getPiece(Row1, Column, Board, OtherPiece),
   OtherPiece = emptyCell.
+
+/* A valid movement can be, for example, forward */
+validateMove(Row, Column, Row1, Column1, Board):- validateMoveFront(Row, Column, Row1, Column1, Board) ; validateMoveLeftAdjacentFront(Row, Column, Row1, Column1, Board) ; validateMoveRightAdjacentFront(Row, Column, Row1, Column1, Board).
+
+/* Another would be retreating */
+/* validateMove:- retreatBack ; retreatLeft ; retreatRight */
+
+/* And if neither of those checked out, then he picked an invalid movement option .. */
+validateMove(_, _, _, _, _):- write('Invalid cell to move to! Select again ..'), nl, fail.
 
 /* Option 1.2: capture */
 
