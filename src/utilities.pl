@@ -10,6 +10,12 @@ askCoords(Row, Column):-
         read(RowUserSelected),
         Row is 10 - RowUserSelected.
 
+askColumn(Column):-
+        repeat,
+        write('Column (in miniscule letters!) '),
+        read(ColumnUserSelected),
+        columnIndex(ColumnUserSelected, Column).
+
 /* converting a column to an integer index so we can find it in our list[row][column] */
 columnIndex(a, 0).
 columnIndex(b, 1).

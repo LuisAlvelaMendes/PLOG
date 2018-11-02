@@ -6,17 +6,11 @@
 /* Obtenção de uma l=:=ta de jogadas possíve=:= valid_moves(+Board, +Player, -L=:=tOfMoves) */
 
 /* Option 0: place city, placing the city also counts as part of the game, and the city must be placed in a given row without counting the corners */
-validatePlaceRedCityPiece(Row, Column, Board):-
-  getPiece(Row, Column, Board, Piece),
-  Piece == redCityPiece,
-  Row == 0,
+validateCityPlace(Column, red):-
   Column \= 0,
   Column \= 9.
 
-validatePlaceBlackCityPiece(Row, Column, Board):-
-  getPiece(Row, Column, Board, Piece),
-  Piece == blackCityPiece,
-  Row == 9,
+validateCityPlace(Column, black):-
   Column \= 0,
   Column \= 9.
 
