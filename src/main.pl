@@ -82,16 +82,22 @@ move_choice(Row, Column, Board, NewBoard):-
         move(CurrentMove, Row, Column, Board, NewBoard).
 
 /*TODO: define retreat validation/execution predicates ..*/
-/* capture_choice(Row, Column, Board):- */
+/* retreat_choice(Row, Column, Board, NewBoard) */
 
-cannon_choice(Row, Column, Board):- 
+capture_choice(Row, Column, Board, NewBoard):-
+        write('Capture target?'), nl,
+        askCoords(Row1, Column1),
+        validateCapture(Row, Column, Row1, Column1, Board, Position),
+        move(Position, Row, Column, Board, NewBoard).
+
+cannon_choice(Row, Column, Board, NewBoard):- 
         write('Move cannon(5), or capture with cannon(6)? '),
         read(Answer),
-        choose_cannon_option(Row, Column, Board, Answer, FinalAction),
+        choose_cannon_option(Row, Column, Board, NewBoard, Answer, FinalAction),
         FinalAction.
 
-choose_cannon_option(Row, Column, Board, 5, move_cannon_choice(Row, Column, Board)).
-choose_cannon_option(Row, Column, Board, 6, capture_cannon_choice(Row, Column, Board)).
+choose_cannon_option(Row, Column, Board, NewBoard, 5, move_cannon_choice(Row, Column, Board, NewBoard)).
+choose_cannon_option(Row, Column, Board, NewBoard, 6, capture_cannon_choice(Row, Column, Board, NewBoard)).
 
 /*TODO: define cannon validation/execution predicates ..*/
 /* cannon_choice(Row, Column, Board):- */

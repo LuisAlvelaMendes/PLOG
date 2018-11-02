@@ -9,7 +9,6 @@ move(front, Row, Column, Board, NewBoard):-
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard).
 
-
 /* Moving front for a black soldier */
 move(front, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
@@ -51,6 +50,22 @@ move(frontRight, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         Piece == blackSoldier,
         RowToReplace is Row - 1,
+        ColumnToReplace is Column + 1,
+        replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
+
+/* Moving actual left */
+move(leftSide, Row, Column, Board, NewBoard):-
+        getPiece(Row, Column, Board, Piece),
+        RowToReplace is Row,
+        ColumnToReplace is Column - 1,
+        replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
+
+/* Moving actual right */
+move(rightSide, Row, Column, Board, NewBoard):-
+        getPiece(Row, Column, Board, Piece),
+        RowToReplace is Row,
         ColumnToReplace is Column + 1,
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
