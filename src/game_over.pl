@@ -2,27 +2,14 @@
 :- use_module(library(lists)).
 
 /* game over occurs whenever the redCityPiece or the blackCityPiece are no longer in play, which means they were taken by the opposite Player */
-game_over(Board):- lookForCityPieceInMatrix(9, 9, Board, _).
+game_over(Board, RedCityColumn, _):- lookForRedCity(Board, RedCityColumn).
+game_over(Board, _, BlackCityColumn):- lookForBlackCity(Board, BlackCityColumn).
 
-/* first, you must iterate through all rows (sublists of the biggest list) */
-lookForCityPieceInMatrix(0, Column, [Head |_], Piece):- lookForCityPieceInsideList(Column, Head, Piece).
-lookForCityPieceInMatrix(Row, Column, [_| Tail], Piece):-
-        Row > 0,
-        NextRow is Row - 1,
-        lookForCityPieceInMatrix(NextRow, Column, Tail, Piece), !.
+/* the red city was either taken by cannon (leaving the cell empty) or there is a blackSoldier there */
+lookForRedCity(Board, RedCityColumn):-
+        getPiece(0, RedCityColumn, Board, Piece),
+        (Piece == empty ; Piece == blackSoldier).
 
-/* then, iterate inside each sublist, go through all columns */
-lookForCityPieceInsideList(0, [Head |_], Head):- !.
-lookForCityPieceInsideList(Column, [_| Tail], Piece):-
-        Column > 0,
-        NextColumn is Column - 1,
-        Piece \= redCityPiece,
-        iterateColumn(NextColumn, Tail, Piece).
-
-lookForCityPieceInsideList(Column, [_| Tail], Piece):-
-        Column > 0,
-        NextColumn is Column - 1,
-        Piece \= blackCityPiece,
-        iterateColumn(NextColumn, Tail, Piece).
-
-lookForCityPieceInsideList(_, _, _):- fail.
+lookForBlackCity(Board, BlackCityColumn):-
+        getPiece(9, BlackCityColumn, Board, Piece),
+        (Piece == empty ; Piece == redSoldier).

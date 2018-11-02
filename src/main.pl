@@ -22,20 +22,20 @@ cannon:-
         initialBoard(Board),
         display_game(Board),
         /* first thing to do in any gamemode is to place the city */
-        menuOptionCityPlacement(Selection, Board, NewBoard, CityPlacementMethod),
+        menuOptionCityPlacement(Selection, Board, NewBoard, RedCityColumn, BlackCityColumn, CityPlacementMethod),
         CityPlacementMethod,
-        menuOptionMainGame(Selection, NewBoard, GameMode),
+        menuOptionMainGame(Selection, NewBoard, RedCityColumn, BlackCityColumn, GameMode),
         GameMode, !.
 
 /* each menu option will have matching city placement predicates to start the game */
-menuOptionCityPlacement(1, Board, NewBoard, humanVsHumanPlaceCity(Board, NewBoard)).
-menuOptionCityPlacement(2, Board, NewBoard, humanVsComputerPlaceCity(Board, NewBoard)).
-menuOptionCityPlacement(3, Board, NewBoard, computerVsComputer(Board, NewBoard)).
+menuOptionCityPlacement(1, Board, NewBoard, RedCityColumn, BlackCityColumn, humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
+menuOptionCityPlacement(2, Board, NewBoard, RedCityColumn, BlackCityColumn, humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
+menuOptionCityPlacement(3, Board, NewBoard, RedCityColumn, BlackCityColumn, computerVsComputer(Board, NewBoard, RedCityColumn, BlackCityColumn)).
 
 /* Each menu option will have a matching selection for what game to play's main logic */
-menuOptionMainGame(1, Board, humanVsHuman(Board)).
-menuOptionMainGame(2, Board, humanVsComputer(Board)).
-menuOptionMainGame(3, Board, computerVsComputer(Board)).
+menuOptionMainGame(1, Board, RedCityColumn, BlackCityColumn, humanVsHuman(Board, RedCityColumn, BlackCityColumn)).
+menuOptionMainGame(2, Board, RedCityColumn, BlackCityColumn, humanVsComputer(Board, RedCityColumn, BlackCityColumn)).
+menuOptionMainGame(3, Board, RedCityColumn, BlackCityColumn, computerVsComputer(Board, RedCityColumn, BlackCityColumn)).
 
 /* choosing actions within the game */
 choose_action(Board, NewBoard, Player):-
@@ -103,41 +103,43 @@ choose_cannon_option(Row, Column, Board, NewBoard, 6, capture_cannon_choice(Row,
 /* cannon_choice(Row, Column, Board):- */
 
 /* choosing city with humans */
-humanVsHumanPlaceCity(Board, NewBoard):-
+humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
         write('Red player place your city!'), nl,
-        placeCity(Board, TempBoard, red),
+        placeCity(Board, TempBoard, red, RedCityColumn),
         write('Black player place your city!'), nl,
-        placeCity(TempBoard, NewBoard, black).
+        placeCity(TempBoard, NewBoard, black, BlackCityColumn).
 
-placeCity(Board, NewBoard, Player):-
+placeCity(Board, NewBoard, Player, RedCityColumn):-
         Player == red,
         write('Where to place?'), nl,
-        askColumn(Column),
-        validateCityPlace(Column, Player),
-        replaceInMatrix(Board, 0, Column, redCityPiece, NewBoard),
+        askColumn(RedCityColumn),
+        validateCityPlace(RedCityColumn, Player),
+        replaceInMatrix(Board, 0, RedCityColumn, redCityPiece, NewBoard),
         display_game(NewBoard).
 
-placeCity(Board, NewBoard, Player):-
+placeCity(Board, NewBoard, Player, BlackCityColumn):-
         Player == black,
         write('Where to place?'), nl,
-        askColumn(Column),
-        validateCityPlace(Column, Player),
-        replaceInMatrix(Board, 9, Column, blackCityPiece, NewBoard),
+        askColumn(BlackCityColumn),
+        validateCityPlace(BlackCityColumn, Player),
+        replaceInMatrix(Board, 9, BlackCityColumn, blackCityPiece, NewBoard),
         display_game(NewBoard).
 
 /* Main game loop */
 /* Eventually, all logic will go here, tying down all the other .pl files, as of now only prints the intermedium board */
 
-humanVsHuman(Board):-
+humanVsHuman(Board, RedCityColumn, BlackCityColumn):-
         write('Red player turn!'), nl,
         choose_action(Board, N, red),
         display_game(N),
+        \+ game_over(N, RedCityColumn, BlackCityColumn),
         write('Black player turn!'), nl,
         choose_action(N, FinalBoard, black),
         display_game(FinalBoard),
-        humanVsHuman(FinalBoard).
+        \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
+        humanVsHuman(FinalBoard, RedCityColumn, BlackCityColumn).
 
-humanVsHuman(N):- game_over(N), write('Game Over!'), nl.
+humanVsHuman(_, _, _):- write('Game Over!'), nl.
 
 /* TODO: humanVsComputer:-
 TODO: computerVsComputer */

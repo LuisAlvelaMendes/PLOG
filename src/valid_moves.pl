@@ -114,7 +114,7 @@ validateCaptureFront(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column,
   Row1 =< 9,
   getPiece(Row1, Column, Board, OtherPiece),
-  OtherPiece == blackSoldier.
+  (OtherPiece == blackSoldier ; OtherPiece == blackCityPiece).
 
 /* Relative to black soldiers */
 validateCaptureFront(Row, Column, Row1, Column1, Board):-
@@ -124,7 +124,7 @@ validateCaptureFront(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column,
   Row1 =< 9,
   getPiece(Row1, Column, Board, OtherPiece),
-  OtherPiece = redSoldier. 
+  (OtherPiece == redSoldier ; OtherPiece == redCityPiece).
 
 /* Left side position, 1 row head and one column to the left */
 
@@ -137,7 +137,7 @@ validateCaptureLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == blackSoldier.
+  (OtherPiece == blackSoldier ; OtherPiece == blackCityPiece).
 
 /* Relative to black soldiers */
 validateCaptureLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
@@ -148,7 +148,7 @@ validateCaptureLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == redSoldier.
+  (OtherPiece == redSoldier ; OtherPiece == redCityPiece).
 
 /* Right side position, 1 row head and one column to the right */
 
@@ -161,7 +161,7 @@ validateCaptureRightAdjacentFront(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == blackSoldier.
+  (OtherPiece == blackSoldier ; OtherPiece == blackCityPiece).
 
 /* Relative to black soldiers */
 validateCaptureRightAdjacentFront(Row, Column, Row1, Column1, Board):-
@@ -172,7 +172,7 @@ validateCaptureRightAdjacentFront(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == redSoldier.
+  (OtherPiece == redSoldier ; OtherPiece == redCityPiece).
 
 /* Left side -actual- left, one column to the left */
 
@@ -185,7 +185,7 @@ validateCaptureLeftSide(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == blackSoldier.
+  (OtherPiece == blackSoldier ; OtherPiece == blackCityPiece).
 
 /* Relative to black soldiers */
 validateCaptureLeftSide(Row, Column, Row1, Column1, Board):-
@@ -196,7 +196,7 @@ validateCaptureLeftSide(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == redSoldier.
+  (OtherPiece == redSoldier ; OtherPiece == redCityPiece).
 
 /* Right side -actual- right */
 
@@ -209,7 +209,7 @@ validateCaptureRightSide(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == blackSoldier.
+  (OtherPiece == blackSoldier ; OtherPiece == blackCityPiece).
 
 /* Relative to black soldiers */
 validateCaptureRightSide(Row, Column, Row1, Column1, Board):-
@@ -220,7 +220,7 @@ validateCaptureRightSide(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == redSoldier.
+  (OtherPiece == redSoldier ; OtherPiece == redCityPiece).
 
 /* A valid capture can only be in the follwing ways */
 validateCapture(Row, Column, Row1, Column1, Board, Position):- validateCaptureFront(Row, Column, Row1, Column1, Board), Position = front.
