@@ -81,9 +81,6 @@ move_choice(Row, Column, Board, NewBoard):-
         validateMove(Row, Column, Row1, Column1, Board, CurrentMove),
         move(CurrentMove, Row, Column, Board, NewBoard).
 
-/*TODO: define retreat validation/execution predicates ..*/
-/* retreat_choice(Row, Column, Board, NewBoard) */
-
 capture_choice(Row, Column, Board, NewBoard):-
         write('Capture target?'), nl,
         askCoords(Row1, Column1),

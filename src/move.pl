@@ -69,3 +69,57 @@ move(rightSide, Row, Column, Board, NewBoard):-
         ColumnToReplace is Column + 1,
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
+
+/* Moving back for a red soldier */
+move(back, Row, Column, Board, NewBoard):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        RowToReplace is Row - 2,
+        ColumnToReplace is Column,
+        replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard).
+
+/* Moving back for a black soldier */
+move(back, Row, Column, Board, NewBoard):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == blackSoldier,
+        RowToReplace is Row + 2,
+        ColumnToReplace is Column,
+        replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard).
+
+/* Moving back left for a red soldier */
+move(frontLeft, Row, Column, Board, NewBoard):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        RowToReplace is Row - 2,
+        ColumnToReplace is Column - 1,
+        replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
+
+/* Moving back left for a black soldier */
+move(frontLeft, Row, Column, Board, NewBoard):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == blackSoldier,
+        RowToReplace is Row + 2,
+        ColumnToReplace is Column - 1,
+        replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
+
+/* Moving back right for a red soldier */
+move(frontLeft, Row, Column, Board, NewBoard):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        RowToReplace is Row - 2,
+        ColumnToReplace is Column + 1,
+        replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
+
+/* Moving back left for a black soldier */
+move(frontLeft, Row, Column, Board, NewBoard):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == blackSoldier,
+        RowToReplace is Row + 2,
+        ColumnToReplace is Column + 1,
+        replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
