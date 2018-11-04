@@ -93,7 +93,7 @@ move(backLeft, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         Piece == redSoldier,
         RowToReplace is Row - 2,
-        ColumnToReplace is Column - 1,
+        ColumnToReplace is Column - 2,
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
 
@@ -102,7 +102,7 @@ move(backLeft, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         Piece == blackSoldier,
         RowToReplace is Row + 2,
-        ColumnToReplace is Column - 1,
+        ColumnToReplace is Column - 2,
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
 
@@ -111,7 +111,7 @@ move(backRight, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         Piece == redSoldier,
         RowToReplace is Row - 2,
-        ColumnToReplace is Column + 1,
+        ColumnToReplace is Column + 2,
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
 
@@ -120,6 +120,6 @@ move(backRight, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         Piece == blackSoldier,
         RowToReplace is Row + 2,
-        ColumnToReplace is Column + 1,
+        ColumnToReplace is Column + 2,
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 

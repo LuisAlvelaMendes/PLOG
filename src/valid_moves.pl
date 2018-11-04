@@ -369,7 +369,7 @@ validateRetreatLeft(Row, Column, Row1, Column1, Board):-
   Piece == redSoldier, 
   checkNearbyEnemies(Row, Column, Board), 
   Row1 =:= Row - 2,
-  Column1 =:= Column - 1,
+  Column1 =:= Column - 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
   OtherPiece == emptyCell, !.
@@ -380,7 +380,7 @@ validateRetreatLeft(Row, Column, Row1, Column1, Board):-
   Piece == blackSoldier,
   checkNearbyEnemies(Row, Column, Board),
   Row1 =:= Row + 2,
-  Column1 =:= Column - 1,
+  Column1 =:= Column - 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
   OtherPiece == emptyCell, !.
@@ -393,7 +393,7 @@ validateRetreatRight(Row, Column, Row1, Column1, Board):-
   Piece == redSoldier,
   checkNearbyEnemies(Row, Column, Board),
   Row1 =:= Row - 2,
-  Column1 =:= Column + 1,
+  Column1 =:= Column + 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
   OtherPiece == emptyCell, !.   
@@ -404,7 +404,7 @@ validateRetreatRight(Row, Column, Row1, Column1, Board):-
   Piece == blackSoldier,
   checkNearbyEnemies(Row, Column, Board),
   Row1 =:= Row + 2,
-  Column1 =:= Column + 1,
+  Column1 =:= Column + 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
   OtherPiece == emptyCell, !.   
