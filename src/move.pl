@@ -89,7 +89,7 @@ move(back, Row, Column, Board, NewBoard):-
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard).
 
 /* Moving back left for a red soldier */
-move(frontLeft, Row, Column, Board, NewBoard):-
+move(backLeft, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         Piece == redSoldier,
         RowToReplace is Row - 2,
@@ -98,7 +98,7 @@ move(frontLeft, Row, Column, Board, NewBoard):-
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
 
 /* Moving back left for a black soldier */
-move(frontLeft, Row, Column, Board, NewBoard):-
+move(backLeft, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         Piece == blackSoldier,
         RowToReplace is Row + 2,
@@ -107,7 +107,7 @@ move(frontLeft, Row, Column, Board, NewBoard):-
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
 
 /* Moving back right for a red soldier */
-move(frontLeft, Row, Column, Board, NewBoard):-
+move(backRight, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         Piece == redSoldier,
         RowToReplace is Row - 2,
@@ -115,8 +115,8 @@ move(frontLeft, Row, Column, Board, NewBoard):-
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
 
-/* Moving back left for a black soldier */
-move(frontLeft, Row, Column, Board, NewBoard):-
+/* Moving back right for a black soldier */
+move(backRight, Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         Piece == blackSoldier,
         RowToReplace is Row + 2,

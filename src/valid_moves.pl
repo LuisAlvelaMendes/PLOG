@@ -32,7 +32,7 @@ validateMoveRightAdjacentFront(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell.
+  OtherPiece == emptyCell, !.
 
 /* Relative to black soldiers */
 validateMoveRightAdjacentFront(Row, Column, Row1, Column1, Board):-
@@ -43,7 +43,7 @@ validateMoveRightAdjacentFront(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell.
+  OtherPiece == emptyCell, !.
 
 /* Left side position, 1 row head and one column to the left */
 
@@ -56,7 +56,7 @@ validateMoveLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell.
+  OtherPiece == emptyCell, !.
 
 /* Relative to black soldiers */
 validateMoveLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
@@ -67,7 +67,7 @@ validateMoveLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
   Row1 =< 9,
   Column1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell.
+  OtherPiece == emptyCell, !.
 
 /* Position directly in front */
 
@@ -79,7 +79,7 @@ validateMoveFront(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column,
   Row1 =< 9,
   getPiece(Row1, Column, Board, OtherPiece),
-  OtherPiece == emptyCell.
+  OtherPiece == emptyCell, !.
 
 /* Relative to black soldiers */
 validateMoveFront(Row, Column, Row1, Column1, Board):-
@@ -89,7 +89,7 @@ validateMoveFront(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column,
   Row1 =< 9,
   getPiece(Row1, Column, Board, OtherPiece),
-  OtherPiece = emptyCell.
+  OtherPiece = emptyCell, !.
 
 /* Option 1.3: capture */
 
@@ -212,13 +212,14 @@ validateCaptureRightSide(Row, Column, Row1, Column1, Board):-
   (OtherPiece == redSoldier ; OtherPiece == redCityPiece).
 
 /* to retreat we need a predicate to deterimne if there are enemies nearby */
-checkNearbyEnemies(Row, Column, Board):- write('it entered checking '), nl, validateFrontEnemy(Row, Column, Board).
-checkNearbyEnemies(Row, Column, Board):- write('but failed first clause '), nl,  validateLeftAdjacentFrontEnemy(Row, Column, Board).
-checkNearbyEnemies(Row, Column, Board):- write('but failed first clause 2 '), nl, validateRightAdjacentFrontEnemy(Row, Column, Board).
-checkNearbyEnemies(Row, Column, Board):- write('but failed first clause 3 '), nl, validateLeftSideEnemy(Row, Column, Board).
-checkNearbyEnemies(Row, Column, Board):- write('but failed first clause 4 '), nl, validateRightSideEnemy(Row, Column, Board).
+checkNearbyEnemies(Row, Column, Board):- validateFrontEnemy(Row, Column, Board).
+checkNearbyEnemies(Row, Column, Board):- validateLeftAdjacentFrontEnemy(Row, Column, Board).
+checkNearbyEnemies(Row, Column, Board):- validateRightAdjacentFrontEnemy(Row, Column, Board).
+checkNearbyEnemies(Row, Column, Board):- validateLeftSideEnemy(Row, Column, Board).
+checkNearbyEnemies(Row, Column, Board):- validateRightSideEnemy(Row, Column, Board).
+checkNearbyEnemies(_, _, _):- write('There are no enemies nearby'), nl.
 
-/* front */
+/* front checking for enemies */
 
 /* red soldier */
 validateFrontEnemy(Row, Column, Board):-
@@ -347,7 +348,7 @@ validateRetreatBack(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column,
   Row1 =< 9,
   getPiece(Row1, Column, Board, OtherPiece),
-  OtherPiece == emptyCell.
+  OtherPiece == emptyCell, !.
 
 /* relative to black soldiers */
 validateRetreatBack(Row, Column, Row1, Column1, Board):-
@@ -358,20 +359,20 @@ validateRetreatBack(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column,
   Row1 =< 9,
   getPiece(Row1, Column, Board, OtherPiece),
-  OtherPiece == emptyCell.
+  OtherPiece == emptyCell, !.
         
 /* backwards to the left diagonal */
 
 /* relative to red soldiers */
 validateRetreatLeft(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
-  Piece == redSoldier,
-  checkNearbyEnemies(Row, Column, Board),
+  Piece == redSoldier, 
+  checkNearbyEnemies(Row, Column, Board), 
   Row1 =:= Row - 2,
   Column1 =:= Column - 1,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell.
+  OtherPiece == emptyCell, !.
 
 /* relative to black soldiers */
 validateRetreatLeft(Row, Column, Row1, Column1, Board):-
@@ -382,7 +383,7 @@ validateRetreatLeft(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column - 1,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell.
+  OtherPiece == emptyCell, !.
 
 /* backwards to the right diagonal */
 
@@ -395,7 +396,7 @@ validateRetreatRight(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column + 1,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell.   
+  OtherPiece == emptyCell, !.   
 
 /* relative to black soldiers */
 validateRetreatRight(Row, Column, Row1, Column1, Board):-
@@ -406,7 +407,7 @@ validateRetreatRight(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column + 1,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell.   
+  OtherPiece == emptyCell, !.   
 
 /* A valid movement can be forwards or backwards */
 validateMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateMoveFront(Row, Column, Row1, Column1, Board), CurrentMove = front.
