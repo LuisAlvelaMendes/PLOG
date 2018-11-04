@@ -1,48 +1,32 @@
 /* -*- Mode:Prolog; coding:iso-8859-1; indent-tabs-mode:nil; prolog-indent-width:8; prolog-paren-indent:4; tab-width:8; -*- */
 
-/* necessary functions for getting user inputs */
-getChar(Input):-
-        get_char(Input),
-        get_char(_), !.
-
-getInt(Input):-
-        get_code(TempInput),
-        Input is TempInput - 48,
-        get_code(_), !.
-
 /* Asks user for which Piece he intends to move, each has to be converted to an index */
 askCoords(Row, Column):-
         repeat,
-        write('Column:'),
-        getChar(ColumnUserSelected),
+        write('Column (in miniscule letters!) '),
+        read(ColumnUserSelected),
         columnIndex(ColumnUserSelected, Column),
-        write('Row:'),
-        getChar(RowUserSelected),
-        rowIndex(RowUserSelected, Row).
+        write('Row '),
+        read(RowUserSelected),
+        Row is 10 - RowUserSelected.
+
+askColumn(Column):-
+        repeat,
+        write('Column (in miniscule letters!) '),
+        read(ColumnUserSelected),
+        columnIndex(ColumnUserSelected, Column).
 
 /* converting a column to an integer index so we can find it in our list[row][column] */
-columnIndex('A', 0).
-columnIndex('B', 1).
-columnIndex('C', 2).
-columnIndex('D', 3).
-columnIndex('E', 4).
-columnIndex('F', 5).
-columnIndex('G', 6).
-columnIndex('H', 7).
-columnIndex('I', 8).
-columnIndex('J', 9).
-
-/* doing the same for the row */
-rowIndex('1', 9).
-rowIndex('2', 8).
-rowIndex('3', 7).
-rowIndex('4', 6).
-rowIndex('5', 5).
-rowIndex('6', 4).
-rowIndex('7', 3).
-rowIndex('8', 2).
-rowIndex('9', 1).
-rowIndex('10', 0).
+columnIndex(a, 0).
+columnIndex(b, 1).
+columnIndex(c, 2).
+columnIndex(d, 3).
+columnIndex(e, 4).
+columnIndex(f, 5).
+columnIndex(g, 6).
+columnIndex(h, 7).
+columnIndex(i, 8).
+columnIndex(j, 9).
 
 /* getting the Piece of index [row][col] from the list */
 
@@ -59,3 +43,18 @@ iterateColumn(Column, [_| Tail], Piece):-
         Column > 0,
         NextColumn is Column - 1,
         iterateColumn(NextColumn, Tail, Piece).
+
+/* replacing elements in the board, when moving for example replacing redSoldier with emptyCell and destination emptyCell with redSoldier */
+replaceInList([_H|T], 0, Value, [Value|T]).
+replaceInList([H|T], Index, Value, [H|TNew]) :-
+        Index > 0,
+        Index1 is Index - 1,
+        replaceInList(T, Index1, Value, TNew).
+
+replaceInMatrix([H|T], 0, Column,Value, [HNew|T]) :-
+        replaceInList(H, Column, Value, HNew).
+
+replaceInMatrix([H|T], Row, Column, Value, [H|TNew]) :-
+        Row > 0,
+        Row1 is Row - 1,
+        replaceInMatrix(T, Row1, Column, Value, TNew).
