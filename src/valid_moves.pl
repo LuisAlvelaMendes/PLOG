@@ -429,9 +429,206 @@ validateCapture(Row, Column, Row1, Column1, Board, Position):- validateCaptureRi
 
 validateCapture(_, _, _, _, _, _):- write('Invalid cell to capture! Select again ..'), nl, fail.
 
-
 /* Option 2: use cannon */
 
-/* Option 2.1: capture cannon */
+/* Option 2.1: move cannon */
 
-/* Option 2.2: move cannon */
+/* first you need a predicate to see if the selected piece is in a cannon line */
+
+/* there are 4 possible cannon lines */
+
+/* line 1: purely vertical line */
+
+/* 
+   empty
+   Piece1
+   Piece2
+   Piece3
+   empty
+*/
+
+/* imagining Piece1 */
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = verticalCannon,
+        Row1 is Row - 1,
+        Column1 is Column,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == emptyCell,
+        Row2 is Row + 1,
+        Column2 is Column,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece,
+        Row3 is Row + 2,
+        Column3 is Column,
+        getPiece(Row3, Column3, Board, SecondBackPiece),
+        SecondBackPiece == Piece,
+        Row4 is Row + 3,
+        Column4 is Column,
+        getPiece(Row4, Column4, Board, ThirdBackPiece),
+        ThirdBackPiece == Piece.
+ 
+/* imagining Piece 2 */  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = verticalCannon,
+        Row1 is Row - 1,
+        Column1 is Column,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row + 1,
+        Column2 is Column,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece.
+      
+/* imagining Piece 3 */  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = verticalCannon,
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        Row1 is Row - 1,
+        Column1 is Column,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row + 1,
+        Column2 is Column,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == emptyCell.
+
+/* line 2: NW -> SE diagonal line */
+
+/*empty
+        Piece1
+                Piece2
+                        Piece3
+                                empty*/
+
+/* imagining Piece1 */
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = diagonalNWSECannon,
+        Row1 is Row - 1,
+        Column1 is Column - 1,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == emptyCell,
+        Row2 is Row + 1,
+        Column2 is Column + 1,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece.
+ 
+/* imagining Piece 2 */  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = diagonalNWSECannon,
+        Row1 is Row - 1,
+        Column1 is Column - 1,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row + 1,
+        Column2 is Column + 1,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece.
+      
+/* imagining Piece 3 */  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = diagonalNWSECannon,
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        Row1 is Row - 1,
+        Column1 is Column - 1,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row + 1,
+        Column2 is Column + 1,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == emptyCell.
+        
+/* line 3: SW -> NE diagonal line */
+
+/*                              empty
+                        Piece1
+                Piece2
+        Piece3
+empty 
+
+*/
+
+/* imagining Piece1 */
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = diagonalSWNECannon,
+        Row1 is Row - 1,
+        Column1 is Column + 1,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == emptyCell,
+        Row2 is Row + 1,
+        Column2 is Column - 1,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece.
+ 
+/* imagining Piece 2 */  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = diagonalSWNECannon,
+        Row1 is Row - 1,
+        Column1 is Column + 1,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row + 1,
+        Column2 is Column - 1,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece.
+      
+/* imagining Piece 3 */  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = diagonalSWNECannon,
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        Row1 is Row - 1,
+        Column1 is Column + 1,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row + 1,
+        Column2 is Column - 1,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == emptyCell.
+        
+/* line 4: purely horizontal line */
+
+/* empty Piece1 Piece2 Piece3 empty*/   
+
+/* imagining Piece1 */
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = horizontalCannon,
+        Row1 is Row,
+        Column1 is Column - 1,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == emptyCell,
+        Row2 is Row,
+        Column2 is Column + 1,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece.
+ 
+/* imagining Piece 2 */  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = horizontalCannon,
+        Row1 is Row,
+        Column1 is Column + 1,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row,
+        Column2 is Column - 1,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece.
+      
+/* imagining Piece 3 */  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType):-
+        CannonType = horizontalCannon,
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        Row1 is Row,
+        Column1 is Column - 1,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row,
+        Column2 is Column + 1,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == emptyCell. 
+
+checkPieceInCannon(_, _, _, _, _):- write('This Piece is not in a cannon!'), nl, fail.    
+
+/* Option 2.2: capture cannon */
