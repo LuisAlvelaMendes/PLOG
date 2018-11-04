@@ -123,3 +123,29 @@ move(backRight, Row, Column, Board, NewBoard):-
         ColumnToReplace is Column + 2,
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard). 
+
+/* moving red cannon forward presuming the first piece is selected in a vertical cannon */
+move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        CannonType == verticalCannon,
+        DestinationRow is Row + (4 - PieceNumber),
+        DestinationColumn is Column,
+        DeletedRow is Row - (PieceNumber - 1),
+        DeletedColumn is Column,
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard). 
+
+/* moving black cannon forward presuming the first piece is selected in a vertical cannon */
+move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == blackSoldier,
+        CannonType == verticalCannon,
+        DestinationRow is Row - PieceNumber,
+        DestinationColumn is Column,
+        DeletedRow is Row + (3 - PieceNumber),
+        DeletedColumn is Column,
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard). 
+        
+        

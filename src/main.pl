@@ -89,18 +89,21 @@ capture_choice(Row, Column, Board, NewBoard):-
 
 cannon_choice(Row, Column, Board, NewBoard):- 
         getPiece(Row, Column, Board, Piece),
-        checkPieceInCannon(Row, Column, Board, Piece, CannonType),
-        write(CannonType), nl,
+        checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber),
         write('Move cannon(5), or capture with cannon(6)? '),
         read(Answer),
-        choose_cannon_option(Row, Column, Board, NewBoard, Answer, FinalAction),
+        choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, Answer, FinalAction),
         FinalAction.
 
-choose_cannon_option(Row, Column, Board, NewBoard, 5, move_cannon_choice(Row, Column, Board, NewBoard)).
-choose_cannon_option(Row, Column, Board, NewBoard, 6, capture_cannon_choice(Row, Column, Board, NewBoard)).
+choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, 5, move_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber)).
+choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, 6, capture_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber)).
 
-/*TODO: define cannon validation/execution predicates ..*/
-/* cannon_choice(Row, Column, Board):- */
+move_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber):-
+        write('Where do you want to move?'), nl,
+        askCoords(Row1, Column1),
+        validateMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove),
+        write(CurrentMove), nl,
+        move_cannon(CurrentMove, Row, Column, Board, NewBoard, CannonType, PieceNumber).
 
 /* choosing city with humans */
 humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
