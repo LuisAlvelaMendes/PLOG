@@ -75,7 +75,7 @@ validateMoveLeftAdjacentFront(Row, Column, Row1, Column1, Board):-
 /* Position directly in front */
 
 /* Relative to red soldiers */
-validateMoveFront(Row, Column, Row1, Column1, Board):-      
+validateMoveFront(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   Row1 =:= Row + 1,
@@ -349,9 +349,12 @@ validateRetreatBack(Row, Column, Row1, Column1, Board):-
   checkNearbyEnemies(Row, Column, Board),
   Row1 =:= Row - 2,
   Column1 =:= Column,
-  Row1 =< 9,
+  Row1 >= 0,
   getPiece(Row1, Column, Board, OtherPiece),
-  OtherPiece == emptyCell, !.
+  OtherPiece == emptyCell,
+  Row2 is Row - 1,
+  getPiece(Row2, Column, Board, OtherPiece2),
+  OtherPiece2 == emptyCell, !.
 
 /* relative to black soldiers */
 validateRetreatBack(Row, Column, Row1, Column1, Board):-
@@ -362,20 +365,27 @@ validateRetreatBack(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column,
   Row1 =< 9,
   getPiece(Row1, Column, Board, OtherPiece),
-  OtherPiece == emptyCell, !.
-        
+  OtherPiece == emptyCell,
+  Row2 is Row + 1,
+  getPiece(Row2, Column, Board, OtherPiece2),
+  OtherPiece2 == emptyCell, !.
+
 /* backwards to the left diagonal */
 
 /* relative to red soldiers */
 validateRetreatLeft(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
-  Piece == redSoldier, 
-  checkNearbyEnemies(Row, Column, Board), 
+  Piece == redSoldier,
+  checkNearbyEnemies(Row, Column, Board),
   Row1 =:= Row - 2,
   Column1 =:= Column - 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell, !.
+  OtherPiece == emptyCell,
+  Row2 is Row - 1,
+  Column2 is Column - 1,
+  getPiece(Row2, Column2, Board, OtherPiece2),
+  OtherPiece2 == emptyCell, !.
 
 /* relative to black soldiers */
 validateRetreatLeft(Row, Column, Row1, Column1, Board):-
@@ -386,7 +396,11 @@ validateRetreatLeft(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column - 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell, !.
+  OtherPiece == emptyCell,
+  Row2 is Row + 1,
+  Column2 is Column - 1,
+  getPiece(Row2, Column2, Board, OtherPiece2),
+  OtherPiece2 == emptyCell, !.
 
 /* backwards to the right diagonal */
 
@@ -399,7 +413,11 @@ validateRetreatRight(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column + 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell, !.   
+  OtherPiece == emptyCell,
+  Row2 is Row - 1,
+  Column2 is Column + 1,
+  getPiece(Row2, Column2, Board, OtherPiece2),
+  OtherPiece2 == emptyCell, !.
 
 /* relative to black soldiers */
 validateRetreatRight(Row, Column, Row1, Column1, Board):-
@@ -410,7 +428,11 @@ validateRetreatRight(Row, Column, Row1, Column1, Board):-
   Column1 =:= Column + 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
-  OtherPiece == emptyCell, !.   
+  OtherPiece == emptyCell,
+  Row2 is Row + 1,
+  Column2 is Column + 1,
+  getPiece(Row2, Column2, Board, OtherPiece2),
+  OtherPiece2 == emptyCell, !.
 
 /* A valid movement can be forwards or backwards */
 validateMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateMoveFront(Row, Column, Row1, Column1, Board), CurrentMove = front.
@@ -442,7 +464,7 @@ validateCapture(_, _, _, _, _, _):- write('Invalid cell to capture! Select again
 
 /* line 1: purely vertical line */
 
-/* 
+/*
    empty
    Piece1
    Piece2
@@ -470,8 +492,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column4 is Column,
         getPiece(Row4, Column4, Board, ThirdBackPiece),
         ThirdBackPiece == emptyCell.
- 
-/* imagining Piece 2 */  
+
+/* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 2,
@@ -491,8 +513,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column4 is Column,
         getPiece(Row4, Column4, Board, SecondBackPiece),
         SecondBackPiece == emptyCell.
-      
-/* imagining Piece 3 */  
+
+/* imagining Piece 3 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 3,
@@ -541,9 +563,9 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column4 is Column + 3,
         getPiece(Row4, Column4, Board, ThirdBackPiece),
         ThirdBackPiece == emptyCell.
-        
- 
-/* imagining Piece 2 */  
+
+
+/* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalNWSECannon,
         PieceNumber = 2,
@@ -563,9 +585,9 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column4 is Column + 2,
         getPiece(Row4, Column4, Board, SecondBackPiece),
         SecondBackPiece == emptyPiece.
-      
-      
-/* imagining Piece 3 */  
+
+
+/* imagining Piece 3 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalNWSECannon,
         PieceNumber = 3,
@@ -586,14 +608,14 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         getPiece(Row4, Column4, Board, BackPiece),
         BackPiece == emptyCell.
 
-        
+
 /* line 3: SW -> NE diagonal line */
 
 /*                              empty
                         Piece1
                 Piece2
         Piece3
-empty 
+empty
 
 */
 
@@ -617,8 +639,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column4 is Column - 3,
         getPiece(Row4, Column4, Board, ThirdBackPiece),
         ThirdBackPiece == emptyCell.
- 
-/* imagining Piece 2 */  
+
+/* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalSWNECannon,
         PieceNumber = 2,
@@ -638,8 +660,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column4 is Column - 2,
         getPiece(Row4, Column4, Board, SecondBackPiece),
         SecondBackPiece == Piece.
-      
-/* imagining Piece 3 */  
+
+/* imagining Piece 3 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalSWNECannon,
         PieceNumber = 3,
@@ -659,10 +681,10 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column4 is Column - 1,
         getPiece(Row4, Column4, Board, BackPiece),
         BackPiece == emptyCell.
-        
+
 /* line 4: purely horizontal line */
 
-/* empty Piece1 Piece2 Piece3 empty*/   
+/* empty Piece1 Piece2 Piece3 empty*/
 
 /* imagining Piece1 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
@@ -684,8 +706,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column4 is Column + 3,
         getPiece(Row4, Column4, Board, ThirdBackPiece),
         ThirdBackPiece == emptyCell.
- 
-/* imagining Piece 2 */  
+
+/* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = horizontalCannon,
         PieceNumber = 2,
@@ -705,8 +727,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column4 is Column + 2,
         getPiece(Row4, Column4, Board, SecondFrontPiece),
         SecondFrontPiece == emptyCell.
-      
-/* imagining Piece 3 */  
+
+/* imagining Piece 3 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = horizontalCannon,
         PieceNumber = 3,
@@ -725,7 +747,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row4 is Row,
         Column4 is Column + 1,
         getPiece(Row4, Column4, Board, BackPiece),
-        BackPiece == emptyCell. 
+        BackPiece == emptyCell.
 
 checkPieceInCannon(_, _, _, _, _, _):- write('This Piece is not in a cannon!'), nl, fail.
 
