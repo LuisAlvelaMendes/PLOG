@@ -147,5 +147,36 @@ move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         DeletedColumn is Column,
         replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard). 
-        
-        
+   
+/* moving NW-SE cannon forward */
+move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        CannonType == diagonalNWSECannon,
+        DestinationRow is Row - PieceNumber,
+        DestinationColumn is Column - PieceNumber,
+        DeletedRow is Row + (3 - PieceNumber),
+        DeletedColumn is Column + (3 - PieceNumber),
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard). 
+
+/* moving SW-NE cannon forward */
+move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):- 
+        getPiece(Row, Column, Board, Piece), 
+        CannonType == diagonalSWNECannon,
+        DestinationRow is Row - PieceNumber,
+        DestinationColumn is Column + PieceNumber,
+        DeletedRow is Row + (3 - PieceNumber),
+        DeletedColumn is Column - (3 - PieceNumber),
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard). 
+
+/* moving horizontal cannon forward */
+move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):- 
+        getPiece(Row, Column, Board, Piece), 
+        CannonType == horizontalCannon,
+        DestinationRow is Row,
+        DestinationColumn is Column + (4 - PieceNumber),
+        DeletedRow is Row,
+        DeletedColumn is Column - (PieceNumber - 1),
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard).
