@@ -1,6 +1,7 @@
 /* -*- Mode:Prolog; coding:iso-8859-1; indent-tabs-mode:nil; prolog-indent-width:8; prolog-paren-indent:4; tab-width:8; -*- */
 
 /* Asks user for which Piece he intends to move, each has to be converted to an index */
+/* TODO: use name/2 to make it so you only input 1 line like: cell E2 */
 askCoords(Row, Column):-
         repeat,
         write('Column (in miniscule letters!) '),
@@ -8,7 +9,7 @@ askCoords(Row, Column):-
         columnIndex(ColumnUserSelected, Column),
         write('Row '),
         read(RowUserSelected),
-        Row is 10 - RowUserSelected.
+        Row is 10 - RowUserSelected, !.
 
 askColumn(Column):-
         repeat,
