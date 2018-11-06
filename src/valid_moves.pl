@@ -479,7 +479,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row1 is Row - 1,
         Column1 is Column,
         getPiece(Row1, Column1, Board, FrontPiece),
-        FrontPiece == emptyCell,
+        (FrontPiece == emptyCell; FrontPiece == blackCityPiece; FrontPiece == redCityPiece),
         Row2 is Row + 1,
         Column2 is Column,
         getPiece(Row2, Column2, Board, BackPiece),
@@ -491,7 +491,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row4 is Row + 3,
         Column4 is Column,
         getPiece(Row4, Column4, Board, ThirdBackPiece),
-        ThirdBackPiece == emptyCell.
+        (ThirdBackPiece == emptyCell; ThirdBackPiece == blackCityPiece; ThirdBackPiece == redCityPiece).
 
 /* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
@@ -504,7 +504,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row2 is Row - 2,
         Column2 is Column,
         getPiece(Row2, Column2, Board, SecondFrontPiece),
-        SecondFrontPiece == emptyCell,
+        (SecondFrontPiece == emptyCell; SecondFrontPiece == blackCityPiece; SecondFrontPiece == redCityPiece),
         Row3 is Row + 1,
         Column3 is Column,
         getPiece(Row3, Column3, Board, BackPiece),
@@ -512,7 +512,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row4 is Row + 2,
         Column4 is Column,
         getPiece(Row4, Column4, Board, SecondBackPiece),
-        SecondBackPiece == emptyCell.
+        (SecondBackPiece == emptyCell; SecondBackPiece == blackCityPiece; SecondBackPiece == redCityPiece).
 
 /* imagining Piece 3 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
@@ -529,11 +529,11 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row3 is Row - 3,
         Column3 is Column,
         getPiece(Row3, Column3, Board, ThirdFrontPiece),
-        ThirdFrontPiece == emptyCell,
+        (ThirdFrontPiece == emptyCell; ThirdFrontPiece == blackCityPiece; ThirdFrontPiece == redCityPiece),
         Row4 is Row + 1,
         Column4 is Column,
         getPiece(Row4, Column4, Board, BackPiece),
-        BackPiece == emptyCell.
+        (BackPiece == emptyCell; BackPiece == blackCityPiece; BackPiece == redCityPiece).
 
 /* line 2: NW -> SE diagonal line */
 
@@ -550,7 +550,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row1 is Row - 1,
         Column1 is Column - 1,
         getPiece(Row1, Column1, Board, FrontPiece),
-        FrontPiece == emptyCell,
+        (FrontPiece == emptyCell; FrontPiece == blackCityPiece; FrontPiece == redCityPiece),
         Row2 is Row + 1,
         Column2 is Column + 1,
         getPiece(Row2, Column2, Board, BackPiece),
@@ -562,7 +562,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row4 is Row + 3,
         Column4 is Column + 3,
         getPiece(Row4, Column4, Board, ThirdBackPiece),
-        ThirdBackPiece == emptyCell.
+        (ThirdBackPiece == emptyCell; ThirdBackPiece == blackCityPiece; ThirdBackPiece == redCityPiece).
 
 
 /* imagining Piece 2 */
@@ -576,7 +576,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row2 is Row - 2,
         Column2 is Column - 2,
         getPiece(Row2, Column2, Board, SecondFrontPiece),
-        SecondFrontPiece == emptyCell,
+        (SecondFrontPiece == emptyCell; SecondFrontPiece == blackCityPiece; SecondFrontPiece == redCityPiece),
         Row3 is Row + 1,
         Column3 is Column + 1,
         getPiece(Row3, Column3, Board, BackPiece),
@@ -584,7 +584,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row4 is Row + 2,
         Column4 is Column + 2,
         getPiece(Row4, Column4, Board, SecondBackPiece),
-        SecondBackPiece == emptyPiece.
+        (SecondBackPiece == emptyCell; SecondBackPiece == blackCityPiece; SecondBackPiece == redCityPiece).
 
 
 /* imagining Piece 3 */
@@ -602,11 +602,11 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row3 is Row - 3,
         Column3 is Column - 3,
         getPiece(Row3, Column3, Board, ThirdFrontPiece),
-        ThirdFrontPiece == emptyCell,
+        (ThirdFrontPiece == emptyCell; ThirdFrontPiece == blackCityPiece; ThirdFrontPiece == redCityPiece),
         Row4 is Row + 1,
         Column4 is Column + 1,
         getPiece(Row4, Column4, Board, BackPiece),
-        BackPiece == emptyCell.
+        (BackPiece == emptyCell; BackPiece == blackCityPiece; BackPiece == redCityPiece).
 
 
 /* line 3: SW -> NE diagonal line */
@@ -626,7 +626,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row1 is Row - 1,
         Column1 is Column + 1,
         getPiece(Row1, Column1, Board, FrontPiece),
-        FrontPiece == emptyCell,
+        (FrontPiece == emptyCell; FrontPiece == blackCityPiece; FrontPiece == redCityPiece),
         Row2 is Row + 1,
         Column2 is Column - 1,
         getPiece(Row2, Column2, Board, BackPiece),
@@ -638,7 +638,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row4 is Row + 3,
         Column4 is Column - 3,
         getPiece(Row4, Column4, Board, ThirdBackPiece),
-        ThirdBackPiece == emptyCell.
+        (ThirdBackPiece == emptyCell; ThirdBackPiece == blackCityPiece; ThirdBackPiece == redCityPiece).
 
 /* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
@@ -651,7 +651,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row2 is Row - 2,
         Column2 is Column + 2,
         getPiece(Row2, Column2, Board, SecondFrontPiece),
-        SecondFrontPiece == emptyCell,
+        (SecondFrontPiece == emptyCell; SecondFrontPiece == blackCityPiece; SecondFrontPiece == redCityPiece),
         Row3 is Row + 1,
         Column3 is Column - 1,
         getPiece(Row3, Column3, Board, BackPiece),
@@ -762,6 +762,7 @@ validateMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNu
         getPiece(Row, Column, Board, Piece),
         Piece == redSoldier,
         CannonType == verticalCannon,
+        format("check validate cannon - Row1: ~w, Row: ~w, PieceNumber: ~w",[Row1,Row,PieceNumber]),
         Row1 =:= Row + (4 - PieceNumber),
         Column1 =:= Column,
         getPiece(Row1, Column1, Board, OtherPiece),
@@ -805,6 +806,6 @@ validateMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNu
         Piece == emptyCell.
 
 validateMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove):- validateMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber), CurrentMove = forward.
-validateMoveCannon(_, _, _, _, _, _, _, _):- write('Cannot move there.'), nl.
+validateMoveCannon(_, _, _, _, _, _, _, _):- write('Cannot move there.'), nl, fail.
 
 /* Option 2.2: capture cannon */

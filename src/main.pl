@@ -18,7 +18,7 @@ cannon:-
         write('Enter game mode: '),
         read(Selection),
         Selection >= 1,
-        Selection =< 3,        
+        Selection =< 3,
         initialBoard(Board),
         display_game(Board),
         /* first thing to do in any gamemode is to place the city */
@@ -69,7 +69,7 @@ check_if_invalid_piece(Row, Column, Board, Player):-
         write('Black player can only move black soldiers.'), nl,
         !, fail.
 
-check_if_invalid_piece(_, _, _, _).                                       
+check_if_invalid_piece(_, _, _, _).
 
 choose_move_option(Row, Column, Board, 1, NewBoard, move_choice(Row, Column, Board, NewBoard)).
 choose_move_option(Row, Column, Board, 2, NewBoard, capture_choice(Row, Column, Board, NewBoard)).
@@ -88,7 +88,7 @@ capture_choice(Row, Column, Board, NewBoard):-
         validateCapture(Row, Column, Row1, Column1, Board, Position),
         move(Position, Row, Column, Board, NewBoard).
 
-cannon_choice(Row, Column, Board, NewBoard):- 
+cannon_choice(Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber),
         write('Move cannon(5), or capture with cannon(6)? '),
