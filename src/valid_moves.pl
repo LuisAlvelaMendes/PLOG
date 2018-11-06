@@ -3,7 +3,7 @@
 :- use_module(library(lists)).
 :- use_module(library(clpfd)).
 
-/* Obtenção de uma l=:=ta de jogadas possíve=:= valid_moves(+Board, +Player, -L=:=tOfMoves) */
+/* Obtenção de uma lista de jogadas possíveis valid_moves(+Board, +Player, -ListOfMoves) faz-se com find all*/
 
 /* Option 0: place city, placing the city also counts as part of the game, and the city must be placed in a given row without counting the corners */
 validateCityPlace(Column, red):-
@@ -19,7 +19,7 @@ validateCityPlace(Column, black):-
 /* Option 1.1: forward */
 /* A soldier can move forward if the adjacent points in front are free */
 
-/* Predicate to determine frontal adjacency (checks if the spot =:= empty so he can move) */
+/* Predicate to determine frontal adjacency (checks if the spot is empty so he can move) */
 
 /* Right side position, 1 row head and one column to the right */
 

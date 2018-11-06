@@ -40,6 +40,7 @@ menuOptionMainGame(3, Board, RedCityColumn, BlackCityColumn, computerVsComputer(
 /* choosing actions within the game */
 choose_action(Board, NewBoard, Player):-
         repeat,
+        nl,
         write('Select your piece!'), nl,
         askCoords(Row, Column),
         check_if_invalid_piece(Row, Column, Board, Player),
@@ -52,21 +53,21 @@ check_if_invalid_piece(Row, Column, Board, _):-
         getPiece(Row, Column, Board, Piece),
         (Piece == emptyCell ; Piece == redCityPiece ; Piece == blackCityPiece),
         write('This piece cannot be moved.'), nl,
-        fail, !.
+        !, fail.
 
 check_if_invalid_piece(Row, Column, Board, Player):-
         getPiece(Row, Column, Board, Piece),
         Player == red,
         Piece == blackSoldier,
         write('Red player can only move red soldiers.'), nl,
-        fail, !.
+        !, fail.
 
 check_if_invalid_piece(Row, Column, Board, Player):-
         getPiece(Row, Column, Board, Piece),
         Player == black,
         Piece == redSoldier,
         write('Black player can only move black soldiers.'), nl,
-        fail, !.
+        !, fail.
 
 check_if_invalid_piece(_, _, _, _).                                       
 
