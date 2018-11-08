@@ -90,7 +90,7 @@ capture_choice(Row, Column, Board, NewBoard):-
 
 cannon_choice(Row, Column, Board, NewBoard):- 
         getPiece(Row, Column, Board, Piece),
-        checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber),
+        checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber), !, 
         write('Move cannon(5), or capture with cannon(6)? '),
         read(Answer),
         choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, Answer, FinalAction),
