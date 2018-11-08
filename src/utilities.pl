@@ -4,7 +4,7 @@
 /* TODO: use name/2 to make it so you only input 1 line like: cell E2 */
 checkEmptyPossibleTail([]).
 parseCoordsList([Column | [Row | PossibleTail ] ], ColumnUserSelected, RowUserSelected):- checkEmptyPossibleTail(PossibleTail), atom_codes(ColumnUserSelected, [Column]), number_codes(RowUserSelected, [Row]).
-parseCoordsList([Column | [_ | [PossibleTail | [] ] ] ], ColumnUserSelected, RowUserSelected):- write('suposto'), nl, number_codes(Temp, [PossibleTail]), Temp is 0, atom_codes(ColumnUserSelected, [Column]), RowUserSelected = 10.
+parseCoordsList([Column | [_ | [PossibleTail | [] ] ] ], ColumnUserSelected, RowUserSelected):- number_codes(Temp, [PossibleTail]), Temp is 0, atom_codes(ColumnUserSelected, [Column]), RowUserSelected = 10.
 parseCoordsList(_, _, _):- write("Invalid coords."), nl, fail.
 
 askCoords(Row, Column):-

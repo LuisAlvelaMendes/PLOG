@@ -440,18 +440,21 @@ validateCapture(_, _, _, _, _, _):- write('Invalid cell to capture! Select again
 /* line 1: purely vertical line */
 
 /* 
-   empty
-   Piece1
-   Piece2
-   Piece3
-   empty
+   Case1        Case2           Case3
+   empty        ------          empty
+   Piece1       Piece1          Piece1
+   Piece2       Piece2          Piece2
+   Piece3       Piece3          Piece3
+   empty        empty           ------
 */
 
-/* imagining Piece1 */
+
+/* imagining Piece1 Case 1*/
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 1,
         Row1 is Row - 1,
+        Row1 >= 0,
         Column1 is Column,
         getPiece(Row1, Column1, Board, FrontPiece),
         FrontPiece == emptyCell,
@@ -464,11 +467,95 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         getPiece(Row3, Column3, Board, SecondBackPiece),
         SecondBackPiece == Piece,
         Row4 is Row + 3,
+        Row4 =< 9,
         Column4 is Column,
         getPiece(Row4, Column4, Board, ThirdBackPiece),
         ThirdBackPiece == emptyCell.
+
+/* imagining Piece1 Case 2*/
+checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+        CannonType = verticalCannon,
+        PieceNumber = 1,
+        Row1 is Row - 1,
+        Row1 < 0,
+        Row2 is Row + 1,
+        Column2 is Column,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece,
+        Row3 is Row + 2,
+        Column3 is Column,
+        getPiece(Row3, Column3, Board, SecondBackPiece),
+        SecondBackPiece == Piece,
+        Row4 is Row + 3,
+        Row4 =< 9,
+        Column4 is Column,
+        getPiece(Row4, Column4, Board, ThirdBackPiece),
+        ThirdBackPiece == emptyCell.
+
+/* imagining Piece1 Case 3*/
+checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+        CannonType = verticalCannon,
+        PieceNumber = 1,
+        Row1 is Row - 1,
+        Row1 >= 0,
+        Column1 is Column,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == emptyCell,
+        Row2 is Row + 1,
+        Column2 is Column,
+        getPiece(Row2, Column2, Board, BackPiece),
+        BackPiece == Piece,
+        Row3 is Row + 2,
+        Column3 is Column,
+        getPiece(Row3, Column3, Board, SecondBackPiece),
+        SecondBackPiece == Piece,
+        Row4 is Row + 3,
+        Row4 > 9.
  
-/* imagining Piece 2 */  
+/* imagining Piece 2 Case 1*/  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+        CannonType = verticalCannon,
+        PieceNumber = 2,
+        Row1 is Row - 1,
+        Column1 is Column,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row - 2,
+        Row2 >= 0,
+        Column2 is Column,
+        getPiece(Row2, Column2, Board, SecondFrontPiece),
+        SecondFrontPiece == emptyCell,
+        Row3 is Row + 1,
+        Column3 is Column,
+        getPiece(Row3, Column3, Board, BackPiece),
+        BackPiece == Piece,
+        Row4 is Row + 2,
+        Row4 =< 9,
+        Column4 is Column,
+        getPiece(Row4, Column4, Board, SecondBackPiece),
+        SecondBackPiece == emptyCell.
+
+/* imagining Piece 2 Case 2*/  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+        CannonType = verticalCannon,
+        PieceNumber = 2,
+        Row1 is Row - 1,
+        Column1 is Column,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row - 2,
+        Row2 < 0,
+        Row3 is Row + 1,
+        Column3 is Column,
+        getPiece(Row3, Column3, Board, BackPiece),
+        BackPiece == Piece,
+        Row4 is Row + 2,
+        Row4 =< 9,
+        Column4 is Column,
+        getPiece(Row4, Column4, Board, SecondBackPiece),
+        SecondBackPiece == emptyCell.
+
+/* imagining Piece 2 Case 3*/  
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 2,
@@ -480,16 +567,15 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column2 is Column,
         getPiece(Row2, Column2, Board, SecondFrontPiece),
         SecondFrontPiece == emptyCell,
+        Row2 < 0,
         Row3 is Row + 1,
         Column3 is Column,
         getPiece(Row3, Column3, Board, BackPiece),
         BackPiece == Piece,
         Row4 is Row + 2,
-        Column4 is Column,
-        getPiece(Row4, Column4, Board, SecondBackPiece),
-        SecondBackPiece == emptyCell.
+        Row4 > 9.
       
-/* imagining Piece 3 */  
+/* imagining Piece 3 Case 1*/  
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 3,
@@ -502,13 +588,55 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         getPiece(Row2, Column2, Board, SecondFrontPiece),
         SecondFrontPiece == Piece,
         Row3 is Row - 3,
+        Row3 >= 0,
         Column3 is Column,
         getPiece(Row3, Column3, Board, ThirdFrontPiece),
         ThirdFrontPiece == emptyCell,
         Row4 is Row + 1,
+        Row4 =< 9,
         Column4 is Column,
         getPiece(Row4, Column4, Board, BackPiece),
         BackPiece == emptyCell.
+
+/* imagining Piece 3 Case 2*/  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+        CannonType = verticalCannon,
+        PieceNumber = 3,
+        Row1 is Row - 1,
+        Column1 is Column,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row - 2,
+        Column2 is Column,
+        getPiece(Row2, Column2, Board, SecondFrontPiece),
+        SecondFrontPiece == Piece,
+        Row3 is Row - 3,
+        Row3 < 0,
+        Row4 is Row + 1,
+        Row4 =< 9,
+        Column4 is Column,
+        getPiece(Row4, Column4, Board, BackPiece),
+        BackPiece == emptyCell.
+
+/* imagining Piece 3 Case 3*/  
+checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+        CannonType = verticalCannon,
+        PieceNumber = 3,
+        Row1 is Row - 1,
+        Column1 is Column,
+        getPiece(Row1, Column1, Board, FrontPiece),
+        FrontPiece == Piece,
+        Row2 is Row - 2,
+        Column2 is Column,
+        getPiece(Row2, Column2, Board, SecondFrontPiece),
+        SecondFrontPiece == Piece,
+        Row3 is Row - 3,
+        Row3 >= 0,
+        Column3 is Column,
+        getPiece(Row3, Column3, Board, ThirdFrontPiece),
+        ThirdFrontPiece == emptyCell,
+        Row4 is Row + 1,
+        Row4 > 9.
 
 /* line 2: NW -> SE diagonal line */
 
