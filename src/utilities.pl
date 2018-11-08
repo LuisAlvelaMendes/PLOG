@@ -2,18 +2,23 @@
 
 /* Asks user for which Piece he intends to move, each has to be converted to an index */
 /* TODO: use name/2 to make it so you only input 1 line like: cell E2 */
+checkEmptyPossibleTail([]).
+parseCoordsList([Column | [Row | PossibleTail ] ], ColumnUserSelected, RowUserSelected):- checkEmptyPossibleTail(PossibleTail), atom_codes(ColumnUserSelected, [Column]), number_codes(RowUserSelected, [Row]).
+parseCoordsList([Column | [_ | [PossibleTail | [] ] ] ], ColumnUserSelected, RowUserSelected):- write('suposto'), nl, number_codes(Temp, [PossibleTail]), Temp is 0, atom_codes(ColumnUserSelected, [Column]), RowUserSelected = 10.
+parseCoordsList(_, _, _):- write("Invalid coords."), nl, fail.
+
 askCoords(Row, Column):-
         repeat,
-        write('Column (in miniscule letters!) '),
-        read(ColumnUserSelected),
+        write('Coordinates (Lowercase Column followed by Row): '),
+        read(FullCoords),
+        atom_codes(FullCoords, CoordsList),
+        parseCoordsList(CoordsList, ColumnUserSelected, RowUserSelected),
         columnIndex(ColumnUserSelected, Column),
-        write('Row '),
-        read(RowUserSelected),
         Row is 10 - RowUserSelected, !.
 
 askColumn(Column):-
         repeat,
-        write('Column (in miniscule letters!) '),
+        write('Column  '),
         read(ColumnUserSelected),
         columnIndex(ColumnUserSelected, Column).
 
