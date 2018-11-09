@@ -674,15 +674,65 @@ validateMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNu
 validateMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         CannonType == horizontalCannon,
         Row1 =:= Row,
-        write('it thinks the column is ... '), nl,
-        write(Column1), nl, 
-        write(Column), nl,
-        write(PieceNumber), nl,
         Column1 =:= Column + (4-PieceNumber),
         getPiece(Row1, Column1, Board, Piece),
         Piece == emptyCell.
 
+/* backward */
+
+/* vertical line */
+
+/* red cannon */
+validateMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        CannonType == verticalCannon,
+        Row1 =:= Row - PieceNumber,
+        Column1 =:= Column,
+        getPiece(Row1, Column1, Board, OtherPiece),
+        OtherPiece == emptyCell.
+
+/* black cannon */
+validateMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == blackSoldier,
+        CannonType == verticalCannon,
+        Row1 =:= Row + (4 - PieceNumber),
+        Column1 =:= Column,
+        getPiece(Row1, Column1, Board, OtherPiece),
+        OtherPiece == emptyCell.
+
+/* NW -> SE diagonal line */
+
+validateMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        CannonType == diagonalNWSECannon,
+        Row1 =:= Row + (4 - PieceNumber),
+        Column1 =:= Column + (4 - PieceNumber),
+        getPiece(Row1, Column1, Board, Piece),
+        Piece == emptyCell.
+
+/* SW -> NE diagonal line */
+
+validateMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        CannonType == diagonalSWNECannon,
+        Row1 =:= Row + (4 - PieceNumber),
+        Column1 =:= Column - (4-PieceNumber),
+        getPiece(Row1, Column1, Board, Piece),
+        Piece == emptyCell.
+
+/* Horizontal line */
+
+validateMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        CannonType == horizontalCannon,
+        Row1 =:= Row,
+        write(Column), nl,
+        write(Column1), nl, 
+        Column1 =:= Column - PieceNumber,
+        getPiece(Row1, Column1, Board, Piece),
+        Piece == emptyCell.
+
 validateMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove):- validateMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber), CurrentMove = forward.
+validateMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove):- validateMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber), CurrentMove = backward.
 validateMoveCannon(_, _, _, _, _, _, _, _):- write('Cannot move there.'), nl, !, fail.
 
 /* Option 2.2: capture cannon */
