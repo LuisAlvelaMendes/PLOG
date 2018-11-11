@@ -464,9 +464,9 @@ validateCapture(_, _, _, _, _, _):- write('Invalid cell to capture! Select again
 
 /* line 1: purely vertical line */
 
-/*        
-   Piece1      
-   Piece2        
+/*
+   Piece1
+   Piece2
    Piece3
 */
 
@@ -482,8 +482,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column3 is Column,
         getPiece(Row3, Column3, Board, SecondBackPiece),
         SecondBackPiece == Piece.
- 
-/* imagining Piece 2 */  
+
+/* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 2,
@@ -495,8 +495,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column3 is Column,
         getPiece(Row3, Column3, Board, BackPiece),
         BackPiece == Piece.
-      
-/* imagining Piece 3 */  
+
+/* imagining Piece 3 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 3,
@@ -529,9 +529,9 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column3 is Column + 2,
         getPiece(Row3, Column3, Board, SecondBackPiece),
         SecondBackPiece == Piece.
-        
- 
-/* imagining Piece 2 */  
+
+
+/* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalNWSECannon,
         PieceNumber = 2,
@@ -543,9 +543,9 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column3 is Column + 1,
         getPiece(Row3, Column3, Board, BackPiece),
         BackPiece == Piece.
-      
-      
-/* imagining Piece 3 */  
+
+
+/* imagining Piece 3 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalNWSECannon,
         PieceNumber = 3,
@@ -557,10 +557,10 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column2 is Column - 2,
         getPiece(Row2, Column2, Board, SecondFrontPiece),
         SecondFrontPiece == Piece.
-        
+
 /* line 3: SW -> NE diagonal line */
 
-/*                
+/*
                         Piece1
                 Piece2
         Piece3
@@ -578,8 +578,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column3 is Column - 2,
         getPiece(Row3, Column3, Board, SecondBackPiece),
         SecondBackPiece == Piece.
- 
-/* imagining Piece 2 */  
+
+/* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalSWNECannon,
         PieceNumber = 2,
@@ -591,8 +591,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column3 is Column - 1,
         getPiece(Row3, Column3, Board, BackPiece),
         BackPiece == Piece.
-      
-/* imagining Piece 3 */  
+
+/* imagining Piece 3 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalSWNECannon,
         PieceNumber = 3,
@@ -604,10 +604,10 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column2 is Column + 2,
         getPiece(Row2, Column2, Board, SecondFrontPiece),
         SecondFrontPiece == Piece.
-        
+
 /* line 4: purely horizontal line */
 
-/* Piece1 Piece2 Piece3 */   
+/* Piece1 Piece2 Piece3 */
 
 /* imagining Piece1 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
@@ -621,8 +621,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column3 is Column + 2,
         getPiece(Row3, Column3, Board, SecondBackPiece),
         SecondBackPiece == Piece.
- 
-/* imagining Piece 2 */  
+
+/* imagining Piece 2 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = horizontalCannon,
         PieceNumber = 2,
@@ -634,8 +634,8 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Column2 is Column - 1,
         getPiece(Row2, Column2, Board, BackPiece),
         BackPiece == Piece.
-      
-/* imagining Piece 3 */  
+
+/* imagining Piece 3 */
 checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = horizontalCannon,
         PieceNumber = 3,
@@ -646,7 +646,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         Row2 is Row,
         Column2 is Column - 2,
         getPiece(Row2, Column2, Board, SecondFrontPiece),
-        SecondFrontPiece == Piece. 
+        SecondFrontPiece == Piece.
 
 checkPieceInCannon(_, _, _, _, _, _):- write('This Piece is not in a cannon!'), nl, fail.
 
@@ -752,7 +752,7 @@ validateMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceN
         CannonType == horizontalCannon,
         Row1 =:= Row,
         write(Column), nl,
-        write(Column1), nl, 
+        write(Column1), nl,
         Column1 =:= Column - PieceNumber,
         getPiece(Row1, Column1, Board, Piece),
         Piece == emptyCell.
@@ -762,3 +762,286 @@ validateMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, C
 validateMoveCannon(_, _, _, _, _, _, _, _):- write('Cannot move there.'), nl, !, fail.
 
 /* Option 2.2: capture cannon */
+
+/* Capture up for both players */
+
+validateCaptureCannonFront(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        write('test1'),
+        CannonType == verticalCannon,
+        Column1 is Column,
+        Row2 is Row - PieceNumber,
+        getPiece(Row2, Column, Board, EmptyPiece),
+        EmptyPiece == emptyCell,
+        write('test2'),
+        (
+        (Row1 =:= Row - (PieceNumber+1),
+          write('test3'),
+          getPiece(Row1, Column, Board, EnemyPiece),
+          write('test4--'),
+          ((Piece == blackSoldier,
+          write('test5--'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena1')
+            )
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena2')
+          ))
+        )
+        ;
+          (Row1 =:= Row - (PieceNumber+2),
+          write('test4'),
+          getPiece(Row1, Column, Board, EnemyPiece),
+          write('test5'),
+          (Piece == blackSoldier,
+          write('test6'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena3'))
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena4')
+          )
+        )).
+
+/* Capture up for both players */
+
+validateCaptureCannonBack(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        write('test1'),
+        CannonType == verticalCannon,
+        Column1 is Column,
+        Row2 is Row + (4-PieceNumber),
+        getPiece(Row2, Column, Board, EmptyPiece),
+        EmptyPiece == emptyCell,
+        write('test2'),
+        (
+        (Row1 =:= Row + (5-PieceNumber),
+          write('test3'),
+          getPiece(Row1, Column, Board, EnemyPiece),
+          write('test4--'),
+          ((Piece == blackSoldier,
+          write('test5--'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena1')
+            )
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena2')
+          ))
+        )
+        ;
+          (Row1 =:= Row + (5-PieceNumber),
+          write('test4'),
+          getPiece(Row1, Column, Board, EnemyPiece),
+          write('test5'),
+          (Piece == blackSoldier,
+          write('test6'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena3'))
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena4')
+          )
+        )).
+
+/* Capture left for both players */
+
+validateCaptureLeftSide(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        write('test1'),
+        CannonType == horizontalCannon,
+        Row1 is Row,
+        Column2 is Column - PieceNumber,
+        getPiece(Row, Column2, Board, EmptyPiece),
+        EmptyPiece == emptyCell,
+        write('test2'),
+        (
+        (Column1 =:= Column - (PieceNumber+1),
+          write('test3'),
+          getPiece(Row, Column1, Board, EnemyPiece),
+          write('test4--'),
+          ((Piece == blackSoldier,
+          write('test5--'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena1')
+            )
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena2')
+          ))
+        )
+        ;
+          (Column1 =:= Column - (PieceNumber+2),
+          write('test4'),
+          getPiece(Row, Column1, Board, EnemyPiece),
+          write('test5'),
+          ((Piece == blackSoldier,
+          write('test6'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena3'))
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena4')
+          )
+        ))).
+
+/* Capture right for both players */
+
+validateCaptureRightSide(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        write('test1'),
+        CannonType == horizontalCannon,
+        Row1 is Row,
+        Column2 is Column + 4 - PieceNumber,
+        getPiece(Row, Column2, Board, EmptyPiece),
+        EmptyPiece == emptyCell,
+        write('test2'),
+        (
+        (Column1 =:= Column + 5 - PieceNumber,
+          write('test3'),
+          getPiece(Row, Column1, Board, EnemyPiece),
+          write('test4--'),
+          ((Piece == blackSoldier,
+          write('test5--'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena1')
+            )
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena2')
+          ))
+        )
+        ;
+          (Column1 =:= Column + 6 - PieceNumber,
+          write('test4'),
+          getPiece(Row, Column1, Board, EnemyPiece),
+          write('test5'),
+          ((Piece == blackSoldier,
+          write('test6'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena3'))
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena4')
+          )
+        ))).
+
+/* Capture in North East direction for both players */
+
+validateCaptureNE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        write('test1right'),
+        format('cannontype: ~w', [CannonType]),
+        CannonType == diagonalSWNECannon,
+        write('test2right'),
+        Row2 is Row - PieceNumber,
+        Column2 is Column + PieceNumber,
+        write('test3right'),
+        getPiece(Row2, Column2, Board, EmptyPiece),
+        EmptyPiece == emptyCell,
+        write('test2'),
+        (
+        ( Column1 =:= Column + PieceNumber+1,
+          Row1 =:= Row - (PieceNumber + 1),
+          write('test3'),
+          getPiece(Row1, Column1, Board, EnemyPiece),
+          write('test4--'),
+          ((Piece == blackSoldier,
+          write('test5--'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena1')
+            )
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena2')
+          ))
+        )
+        ;
+          (Column1 =:= Column + PieceNumber+2,
+          Row1 =:= Row - (PieceNumber + 2),
+          write('test4'),
+          getPiece(Row1, Column1, Board, EnemyPiece),
+          format('test5 enemy piece ~w',[EnemyPiece]),
+          (
+            (Piece == blackSoldier,
+            write('test6'),
+            (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+              write('testcena3'))
+          ;
+            (Piece == redSoldier,
+            (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+              write('testcena4')
+            )
+          )
+        )).
+
+/* Capture in North West direction for both players */
+
+validateCaptureNW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        write('test1right'),
+        format('cannontype: ~w', [CannonType]),
+        CannonType == diagonalNWSECannon,
+        write('test2right'),
+        Row2 is Row - PieceNumber,
+        Column2 is Column - PieceNumber,
+        write('test3right'),
+        getPiece(Row2, Column2, Board, EmptyPiece),
+        EmptyPiece == emptyCell,
+        write('test2'),
+        (
+        ( Column1 =:= Column - (PieceNumber + 1),
+          Row1 =:= Row - (PieceNumber + 1),
+          write('test3'),
+          getPiece(Row1, Column1, Board, EnemyPiece),
+          write('test4--'),
+          ((Piece == blackSoldier,
+          write('test5--'),
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+            write('testcena1')
+            )
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+            write('testcena2')
+          ))
+        )
+        ;
+          (Column1 =:= Column - (PieceNumber + 2),
+          Row1 =:= Row - (PieceNumber + 2),
+          write('test4'),
+          getPiece(Row1, Column1, Board, EnemyPiece),
+          format('test5 enemy piece ~w',[EnemyPiece]),
+          (
+            (Piece == blackSoldier,
+            write('test6'),
+            (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
+              write('testcena3'))
+          ;
+            (Piece == redSoldier,
+            (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
+              write('testcena4')
+            )
+          )
+        )).
+
+/* A valid cannon capture can only be in the following ways */
+validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureCannonFront(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
+validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureCannonBack(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
+validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureRightSide(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
+validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureLeftSide(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
+validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureNE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
+validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureNW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
+/*validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, Position):- validateCaptureRightSide(Row, Column, Row1, Column1, Board), Position = rightSide.
+*/
+validateCaptureCannon(_, _, _, _, _, _, _):- write('Invalid cell to capture! Select again ..'), nl, fail.
