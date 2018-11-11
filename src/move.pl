@@ -124,7 +124,7 @@ move(backRight, Row, Column, Board, NewBoard):-
         replaceInMatrix(Board, Row, Column, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, RowToReplace, ColumnToReplace, Piece, NewBoard).
 
-/* moving red cannon forward presuming the first piece is selected in a vertical cannon */
+/* moving red cannon forward  */
 move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
         Piece == redSoldier,
@@ -136,7 +136,7 @@ move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard).
 
-/* moving black cannon forward presuming the first piece is selected in a vertical cannon */
+/* moving black cannon forward  */
 move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
         Piece == blackSoldier,
@@ -178,5 +178,62 @@ move_cannon(forward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         DestinationColumn is Column + (4 - PieceNumber),
         DeletedRow is Row,
         DeletedColumn is Column - (PieceNumber - 1),
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard).
+
+/* moving red cannon backward */
+move_cannon(backward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == redSoldier,
+        CannonType == verticalCannon,
+        DestinationRow is Row - PieceNumber,
+        DestinationColumn is Column,
+        DeletedRow is Row + (3 - PieceNumber),
+        DeletedColumn is Column,
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard). 
+
+/* moving black cannon backward  */
+move_cannon(backward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        Piece == blackSoldier,
+        CannonType == verticalCannon,
+        DestinationRow is Row + (4 - PieceNumber),
+        DestinationColumn is Column,
+        DeletedRow is Row - (PieceNumber - 1),
+        DeletedColumn is Column,
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard). 
+   
+/* moving NW-SE cannon backward */
+move_cannon(backward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        CannonType == diagonalNWSECannon,
+        DestinationRow is Row + (4 - PieceNumber),
+        DestinationColumn is Column + (4 - PieceNumber),
+        DeletedRow is Row - (PieceNumber - 1),
+        DeletedColumn is Column - (PieceNumber - 1),
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard). 
+
+/* moving SW-NE cannon backward */
+move_cannon(backward, Row, Column, Board, NewBoard, CannonType, PieceNumber):- 
+        getPiece(Row, Column, Board, Piece), 
+        CannonType == diagonalSWNECannon,
+        DestinationRow is Row + (4 - PieceNumber),
+        DestinationColumn is Column - (4 - PieceNumber),
+        DeletedRow is Row - (PieceNumber - 1),
+        DeletedColumn is Column + (PieceNumber - 1),
+        replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
+        replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard). 
+
+/* moving horizontal cannon backward */
+move_cannon(backward, Row, Column, Board, NewBoard, CannonType, PieceNumber):- 
+        getPiece(Row, Column, Board, Piece), 
+        CannonType == horizontalCannon,
+        DestinationRow is Row,
+        DestinationColumn is Column - PieceNumber,
+        DeletedRow is Row,
+        DeletedColumn is Column + (3 - PieceNumber),
         replaceInMatrix(Board, DeletedRow, DeletedColumn, emptyCell, TempBoard),
         replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard).
