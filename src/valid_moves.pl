@@ -767,42 +767,30 @@ validateMoveCannon(_, _, _, _, _, _, _, _):- write('Cannot move there.'), nl, !,
 
 validateCaptureCannonFront(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
-        write('test1'),
         CannonType == verticalCannon,
         Column1 is Column,
         Row2 is Row - PieceNumber,
         getPiece(Row2, Column, Board, EmptyPiece),
         EmptyPiece == emptyCell,
-        write('test2'),
         (
         (Row1 =:= Row - (PieceNumber+1),
-          write('test3'),
           getPiece(Row1, Column, Board, EnemyPiece),
-          write('test4--'),
           ((Piece == blackSoldier,
-          write('test5--'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena1')
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
             )
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena2')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           ))
         )
         ;
           (Row1 =:= Row - (PieceNumber+2),
-          write('test4'),
           getPiece(Row1, Column, Board, EnemyPiece),
-          write('test5'),
           (Piece == blackSoldier,
-          write('test6'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena3'))
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece))
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena4')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           )
         )).
 
@@ -810,42 +798,31 @@ validateCaptureCannonFront(Row, Column, Row1, Column1, Board, CannonType, PieceN
 
 validateCaptureCannonBack(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
-        write('test1'),
         CannonType == verticalCannon,
         Column1 is Column,
         Row2 is Row + (4-PieceNumber),
         getPiece(Row2, Column, Board, EmptyPiece),
         EmptyPiece == emptyCell,
-        write('test2'),
         (
         (Row1 =:= Row + (5-PieceNumber),
-          write('test3'),
           getPiece(Row1, Column, Board, EnemyPiece),
-          write('test4--'),
           ((Piece == blackSoldier,
-          write('test5--'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena1')
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
             )
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena2')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           ))
         )
         ;
           (Row1 =:= Row + (5-PieceNumber),
-          write('test4'),
           getPiece(Row1, Column, Board, EnemyPiece),
-          write('test5'),
           (Piece == blackSoldier,
-          write('test6'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena3'))
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
+          )
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena4')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           )
         )).
 
@@ -853,42 +830,31 @@ validateCaptureCannonBack(Row, Column, Row1, Column1, Board, CannonType, PieceNu
 
 validateCaptureLeftSide(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
-        write('test1'),
         CannonType == horizontalCannon,
         Row1 is Row,
         Column2 is Column - PieceNumber,
         getPiece(Row, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
-        write('test2'),
         (
         (Column1 =:= Column - (PieceNumber+1),
-          write('test3'),
           getPiece(Row, Column1, Board, EnemyPiece),
-          write('test4--'),
           ((Piece == blackSoldier,
-          write('test5--'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena1')
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
             )
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena2')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           ))
         )
         ;
           (Column1 =:= Column - (PieceNumber+2),
-          write('test4'),
           getPiece(Row, Column1, Board, EnemyPiece),
-          write('test5'),
           ((Piece == blackSoldier,
-          write('test6'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena3'))
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
+          )
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena4')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           )
         ))).
 
@@ -896,42 +862,31 @@ validateCaptureLeftSide(Row, Column, Row1, Column1, Board, CannonType, PieceNumb
 
 validateCaptureRightSide(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
-        write('test1'),
         CannonType == horizontalCannon,
         Row1 is Row,
         Column2 is Column + 4 - PieceNumber,
         getPiece(Row, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
-        write('test2'),
         (
         (Column1 =:= Column + 5 - PieceNumber,
-          write('test3'),
           getPiece(Row, Column1, Board, EnemyPiece),
-          write('test4--'),
           ((Piece == blackSoldier,
-          write('test5--'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena1')
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
             )
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena2')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           ))
         )
         ;
           (Column1 =:= Column + 6 - PieceNumber,
-          write('test4'),
           getPiece(Row, Column1, Board, EnemyPiece),
-          write('test5'),
           ((Piece == blackSoldier,
-          write('test6'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena3'))
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
+          )
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena4')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           )
         ))).
 
@@ -939,48 +894,34 @@ validateCaptureRightSide(Row, Column, Row1, Column1, Board, CannonType, PieceNum
 
 validateCaptureNE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
-        write('test1right'),
-        format('cannontype: ~w', [CannonType]),
         CannonType == diagonalSWNECannon,
-        write('test2right'),
         Row2 is Row - PieceNumber,
         Column2 is Column + PieceNumber,
-        write('test3right'),
         getPiece(Row2, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
-        write('test2'),
         (
         ( Column1 =:= Column + PieceNumber+1,
           Row1 =:= Row - (PieceNumber + 1),
-          write('test3'),
           getPiece(Row1, Column1, Board, EnemyPiece),
-          write('test4--'),
           ((Piece == blackSoldier,
-          write('test5--'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena1')
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
             )
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena2')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           ))
         )
         ;
           (Column1 =:= Column + PieceNumber+2,
           Row1 =:= Row - (PieceNumber + 2),
-          write('test4'),
           getPiece(Row1, Column1, Board, EnemyPiece),
-          format('test5 enemy piece ~w',[EnemyPiece]),
           (
             (Piece == blackSoldier,
-            write('test6'),
-            (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-              write('testcena3'))
+            (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
+            )
           ;
             (Piece == redSoldier,
-            (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-              write('testcena4')
+            (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
             )
           )
         )).
@@ -989,48 +930,36 @@ validateCaptureNE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
 
 validateCaptureNW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
-        write('test1right'),
         format('cannontype: ~w', [CannonType]),
         CannonType == diagonalNWSECannon,
-        write('test2right'),
         Row2 is Row - PieceNumber,
         Column2 is Column - PieceNumber,
-        write('test3right'),
         getPiece(Row2, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
-        write('test2'),
         (
         ( Column1 =:= Column - (PieceNumber + 1),
           Row1 =:= Row - (PieceNumber + 1),
-          write('test3'),
           getPiece(Row1, Column1, Board, EnemyPiece),
-          write('test4--'),
           ((Piece == blackSoldier,
-          write('test5--'),
-          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-            write('testcena1')
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
             )
           ;
           (Piece == redSoldier,
-          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-            write('testcena2')
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           ))
         )
         ;
           (Column1 =:= Column - (PieceNumber + 2),
           Row1 =:= Row - (PieceNumber + 2),
-          write('test4'),
           getPiece(Row1, Column1, Board, EnemyPiece),
           format('test5 enemy piece ~w',[EnemyPiece]),
           (
             (Piece == blackSoldier,
-            write('test6'),
-            (EnemyPiece == redSoldier; EnemyPiece == redCityPiece),
-              write('testcena3'))
+            (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
+            )
           ;
             (Piece == redSoldier,
-            (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece),
-              write('testcena4')
+            (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
             )
           )
         )).
