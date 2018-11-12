@@ -964,6 +964,80 @@ validateCaptureNW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
           )
         )).
 
+/* Capture in South West direction for both players */
+
+validateCaptureSW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        CannonType == diagonalSWNECannon,
+        Row2 is Row + (4-PieceNumber),
+        Column2 is Column - (4 - PieceNumber),
+        getPiece(Row2, Column2, Board, EmptyPiece),
+        EmptyPiece == emptyCell,
+        (
+        ( Column1 =:= Column - (5 - PieceNumber),
+          Row1 =:= Row + (5-PieceNumber),
+          getPiece(Row1, Column1, Board, EnemyPiece),
+          ((Piece == blackSoldier,
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
+            )
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
+          ))
+        )
+        ;
+          (Column1 =:= Column - (6 - PieceNumber),
+          Row1 =:= Row + (6-PieceNumber),
+          getPiece(Row1, Column1, Board, EnemyPiece),
+          (
+            (Piece == blackSoldier,
+            (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
+            )
+          ;
+            (Piece == redSoldier,
+            (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
+            )
+          )
+        )).
+
+/* Capture in South East direction for both players */
+
+validateCaptureSE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
+        getPiece(Row, Column, Board, Piece),
+        format('cannontype: ~w', [CannonType]),
+        CannonType == diagonalNWSECannon,
+        Row2 is Row + (4 - PieceNumber),
+        Column2 is Column + (4 - PieceNumber),
+        getPiece(Row2, Column2, Board, EmptyPiece),
+        EmptyPiece == emptyCell,
+        (
+        ( Column1 =:= Column + (5 - PieceNumber),
+          Row1 =:= Row + (5 - PieceNumber),
+          getPiece(Row1, Column1, Board, EnemyPiece),
+          ((Piece == blackSoldier,
+          (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
+            )
+          ;
+          (Piece == redSoldier,
+          (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
+          ))
+        )
+        ;
+          (Column1 =:= Column + (6 - PieceNumber),
+          Row1 =:= Row + (6 - PieceNumber),
+          getPiece(Row1, Column1, Board, EnemyPiece),
+          format('test5 enemy piece ~w',[EnemyPiece]),
+          (
+            (Piece == blackSoldier,
+            (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
+            )
+          ;
+            (Piece == redSoldier,
+            (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
+            )
+          )
+        )).
+
 /* A valid cannon capture can only be in the following ways */
 validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureCannonFront(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
 validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureCannonBack(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
@@ -971,6 +1045,7 @@ validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber
 validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureLeftSide(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
 validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureNE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
 validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureNW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
-/*validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, Position):- validateCaptureRightSide(Row, Column, Row1, Column1, Board), Position = rightSide.
-*/
+validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureSE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
+validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateCaptureSW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
+
 validateCaptureCannon(_, _, _, _, _, _, _):- write('Invalid cell to capture! Select again ..'), nl, fail.
