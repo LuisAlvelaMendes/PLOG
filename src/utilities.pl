@@ -64,3 +64,7 @@ replaceInMatrix([H|T], Row, Column, Value, [H|TNew]) :-
         Row > 0,
         Row1 is Row - 1,
         replaceInMatrix(T, Row1, Column, Value, TNew).
+
+matrix(Matrix, I, J, Value) :-
+    nth0(J, Matrix, Row),
+    nth0(I, Row, Value).

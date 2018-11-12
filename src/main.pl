@@ -9,6 +9,10 @@
 :-include('move.pl').
 :-include('utilities.pl').
 
+:- use_module(library(random)).
+:- use_module(library(system)).
+:- use_module(library(between)).
+
 /* Main game running file, contains game loop */
 
 /* Menu loop */
@@ -27,7 +31,7 @@ cannon:-
         menuOptionMainGame(Selection, NewBoard, RedCityColumn, BlackCityColumn, GameMode),
         GameMode, !.
 
-/* each menu option will have matching city placement predicates to start the game */
+/* Each menu option will have matching city placement predicates to start the game */
 menuOptionCityPlacement(1, Board, NewBoard, RedCityColumn, BlackCityColumn, humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
 menuOptionCityPlacement(2, Board, NewBoard, RedCityColumn, BlackCityColumn, humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
 menuOptionCityPlacement(3, Board, NewBoard, RedCityColumn, BlackCityColumn, computerVsComputer(Board, NewBoard, RedCityColumn, BlackCityColumn)).
@@ -48,6 +52,31 @@ choose_action(Board, NewBoard, Player):-
         read(Answer),
         choose_move_option(Row, Column, Board, Answer, NewBoard, Action),
         Action, !.
+
+choose_action_computer(Board, NewBoard, Player):-
+        repeat,
+        nl,
+        matrix(Board, Row, Column, Cell),
+        Row2 is 10-Row,
+        format('cenas: ~w ~w ~w', [Row2,Column,Cell]),
+        Row1 is Row-1,
+        validateMove(Row2, Column, Row1, Column, Board, CurrentMove),
+        move(CurrentMove, Row, Column, Board, NewBoard),
+        fail.
+
+        /*
+        between(0,10,Row),
+        gen_piece(Row),*/
+
+
+/*
+gen_piece(Row):-
+        repeat,
+        between(0,10,Column),
+        format('X: ~w Y: ~w', [Row,Column]),
+        !,
+        fail.*/
+
 
 check_if_invalid_piece(Row, Column, Board, _):-
         getPiece(Row, Column, Board, Piece),
@@ -113,12 +142,27 @@ capture_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber),
         capture_cannon(Row1, Column1, Board, NewBoard).
 
-/* choosing city with humans */
+/* choosing city - Player vs Player */
 humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
         write('Red player place your city!'), nl,
         placeCity(Board, TempBoard, red, RedCityColumn),
         write('Black player place your city!'), nl,
         placeCity(TempBoard, NewBoard, black, BlackCityColumn).
+
+/* choosing city - Player vs Computer */
+humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
+        write('Red is now choosing city placement'), nl,
+        placeCityComputer(Board, TempBoard, red, RedCityColumn),
+        write('Black player place your city!'), nl,
+        placeCity(TempBoard, NewBoard, black, BlackCityColumn).
+
+placeCityComputer(Board, NewBoard, Player, RedCityColumn):-
+        Player == red,
+        sleep(1),
+        random(1,9,RedCityColumn),
+        replaceInMatrix(Board, 0, RedCityColumn, redCityPiece, NewBoard),
+        display_game(NewBoard).
+
 
 placeCity(Board, NewBoard, Player, RedCityColumn):-
         Player == red,
@@ -151,6 +195,19 @@ humanVsHuman(Board, RedCityColumn, BlackCityColumn):-
         humanVsHuman(FinalBoard, RedCityColumn, BlackCityColumn).
 
 humanVsHuman(_, _, _):- write('Game Over!'), nl.
+
+humanVsComputer(Board, RedCityColumn, BlackCityColumn):-
+        write('Red player turn!'), nl,
+        choose_action_computer(Board, N, red),
+        display_game(N),
+        \+ game_over(N, RedCityColumn, BlackCityColumn),
+        write('Black player turn!'), nl,
+        choose_action(N, FinalBoard, black),
+        display_game(FinalBoard),
+        \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
+        humanVsHuman(FinalBoard, RedCityColumn, BlackCityColumn).
+
+humanVsComputer(_, _, _):- write('Game Over!'), nl.
 
 /* TODO: humanVsComputer:-
 TODO: computerVsComputer */
