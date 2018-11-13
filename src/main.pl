@@ -147,7 +147,7 @@ cannon_choice(Row, Column, Board, NewBoard):-
         FinalAction.
 
 cannon_choice(_, _, _, _):-
-        write('Piece is not in a cannon! '), nl, fail.
+        write('Invalid input!'), nl, fail.
 
 choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, 5, move_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber)).
 choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, 6, capture_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber)).
