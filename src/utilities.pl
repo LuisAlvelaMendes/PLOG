@@ -68,3 +68,8 @@ replaceInMatrix([H|T], Row, Column, Value, [H|TNew]) :-
 matrix(Matrix, I, J, Value) :-
     nth0(J, Matrix, Row),
     nth0(I, Row, Value).
+
+matrixred(Matrix, I, J) :-
+    nth0(J, Matrix, Row),
+    nth0(I, Row, Value),
+    Value == redSoldier.

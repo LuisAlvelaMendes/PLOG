@@ -1,6 +1,7 @@
 /* -*- Mode:Prolog; coding:iso-8859-1; indent-tabs-mode:nil; prolog-indent-width:8; prolog-paren-indent:4; tab-width:8; -*- */
 
 :-include('valid_moves.pl').
+:-include('valid_computer_moves.pl').
 :-include('value.pl').
 :-include('choose_move.pl').
 :-include('game_over.pl').
@@ -56,15 +57,27 @@ choose_action(Board, NewBoard, Player):-
 choose_action_computer(Board, NewBoard, Player):-
         repeat,
         nl,
-        matrix(Board, Row, Column, Cell),
-        Row2 is 10-Row,
-        format('cenas: ~w ~w ~w', [Row2,Column,Cell]),
-        Row1 is Row-1,
-        validateMove(Row2, Column, Row1, Column, Board, CurrentMove),
-        move(CurrentMove, Row, Column, Board, NewBoard),
-        fail.
+        findall([MRow,MColumn],matrixred(Board, MRow, MColumn),RedPieces),
+        length(RedPieces,Len),
+        format('REDPIECES: ~w ', [RedPieces]),
+        random(0,Len,N),
+        nth0(N, RedPieces, Coords),
+        nth0(0, Coords, Column1),
+        nth0(1, Coords, Row1),
+        format('Coords: ~w ~w ', [Row1,Column1]),
+        findall([CurrentMove], validateComputerMove(Row1, Column1, Row2, Column2, Board, CurrentMove), Moves),
+        format('Moves: ~w', [Moves]),
+        length(Moves,LenMoves),
+        random(0,LenMoves,M),
+        nth0(M, Moves, Move),
+        nth0(0, Move, CurrentMove),
+        format('current: ~w',[CurrentMove]),
+        move(CurrentMove, Row1, Column1, Board, NewBoard),
+        !.
 
         /*
+            nth0(J, Matrix, Row),
+            nth0(I, Row, Value),
         between(0,10,Row),
         gen_piece(Row),*/
 
@@ -122,7 +135,7 @@ findall_cannon_possibledirections(Row, Column, Board, Piece, Check, ReturnList):
         findall([CannonType, PieceNumber], checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber), ReturnList),
         length(ReturnList, Size),
         Size > 1.
-        
+
 findall_cannon_possibledirections(_,_, _, _, Check, _):-
         Check = dont.
 
@@ -232,7 +245,7 @@ humanVsComputer(Board, RedCityColumn, BlackCityColumn):-
         choose_action(N, FinalBoard, black),
         display_game(FinalBoard),
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
-        humanVsHuman(FinalBoard, RedCityColumn, BlackCityColumn).
+        humanVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).
 
 humanVsComputer(_, _, _):- write('Game Over!'), nl.
 
