@@ -661,7 +661,6 @@ validateMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNu
         getPiece(Row, Column, Board, Piece),
         Piece == redSoldier,
         CannonType == verticalCannon,
-        format("check validate cannon - Row1: ~w, Row: ~w, PieceNumber: ~w",[Row1,Row,PieceNumber]),
         Row1 =:= Row + (4 - PieceNumber),
         Column1 =:= Column,
         getPiece(Row1, Column1, Board, OtherPiece),
@@ -751,8 +750,6 @@ validateMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceN
 validateMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         CannonType == horizontalCannon,
         Row1 =:= Row,
-        write(Column), nl,
-        write(Column1), nl,
         Column1 =:= Column - PieceNumber,
         getPiece(Row1, Column1, Board, Piece),
         Piece == emptyCell.
@@ -930,7 +927,6 @@ validateCaptureNE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
 
 validateCaptureNW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
-        format('cannontype: ~w', [CannonType]),
         CannonType == diagonalNWSECannon,
         Row2 is Row - PieceNumber,
         Column2 is Column - PieceNumber,
@@ -952,7 +948,6 @@ validateCaptureNW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
           (Column1 =:= Column - (PieceNumber + 2),
           Row1 =:= Row - (PieceNumber + 2),
           getPiece(Row1, Column1, Board, EnemyPiece),
-          format('test5 enemy piece ~w',[EnemyPiece]),
           (
             (Piece == blackSoldier,
             (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
