@@ -99,32 +99,55 @@ findall_cannon_possibledirections(Row, Column, Board, Piece, Check, ReturnList):
 findall_cannon_possibledirections(_,_, _, _, Check, _):-
         Check = dont.
 
-print_list([H|T], I):-
+print_list([H|T], I, FinalNumber):-
         format('~w - ~w', [I, H]), nl,
         I1 is I+1,
-        print_list(T, I1).
+        print_list(T, I1, FinalNumber).
 
-print_list([], _).
+print_list([], I, FinalNumber):- FinalNumber = I.
 
-find_list_element(ReturnList, Number, CannonType, PieceNumber).
+find_list_element([[CannonTypeList, PieceNumberList]|_], 0, CannonType, PieceNumber):- 
+        CannonType = CannonTypeList,
+        PieceNumber = PieceNumberList.
 
-ask_which_cannon(ReturnList, Row, Column, Board, Piece, CannonType, PieceNumber):-
+find_list_element([_|T], Number, CannonType, PieceNumber):-
+        Number > 0,
+        N1 is Number - 1,
+        find_list_element(T, N1, CannonType, PieceNumber).  
+
+check_number_valid(Number, FinalNumber):- Number < FinalNumber, Number >= 0.     
+
+ask_which_cannon(ReturnList, CannonType, PieceNumber):-
+        repeat, nl,
         write('Which cannon? '), nl,
-        print_list(ReturnList, 1),
+        print_list(ReturnList, 0, FinalNumber),
         write('Answer: '),
         read(Number),
+        check_number_valid(Number, FinalNumber),
         find_list_element(ReturnList, Number, CannonType, PieceNumber).
 
 cannon_choice(Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         findall_cannon_possibledirections(Row, Column, Board, Piece, Check, ReturnList),
         Check == ask,
-        /* ask predicates */
-        ask_which_cannon(ReturnList, Row, Column, Board, Piece, CannonType, PieceNumber),
+        ask_which_cannon(ReturnList, CannonType, PieceNumber),
         write('Move cannon(5), or capture with cannon(6)? '),
         read(Answer),
         choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, Answer, FinalAction),
         FinalAction.
+
+cannon_choice(Row, Column, Board, NewBoard):-
+        getPiece(Row, Column, Board, Piece),
+        findall_cannon_possibledirections(Row, Column, Board, Piece, Check, _),
+        Check == dont,
+        checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber),
+        write('Move cannon(5), or capture with cannon(6)? '),
+        read(Answer),
+        choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, Answer, FinalAction),
+        FinalAction.
+
+cannon_choice(_, _, _, _):-
+        write('Piece is not in a cannon! '), nl, fail.
 
 choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, 5, move_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber)).
 choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, 6, capture_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber)).
