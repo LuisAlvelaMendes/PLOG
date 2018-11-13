@@ -648,8 +648,6 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         getPiece(Row2, Column2, Board, SecondFrontPiece),
         SecondFrontPiece == Piece.
 
-checkPieceInCannon(_, _, _, _, _, _):- write('This Piece is not in a cannon!'), nl, fail.
-
 /* now for actual movement validity */
 
 /* forward */
