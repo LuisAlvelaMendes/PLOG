@@ -9,6 +9,8 @@
 :-include('move.pl').
 :-include('utilities.pl').
 
+:- use_module(library(between)).
+
 /* Main game running file, contains game loop */
 
 /* Menu loop */
@@ -88,10 +90,37 @@ capture_choice(Row, Column, Board, NewBoard):-
         validateCapture(Row, Column, Row1, Column1, Board, Position),
         move(Position, Row, Column, Board, NewBoard).
 
+findall_cannon_possibledirections(Row, Column, Board, Piece, Check, ReturnList):-
+        Check = ask,
+        findall([CannonType, PieceNumber], checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber), ReturnList),
+        length(ReturnList, Size),
+        Size > 1.
+        
+findall_cannon_possibledirections(_,_, _, _, Check, _):-
+        Check = dont.
+
+print_list([H|T], I):-
+        format('~w - ~w', [I, H]), nl,
+        I1 is I+1,
+        print_list(T, I1).
+
+print_list([], _).
+
+find_list_element(ReturnList, Number, CannonType, PieceNumber).
+
+ask_which_cannon(ReturnList, Row, Column, Board, Piece, CannonType, PieceNumber):-
+        write('Which cannon? '), nl,
+        print_list(ReturnList, 1),
+        write('Answer: '),
+        read(Number),
+        find_list_element(ReturnList, Number, CannonType, PieceNumber).
+
 cannon_choice(Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
-        checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber), !,
-        format('Piece: ~w', [PieceNumber]),
+        findall_cannon_possibledirections(Row, Column, Board, Piece, Check, ReturnList),
+        Check == ask,
+        /* ask predicates */
+        ask_which_cannon(ReturnList, Row, Column, Board, Piece, CannonType, PieceNumber),
         write('Move cannon(5), or capture with cannon(6)? '),
         read(Answer),
         choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, Answer, FinalAction),
