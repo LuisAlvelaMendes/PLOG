@@ -56,24 +56,20 @@ choose_action(Board, NewBoard, Player):-
 
 choose_action_computer(Board, NewBoard, Player):-
         repeat,
+        Player == red,
         nl,
         findall([MRow,MColumn],matrixred(Board, MRow, MColumn),RedPieces),
         length(RedPieces,Len),
-        format('REDPIECES: ~w ', [RedPieces]),
         random(0,Len,N),
         nth0(N, RedPieces, Coords),
         nth0(0, Coords, Column1),
         nth0(1, Coords, Row1),
-        format('Coords: ~w ~w ', [Row1,Column1]),
-        findall([CurrentMove], validateComputerMove(Row1, Column1, Row2, Column2, Board, CurrentMove), Moves),
-        format('Moves: ~w', [Moves]),
+        findall([CurrentMove], validateComputerMove(Row1, Column1, _, _, Board, CurrentMove), Moves),
         length(Moves,LenMoves),
         random(0,LenMoves,M),
         nth0(M, Moves, Move),
         nth0(0, Move, CurrentMove),
-        format('current: ~w',[CurrentMove]),
-        move(CurrentMove, Row1, Column1, Board, NewBoard),
-        !.
+        move(CurrentMove, Row1, Column1, Board, NewBoard).
 
         /*
             nth0(J, Matrix, Row),

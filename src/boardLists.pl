@@ -1,7 +1,7 @@
 initialBoard([
                      [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
                      [emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
-                     [emptyCell, redSoldier, redSoldier, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
+                     [emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
                      [emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
                      [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
                      [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],

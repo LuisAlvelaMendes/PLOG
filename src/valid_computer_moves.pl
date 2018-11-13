@@ -1,4 +1,4 @@
-/* -*- Mode:Prolog; coding:=o-8859-1; indent-tabs-mode:nil; prolog-indent-width:8; prolog-paren-indent:4; tab-width:8; -*- */
+/* -*- Mode:Prolog; coding:=iso-8859-1; indent-tabs-mode:nil; prolog-indent-width:8; prolog-paren-indent:4; tab-width:8; -*- */
 :- use_module(library(aggregate)).
 :- use_module(library(lists)).
 :- use_module(library(clpfd)).
@@ -215,12 +215,11 @@ validateComputerCaptureRightSide(Row, Column, Row1, Column1, Board):-
   (OtherPiece == redSoldier ; OtherPiece == redCityPiece).
 
 /* to retreat we need a predicate to deterimne if there are enemies nearby */
-checkNearbyEnemies(Row, Column, Board):- validateComputerFrontEnemy(Row, Column, Board).
-checkNearbyEnemies(Row, Column, Board):- validateComputerLeftAdjacentFrontEnemy(Row, Column, Board).
-checkNearbyEnemies(Row, Column, Board):- validateComputerRightAdjacentFrontEnemy(Row, Column, Board).
-checkNearbyEnemies(Row, Column, Board):- validateComputerLeftSideEnemy(Row, Column, Board).
-checkNearbyEnemies(Row, Column, Board):- validateComputerRightSideEnemy(Row, Column, Board).
-checkNearbyEnemies(_, _, _):- write('There are no enemies nearby'), nl, !, fail.
+checkComputerNearbyEnemies(Row, Column, Board):- validateComputerFrontEnemy(Row, Column, Board).
+checkComputerNearbyEnemies(Row, Column, Board):- validateComputerLeftAdjacentFrontEnemy(Row, Column, Board).
+checkComputerNearbyEnemies(Row, Column, Board):- validateComputerRightAdjacentFrontEnemy(Row, Column, Board).
+checkComputerNearbyEnemies(Row, Column, Board):- validateComputerLeftSideEnemy(Row, Column, Board).
+checkComputerNearbyEnemies(Row, Column, Board):- validateComputerRightSideEnemy(Row, Column, Board).
 
 /* front checking for enemies */
 
@@ -346,7 +345,7 @@ validateComputerRightSideEnemy(Row, Column, Row1, Column1, Board):-
 validateComputerRetreatBack(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
-  checkNearbyEnemies(Row, Column, Board),
+  checkComputerNearbyEnemies(Row, Column, Board),
   Row1 = Row - 2,
   Column1 = Column,
   Row1 >= 0,
@@ -360,7 +359,7 @@ validateComputerRetreatBack(Row, Column, Row1, Column1, Board):-
 validateComputerRetreatBack(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
-  checkNearbyEnemies(Row, Column, Board),
+  checkComputerNearbyEnemies(Row, Column, Board),
   Row1 = Row + 2,
   Column1 = Column,
   Row1 =< 9,
@@ -376,7 +375,7 @@ validateComputerRetreatBack(Row, Column, Row1, Column1, Board):-
 validateComputerRetreatLeft(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
-  checkNearbyEnemies(Row, Column, Board),
+  checkComputerNearbyEnemies(Row, Column, Board),
   Row1 = Row - 2,
   Column1 = Column - 2,
   Row1 =< 9,
@@ -391,7 +390,7 @@ validateComputerRetreatLeft(Row, Column, Row1, Column1, Board):-
 validateComputerRetreatLeft(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
-  checkNearbyEnemies(Row, Column, Board),
+  checkComputerNearbyEnemies(Row, Column, Board),
   Row1 = Row + 2,
   Column1 = Column - 2,
   Row1 =< 9,
@@ -408,7 +407,7 @@ validateComputerRetreatLeft(Row, Column, Row1, Column1, Board):-
 validateComputerRetreatRight(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
-  checkNearbyEnemies(Row, Column, Board),
+  checkComputerNearbyEnemies(Row, Column, Board),
   Row1 = Row - 2,
   Column1 = Column + 2,
   Row1 =< 9,
@@ -423,7 +422,7 @@ validateComputerRetreatRight(Row, Column, Row1, Column1, Board):-
 validateComputerRetreatRight(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
-  checkNearbyEnemies(Row, Column, Board),
+  checkComputerNearbyEnemies(Row, Column, Board),
   Row1 = Row + 2,
   Column1 = Column + 2,
   Row1 =< 9,
@@ -441,9 +440,6 @@ validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateC
 validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerRetreatBack(Row, Column, Row1, Column1, Board), CurrentMove = back.
 validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerRetreatLeft(Row, Column, Row1, Column1, Board), CurrentMove = backLeft.
 validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerRetreatRight(Row, Column, Row1, Column1, Board), CurrentMove = backRight.
-
-/* And if neither of those checked out, then he picked an invalid movement option .. */
-validateComputerMove(_, _, _, _, _, _):- write('Invalid cell to move to! Select again ..'), nl, fail.
 
 /* A valid capture can only be in the follwing ways */
 validateComputerCapture(Row, Column, Row1, Column1, Board, Position):- validateComputerCaptureFront(Row, Column, Row1, Column1, Board), Position = front.
@@ -999,7 +995,6 @@ validateComputerCaptureSW(Row, Column, Row1, Column1, Board, CannonType, PieceNu
 
 validateComputerCaptureSE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         getPiece(Row, Column, Board, Piece),
-        format('cannontype: ~w', [CannonType]),
         CannonType == diagonalNWSECannon,
         Row2 is Row + (4 - PieceNumber),
         Column2 is Column + (4 - PieceNumber),
@@ -1021,7 +1016,6 @@ validateComputerCaptureSE(Row, Column, Row1, Column1, Board, CannonType, PieceNu
           (Column1 = Column + (6 - PieceNumber),
           Row1 = Row + (6 - PieceNumber),
           getPiece(Row1, Column1, Board, EnemyPiece),
-          format('test5 enemy piece ~w',[EnemyPiece]),
           (
             (Piece == blackSoldier,
             (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
