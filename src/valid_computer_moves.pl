@@ -467,7 +467,7 @@ validateComputerCapture(_, _, _, _, _, _):- write('Invalid cell to capture! Sele
 */
 
 /* imagining Piece1 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 1,
         Row2 is Row + 1,
@@ -480,7 +480,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         SecondBackPiece == Piece.
 
 /* imagining Piece 2 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 2,
         Row1 is Row - 1,
@@ -493,7 +493,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         BackPiece == Piece.
 
 /* imagining Piece 3 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = verticalCannon,
         PieceNumber = 3,
         Row1 is Row - 1,
@@ -514,7 +514,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
 */
 
 /* imagining Piece1 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalNWSECannon,
         PieceNumber = 1,
         Row2 is Row + 1,
@@ -528,7 +528,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
 
 
 /* imagining Piece 2 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalNWSECannon,
         PieceNumber = 2,
         Row1 is Row - 1,
@@ -542,7 +542,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
 
 
 /* imagining Piece 3 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalNWSECannon,
         PieceNumber = 3,
         Row1 is Row - 1,
@@ -563,7 +563,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
 */
 
 /* imagining Piece1 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalSWNECannon,
         PieceNumber = 1,
         Row2 is Row + 1,
@@ -576,7 +576,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         SecondBackPiece == Piece.
 
 /* imagining Piece 2 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalSWNECannon,
         PieceNumber = 2,
         Row1 is Row - 1,
@@ -589,7 +589,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         BackPiece == Piece.
 
 /* imagining Piece 3 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = diagonalSWNECannon,
         PieceNumber = 3,
         Row1 is Row - 1,
@@ -606,7 +606,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
 /* Piece1 Piece2 Piece3 */
 
 /* imagining Piece1 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = horizontalCannon,
         PieceNumber = 1,
         Row2 is Row,
@@ -619,7 +619,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         SecondBackPiece == Piece.
 
 /* imagining Piece 2 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = horizontalCannon,
         PieceNumber = 2,
         Row1 is Row,
@@ -632,7 +632,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         BackPiece == Piece.
 
 /* imagining Piece 3 */
-checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
+checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         CannonType = horizontalCannon,
         PieceNumber = 3,
         Row1 is Row,
@@ -644,7 +644,7 @@ checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber):-
         getPiece(Row2, Column2, Board, SecondFrontPiece),
         SecondFrontPiece == Piece.
 
-checkPieceInCannon(_, _, _, _, _, _):- write('This Piece is not in a cannon!'), nl, fail.
+checkPieceInCannonComputer(_, _, _, _, _, _):- write('This Piece is not in a cannon!'), nl, fail.
 
 /* now for actual movement validity */
 
@@ -779,13 +779,13 @@ validateComputerCaptureCannonFront(Row, Column, Row1, Column1, Board, CannonType
         ;
           (Row1 = Row - (PieceNumber+2),
           getPiece(Row1, Column, Board, EnemyPiece),
-          (Piece == blackSoldier,
+          ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece))
           ;
           (Piece == redSoldier,
           (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           )
-        )).
+        ))).
 
 /* Capture up for both players */
 
@@ -810,14 +810,14 @@ validateComputerCaptureCannonBack(Row, Column, Row1, Column1, Board, CannonType,
         ;
           (Row1 = Row + (5-PieceNumber),
           getPiece(Row1, Column, Board, EnemyPiece),
-          (Piece == blackSoldier,
+          ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
           )
           ;
           (Piece == redSoldier,
           (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           )
-        )).
+        ))).
 
 /* Capture left for both players */
 

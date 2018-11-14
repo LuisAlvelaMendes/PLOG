@@ -781,13 +781,13 @@ validateCaptureCannonFront(Row, Column, Row1, Column1, Board, CannonType, PieceN
         ;
           (Row1 =:= Row - (PieceNumber+2),
           getPiece(Row1, Column, Board, EnemyPiece),
-          (Piece == blackSoldier,
+          ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece))
           ;
           (Piece == redSoldier,
           (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           )
-        )).
+        ))).
 
 /* Capture up for both players */
 
@@ -812,14 +812,14 @@ validateCaptureCannonBack(Row, Column, Row1, Column1, Board, CannonType, PieceNu
         ;
           (Row1 =:= Row + (5-PieceNumber),
           getPiece(Row1, Column, Board, EnemyPiece),
-          (Piece == blackSoldier,
+          ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
           )
           ;
           (Piece == redSoldier,
           (EnemyPiece == blackSoldier; EnemyPiece == blackCityPiece)
           )
-        )).
+        ))).
 
 /* Capture left for both players */
 
