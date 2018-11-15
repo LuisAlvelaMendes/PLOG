@@ -55,8 +55,14 @@ placeCityComputer(Board, NewBoard, Player, RedCityColumn):-
         Player == red,
         sleep(1),
         random(1,9,RedCityColumn),
-        format('~w:', RedCityColumn),
         replaceInMatrix(Board, 0, RedCityColumn, redCityPiece, NewBoard),
+        display_game(NewBoard).
+
+placeCityComputer(Board, NewBoard, Player, BlackCityColumn):-
+        Player == black,
+        sleep(1),
+        random(1,9, BlackCityColumn),
+        replaceInMatrix(Board, 9, BlackCityColumn, blackCityPiece, NewBoard),
         display_game(NewBoard).
 
 /* checks if a selected piece is valid or not */
@@ -148,3 +154,8 @@ matrixred(Matrix, I, J) :-
     nth0(J, Matrix, Row),
     nth0(I, Row, Value),
     Value == redSoldier.
+
+matrixblack(Matrix, I, J) :-
+    nth0(J, Matrix, Row),
+    nth0(I, Row, Value),
+    Value == blackSoldier.

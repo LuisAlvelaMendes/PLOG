@@ -2,8 +2,8 @@
 :- use_module(library(lists)).
 
 /* game over occurs whenever the redCityPiece or the blackCityPiece are no longer in play, which means they were taken by the opposite Player */
-game_over(Board, RedCityColumn, _):- lookForRedCity(Board, RedCityColumn), write('Black wins!'), nl.
-game_over(Board, _, BlackCityColumn):- lookForBlackCity(Board, BlackCityColumn), write('Red wins!'), nl.
+game_over(Board, RedCityColumn, _):-  lookForRedCity(Board, RedCityColumn), write('Black wins! Game Over!'), nl.
+game_over(Board, _, BlackCityColumn):- lookForBlackCity(Board, BlackCityColumn), write('Red wins! Game Over!'), nl.
 
 /* the red city was either taken by cannon (leaving the cell empty) or there is a blackSoldier there */
 lookForRedCity(Board, RedCityColumn):-

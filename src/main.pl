@@ -18,9 +18,9 @@
 
 /* Menu loop */
 cannon:-
-        repeat,
+        repeat, 
         mainMenu,
-        write('Enter game mode: '),
+        write('Enter game mode: '), 
         read(Selection),
         Selection >= 1,
         Selection =< 3,
@@ -28,14 +28,14 @@ cannon:-
         display_game(Board),
         /* first thing to do in any gamemode is to place the city */
         menuOptionCityPlacement(Selection, Board, NewBoard, RedCityColumn, BlackCityColumn, CityPlacementMethod),
-        CityPlacementMethod,
+        CityPlacementMethod, !,
         menuOptionMainGame(Selection, NewBoard, RedCityColumn, BlackCityColumn, GameMode),
         GameMode, !.
 
 /* Each menu option will have matching city placement predicates to start the game */
 menuOptionCityPlacement(1, Board, NewBoard, RedCityColumn, BlackCityColumn, humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
 menuOptionCityPlacement(2, Board, NewBoard, RedCityColumn, BlackCityColumn, humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
-menuOptionCityPlacement(3, Board, NewBoard, RedCityColumn, BlackCityColumn, computerVsComputer(Board, NewBoard, RedCityColumn, BlackCityColumn)).
+menuOptionCityPlacement(3, Board, NewBoard, RedCityColumn, BlackCityColumn, computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
 
 /* Each menu option will have a matching selection for what game to play's main logic */
 menuOptionMainGame(1, Board, RedCityColumn, BlackCityColumn, humanVsHuman(Board, RedCityColumn, BlackCityColumn)).
@@ -49,7 +49,7 @@ humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
         write('Red player place your city!'), nl,
         placeCity(Board, TempBoard, red, RedCityColumn),
         write('Black player place your city!'), nl,
-        placeCity(TempBoard, NewBoard, black, BlackCityColumn).
+        placeCity(TempBoard, NewBoard, black, BlackCityColumn), !.
 
 /* choosing actions within the game */
 choose_action(Board, NewBoard, Player):-
@@ -144,70 +144,16 @@ humanVsHuman(Board, RedCityColumn, BlackCityColumn):-
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
         humanVsHuman(FinalBoard, RedCityColumn, BlackCityColumn).
 
-humanVsHuman(_, _, _):- write('Game Over!'), nl.
+humanVsHuman(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityColumn, BlackCityColumn).
 
-/* COMPUTER logic */
+/* COMPUTER logic human vs computer*/
 
 /* choosing city - Player vs Computer */
 humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
         write('Red is now choosing city placement'), nl,
         placeCityComputer(Board, TempBoard, red, RedCityColumn),
         write('Black player place your city!'), nl,
-        placeCity(TempBoard, NewBoard, black, BlackCityColumn).
-
-/* choosing an action presuming bot has nearby enemies he will either capture or retreat, else, he will move */
-choose_action_computer(Board, NewBoard, Player):-
-        Player == red,
-        nl,
-        findall([MRow,MColumn],matrixred(Board, MColumn, MRow),RedPieces),
-        length(RedPieces,Len),
-        random(0,Len,N),
-        nth0(N, RedPieces, Coords),
-        nth0(0, Coords, Row),
-        nth0(1, Coords, Column),
-        
-        (checkComputerNearbyEnemies(Row, Column, Board) ->
-         
-        /* found nearby enemy */
-        /* tries to retreat if possible, if not, will capture */
-       
-        choose_to_capture_or_retreat(Row, Column, Board, NewBoard, _)
-        
-        ;
-         
-        /* move the piece */
-        choose_to_move_computer(Row, Column, Board, NewBoard, _)
-        
-        ).
-
-/* retreat */
-choose_to_capture_or_retreat(Row1, Column1, Board, NewBoard, CurrentMove):-
-        write('entered retreat'), nl, 
-        findall([CurrentMove], validateComputerRetreat(Row1, Column1, _, _, Board, CurrentMove), Moves),
-        length(Moves,LenMoves),
-        random(0,LenMoves,M),
-        nth0(M, Moves, Move),
-        nth0(0, Move, CurrentMove),
-        move(CurrentMove, Row1, Column1, Board, NewBoard).
-
-/* capture*/
-choose_to_capture_or_retreat(Row1, Column1, Board, NewBoard, Position):-
-        write('no retreat possible, capturing'), nl,
-        write('entered capture'), nl,
-        findall([Position], validateComputerCapture(Row1, Column1, _, _, Board, Position), Positions),
-        length(Positions,LenPositions),
-        random(0,LenPositions,M),
-        nth0(M, Positions, Pos),
-        nth0(0, Pos, Position),
-        move(Position, Row1, Column1, Board, NewBoard).
-
-choose_to_move_computer(Row1, Column1, Board, NewBoard, CurrentMove):-
-        findall([CurrentMove], validateComputerMove(Row1, Column1, _, _, Board, CurrentMove), Moves),
-        length(Moves,LenMoves),
-        random(0,LenMoves,M),
-        nth0(M, Moves, Move),
-        nth0(0, Move, CurrentMove),
-        move(CurrentMove, Row1, Column1, Board, NewBoard).
+        placeCity(TempBoard, NewBoard, black, BlackCityColumn), !.
 
 /* Main loop */
 
@@ -215,14 +161,37 @@ humanVsComputer(Board, RedCityColumn, BlackCityColumn):-
         write('Red player turn!'), nl,
         choose_action_computer(Board, N, red),
         display_game(N),
-        \+ game_over(N, RedCityColumn, BlackCityColumn),
+        \+ game_over(N, RedCityColumn, BlackCityColumn), 
         write('Black player turn!'), nl,
         choose_action(N, FinalBoard, black),
-        display_game(FinalBoard),
+        display_game(FinalBoard), 
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
         humanVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).
 
-humanVsComputer(_, _, _):- write('Game Over!'), nl.
+humanVsComputer(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityColumn, BlackCityColumn).
 
+/* COMPUTER ONLY */
 
-/* TODO: computerVsComputer */
+/* choosing city - Player vs Computer */
+computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
+        write('Red is now choosing city placement'), nl,
+        placeCityComputer(Board, TempBoard, red, RedCityColumn),
+        write('Black is now choosing city placement'), nl,
+        placeCityComputer(TempBoard, NewBoard, black, BlackCityColumn), !.
+
+/* Main loop */
+
+computerVsComputer(Board, RedCityColumn, BlackCityColumn):-
+        write('Red player turn!'), nl,
+        choose_action_computer(Board, N, red),
+        sleep(1),
+        display_game(N),
+        \+ game_over(N, RedCityColumn, BlackCityColumn),
+        write('Black player turn!'), nl,
+        choose_action_computer(N, FinalBoard, black),
+        sleep(1),
+        display_game(FinalBoard),
+        \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
+        computerVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).
+
+computerVsComputer(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityColumn, BlackCityColumn).
