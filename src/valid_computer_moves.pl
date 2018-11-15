@@ -437,9 +437,10 @@ validateComputerRetreatRight(Row, Column, Row1, Column1, Board):-
 validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerMoveFront(Row, Column, Row1, Column1, Board), CurrentMove = front.
 validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerMoveLeftAdjacentFront(Row, Column, Row1, Column1, Board), CurrentMove = frontLeft.
 validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerMoveRightAdjacentFront(Row, Column, Row1, Column1, Board), CurrentMove = frontRight.
-validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerRetreatBack(Row, Column, Row1, Column1, Board), CurrentMove = back.
-validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerRetreatLeft(Row, Column, Row1, Column1, Board), CurrentMove = backLeft.
-validateComputerMove(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerRetreatRight(Row, Column, Row1, Column1, Board), CurrentMove = backRight.
+
+validateComputerRetreat(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerRetreatBack(Row, Column, Row1, Column1, Board), CurrentMove = back.
+validateComputerRetreat(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerRetreatLeft(Row, Column, Row1, Column1, Board), CurrentMove = backLeft.
+validateComputerRetreat(Row, Column, Row1, Column1, Board, CurrentMove):- validateComputerRetreatRight(Row, Column, Row1, Column1, Board), CurrentMove = backRight.
 
 /* A valid capture can only be in the follwing ways */
 validateComputerCapture(Row, Column, Row1, Column1, Board, Position):- validateComputerCaptureFront(Row, Column, Row1, Column1, Board), Position = front.
@@ -447,8 +448,6 @@ validateComputerCapture(Row, Column, Row1, Column1, Board, Position):- validateC
 validateComputerCapture(Row, Column, Row1, Column1, Board, Position):- validateComputerCaptureRightAdjacentFront(Row, Column, Row1, Column1, Board), Position = frontRight.
 validateComputerCapture(Row, Column, Row1, Column1, Board, Position):- validateComputerCaptureLeftSide(Row, Column, Row1, Column1, Board), Position = leftSide.
 validateComputerCapture(Row, Column, Row1, Column1, Board, Position):- validateComputerCaptureRightSide(Row, Column, Row1, Column1, Board), Position = rightSide.
-
-validateComputerCapture(_, _, _, _, _, _):- write('Invalid cell to capture! Select again ..'), nl, fail.
 
 /* Option 2: use cannon */
 

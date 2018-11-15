@@ -42,6 +42,15 @@ menuOptionMainGame(1, Board, RedCityColumn, BlackCityColumn, humanVsHuman(Board,
 menuOptionMainGame(2, Board, RedCityColumn, BlackCityColumn, humanVsComputer(Board, RedCityColumn, BlackCityColumn)).
 menuOptionMainGame(3, Board, RedCityColumn, BlackCityColumn, computerVsComputer(Board, RedCityColumn, BlackCityColumn)).
 
+/* HUMANS logic */
+
+/* choosing city - Player vs Player */
+humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
+        write('Red player place your city!'), nl,
+        placeCity(Board, TempBoard, red, RedCityColumn),
+        write('Black player place your city!'), nl,
+        placeCity(TempBoard, NewBoard, black, BlackCityColumn).
+
 /* choosing actions within the game */
 choose_action(Board, NewBoard, Player):-
         repeat,
@@ -54,66 +63,11 @@ choose_action(Board, NewBoard, Player):-
         choose_move_option(Row, Column, Board, Answer, NewBoard, Action),
         Action, !.
 
-choose_action_computer(Board, NewBoard, Player):-
-        repeat,
-        Player == red,
-        nl,
-        findall([MRow,MColumn],matrixred(Board, MRow, MColumn),RedPieces),
-        length(RedPieces,Len),
-        random(0,Len,N),
-        nth0(N, RedPieces, Coords),
-        nth0(0, Coords, Column1),
-        nth0(1, Coords, Row1),
-        findall([CurrentMove], validateComputerMove(Row1, Column1, _, _, Board, CurrentMove), Moves),
-        length(Moves,LenMoves),
-        random(0,LenMoves,M),
-        nth0(M, Moves, Move),
-        nth0(0, Move, CurrentMove),
-        move(CurrentMove, Row1, Column1, Board, NewBoard).
-
-        /*
-            nth0(J, Matrix, Row),
-            nth0(I, Row, Value),
-        between(0,10,Row),
-        gen_piece(Row),*/
-
-
-/*
-gen_piece(Row):-
-        repeat,
-        between(0,10,Column),
-        format('X: ~w Y: ~w', [Row,Column]),
-        !,
-        fail.*/
-
-
-check_if_invalid_piece(Row, Column, Board, _):-
-        getPiece(Row, Column, Board, Piece),
-        (Piece == emptyCell ; Piece == redCityPiece ; Piece == blackCityPiece),
-        write('This piece cannot be moved.'), nl,
-        !, fail.
-
-check_if_invalid_piece(Row, Column, Board, Player):-
-        getPiece(Row, Column, Board, Piece),
-        Player == red,
-        Piece == blackSoldier,
-        write('Red player can only move red soldiers.'), nl,
-        !, fail.
-
-check_if_invalid_piece(Row, Column, Board, Player):-
-        getPiece(Row, Column, Board, Piece),
-        Player == black,
-        Piece == redSoldier,
-        write('Black player can only move black soldiers.'), nl,
-        !, fail.
-
-check_if_invalid_piece(_, _, _, _).
-
 choose_move_option(Row, Column, Board, 1, NewBoard, move_choice(Row, Column, Board, NewBoard)).
 choose_move_option(Row, Column, Board, 2, NewBoard, capture_choice(Row, Column, Board, NewBoard)).
 choose_move_option(Row, Column, Board, 3, NewBoard, cannon_choice(Row, Column, Board, NewBoard)).
 
-/* to move piece forward */
+/* move and capture */
 move_choice(Row, Column, Board, NewBoard):-
         write('Where do you want to move?'), nl,
         askCoords(Row1, Column1),
@@ -126,32 +80,8 @@ capture_choice(Row, Column, Board, NewBoard):-
         validateCapture(Row, Column, Row1, Column1, Board, Position),
         move(Position, Row, Column, Board, NewBoard).
 
-findall_cannon_possibledirections(Row, Column, Board, Piece, Check, ReturnList):-
-        Check = ask,
-        findall([CannonType, PieceNumber], checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber), ReturnList),
-        length(ReturnList, Size),
-        Size > 1.
-
-findall_cannon_possibledirections(_,_, _, _, Check, _):-
-        Check = dont.
-
-print_list([H|T], I, FinalNumber):-
-        format('~w - ~w', [I, H]), nl,
-        I1 is I+1,
-        print_list(T, I1, FinalNumber).
-
-print_list([], I, FinalNumber):- FinalNumber = I.
-
-find_list_element([[CannonTypeList, PieceNumberList]|_], 0, CannonType, PieceNumber):- 
-        CannonType = CannonTypeList,
-        PieceNumber = PieceNumberList.
-
-find_list_element([_|T], Number, CannonType, PieceNumber):-
-        Number > 0,
-        N1 is Number - 1,
-        find_list_element(T, N1, CannonType, PieceNumber).  
-
-check_number_valid(Number, FinalNumber):- Number < FinalNumber, Number >= 0.     
+/* cannons */
+check_number_valid(Number, FinalNumber):- Number < FinalNumber, Number >= 0.    
 
 ask_which_cannon(ReturnList, CannonType, PieceNumber):-
         repeat, nl,
@@ -201,46 +131,7 @@ capture_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber),
         capture_cannon(Row1, Column1, Board, NewBoard).
 
-/* choosing city - Player vs Player */
-humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
-        write('Red player place your city!'), nl,
-        placeCity(Board, TempBoard, red, RedCityColumn),
-        write('Black player place your city!'), nl,
-        placeCity(TempBoard, NewBoard, black, BlackCityColumn).
-
-/* choosing city - Player vs Computer */
-humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
-        write('Red is now choosing city placement'), nl,
-        placeCityComputer(Board, TempBoard, red, RedCityColumn),
-        write('Black player place your city!'), nl,
-        placeCity(TempBoard, NewBoard, black, BlackCityColumn).
-
-placeCityComputer(Board, NewBoard, Player, RedCityColumn):-
-        Player == red,
-        sleep(1),
-        random(1,9,RedCityColumn),
-        replaceInMatrix(Board, 0, RedCityColumn, redCityPiece, NewBoard),
-        display_game(NewBoard).
-
-
-placeCity(Board, NewBoard, Player, RedCityColumn):-
-        Player == red,
-        write('Where to place?'), nl,
-        askColumn(RedCityColumn),
-        validateCityPlace(RedCityColumn, Player),
-        replaceInMatrix(Board, 0, RedCityColumn, redCityPiece, NewBoard),
-        display_game(NewBoard).
-
-placeCity(Board, NewBoard, Player, BlackCityColumn):-
-        Player == black,
-        write('Where to place?'), nl,
-        askColumn(BlackCityColumn),
-        validateCityPlace(BlackCityColumn, Player),
-        replaceInMatrix(Board, 9, BlackCityColumn, blackCityPiece, NewBoard),
-        display_game(NewBoard).
-
 /* Main game loop */
-/* Eventually, all logic will go here, tying down all the other .pl files, as of now only prints the intermedium board */
 
 humanVsHuman(Board, RedCityColumn, BlackCityColumn):-
         write('Red player turn!'), nl,
@@ -255,6 +146,71 @@ humanVsHuman(Board, RedCityColumn, BlackCityColumn):-
 
 humanVsHuman(_, _, _):- write('Game Over!'), nl.
 
+/* COMPUTER logic */
+
+/* choosing city - Player vs Computer */
+humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
+        write('Red is now choosing city placement'), nl,
+        placeCityComputer(Board, TempBoard, red, RedCityColumn),
+        write('Black player place your city!'), nl,
+        placeCity(TempBoard, NewBoard, black, BlackCityColumn).
+
+/* choosing an action presuming bot has nearby enemies he will either capture or retreat, else, he will move */
+choose_action_computer(Board, NewBoard, Player):-
+        Player == red,
+        nl,
+        findall([MRow,MColumn],matrixred(Board, MColumn, MRow),RedPieces),
+        length(RedPieces,Len),
+        random(0,Len,N),
+        nth0(N, RedPieces, Coords),
+        nth0(0, Coords, Row),
+        nth0(1, Coords, Column),
+        
+        (checkComputerNearbyEnemies(Row, Column, Board) ->
+         
+        /* found nearby enemy */
+        /* tries to retreat if possible, if not, will capture */
+       
+        choose_to_capture_or_retreat(Row, Column, Board, NewBoard, _)
+        
+        ;
+         
+        /* move the piece */
+        choose_to_move_computer(Row, Column, Board, NewBoard, _)
+        
+        ).
+
+/* retreat */
+choose_to_capture_or_retreat(Row1, Column1, Board, NewBoard, CurrentMove):-
+        write('entered retreat'), nl, 
+        findall([CurrentMove], validateComputerRetreat(Row1, Column1, _, _, Board, CurrentMove), Moves),
+        length(Moves,LenMoves),
+        random(0,LenMoves,M),
+        nth0(M, Moves, Move),
+        nth0(0, Move, CurrentMove),
+        move(CurrentMove, Row1, Column1, Board, NewBoard).
+
+/* capture*/
+choose_to_capture_or_retreat(Row1, Column1, Board, NewBoard, Position):-
+        write('no retreat possible, capturing'), nl,
+        write('entered capture'), nl,
+        findall([Position], validateComputerCapture(Row1, Column1, _, _, Board, Position), Positions),
+        length(Positions,LenPositions),
+        random(0,LenPositions,M),
+        nth0(M, Positions, Pos),
+        nth0(0, Pos, Position),
+        move(Position, Row1, Column1, Board, NewBoard).
+
+choose_to_move_computer(Row1, Column1, Board, NewBoard, CurrentMove):-
+        findall([CurrentMove], validateComputerMove(Row1, Column1, _, _, Board, CurrentMove), Moves),
+        length(Moves,LenMoves),
+        random(0,LenMoves,M),
+        nth0(M, Moves, Move),
+        nth0(0, Move, CurrentMove),
+        move(CurrentMove, Row1, Column1, Board, NewBoard).
+
+/* Main loop */
+
 humanVsComputer(Board, RedCityColumn, BlackCityColumn):-
         write('Red player turn!'), nl,
         choose_action_computer(Board, N, red),
@@ -268,5 +224,5 @@ humanVsComputer(Board, RedCityColumn, BlackCityColumn):-
 
 humanVsComputer(_, _, _):- write('Game Over!'), nl.
 
-/* TODO: humanVsComputer:-
-TODO: computerVsComputer */
+
+/* TODO: computerVsComputer */

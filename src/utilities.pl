@@ -1,7 +1,6 @@
 /* -*- Mode:Prolog; coding:iso-8859-1; indent-tabs-mode:nil; prolog-indent-width:8; prolog-paren-indent:4; tab-width:8; -*- */
 
-/* Asks user for which Piece he intends to move, each has to be converted to an index */
-/* TODO: use name/2 to make it so you only input 1 line like: cell E2 */
+/* Asks user for which Piece he intends to move, using _codes functions to make it so you only input 1 line like: cell "e2." */
 checkEmptyPossibleTail([]).
 parseCoordsList([Column | [Row | PossibleTail ] ], ColumnUserSelected, RowUserSelected):- checkEmptyPossibleTail(PossibleTail), atom_codes(ColumnUserSelected, [Column]), number_codes(RowUserSelected, [Row]).
 parseCoordsList([Column | [_ | [PossibleTail | [] ] ] ], ColumnUserSelected, RowUserSelected):- number_codes(Temp, [PossibleTail]), Temp is 0, atom_codes(ColumnUserSelected, [Column]), RowUserSelected = 10.
@@ -16,6 +15,7 @@ askCoords(Row, Column):-
         columnIndex(ColumnUserSelected, Column),
         Row is 10 - RowUserSelected, !.
 
+/* asks for the column only, used for city placement */
 askColumn(Column):-
         repeat,
         write('Column  '),
@@ -33,6 +33,81 @@ columnIndex(g, 6).
 columnIndex(h, 7).
 columnIndex(i, 8).
 columnIndex(j, 9).
+
+/* city placement */
+placeCity(Board, NewBoard, Player, RedCityColumn):-
+        Player == red,
+        write('Where to place?'), nl,
+        askColumn(RedCityColumn),
+        validateCityPlace(RedCityColumn, Player),
+        replaceInMatrix(Board, 0, RedCityColumn, redCityPiece, NewBoard),
+        display_game(NewBoard).
+
+placeCity(Board, NewBoard, Player, BlackCityColumn):-
+        Player == black,
+        write('Where to place?'), nl,
+        askColumn(BlackCityColumn),
+        validateCityPlace(BlackCityColumn, Player),
+        replaceInMatrix(Board, 9, BlackCityColumn, blackCityPiece, NewBoard),
+        display_game(NewBoard).
+
+placeCityComputer(Board, NewBoard, Player, RedCityColumn):-
+        Player == red,
+        sleep(1),
+        random(1,9,RedCityColumn),
+        format('~w:', RedCityColumn),
+        replaceInMatrix(Board, 0, RedCityColumn, redCityPiece, NewBoard),
+        display_game(NewBoard).
+
+/* checks if a selected piece is valid or not */
+check_if_invalid_piece(Row, Column, Board, _):-
+        getPiece(Row, Column, Board, Piece),
+        (Piece == emptyCell ; Piece == redCityPiece ; Piece == blackCityPiece),
+        write('This piece cannot be moved.'), nl,
+        !, fail.
+
+check_if_invalid_piece(Row, Column, Board, Player):-
+        getPiece(Row, Column, Board, Piece),
+        Player == red,
+        Piece == blackSoldier,
+        write('Red player can only move red soldiers.'), nl,
+        !, fail.
+
+check_if_invalid_piece(Row, Column, Board, Player):-
+        getPiece(Row, Column, Board, Piece),
+        Player == black,
+        Piece == redSoldier,
+        write('Black player can only move black soldiers.'), nl,
+        !, fail.
+
+check_if_invalid_piece(_, _, _, _).
+
+/* finding possible directions for cannons in case the selected piece can be in more than one cannon */
+findall_cannon_possibledirections(Row, Column, Board, Piece, Check, ReturnList):-
+        Check = ask,
+        findall([CannonType, PieceNumber], checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber), ReturnList),
+        length(ReturnList, Size),
+        Size > 1.
+
+findall_cannon_possibledirections(_,_, _, _, Check, _):-
+        Check = dont.
+
+/* printing a list of possible cannons */
+print_list([H|T], I, FinalNumber):-
+        format('~w - ~w', [I, H]), nl,
+        I1 is I+1,
+        print_list(T, I1, FinalNumber).
+
+print_list([], I, FinalNumber):- FinalNumber = I.
+
+find_list_element([[CannonTypeList, PieceNumberList]|_], 0, CannonType, PieceNumber):- 
+        CannonType = CannonTypeList,
+        PieceNumber = PieceNumberList.
+
+find_list_element([_|T], Number, CannonType, PieceNumber):-
+        Number > 0,
+        N1 is Number - 1,
+        find_list_element(T, N1, CannonType, PieceNumber).  
 
 /* getting the Piece of index [row][col] from the list */
 
