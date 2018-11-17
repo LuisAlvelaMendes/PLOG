@@ -23,45 +23,42 @@ main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
-        
-        (checkComputerNearbyEnemies(Row, Column, Board) ->
-         
-        /* found nearby enemy */
-        /* tries to capture first if possible, if not, will retreat */
-       
-        (choose_to_capture(Row, Column, Board, NewBoard) ; choose_to_retreat(Row, Column, Board, NewBoard))
-        
-        ;
-         
-        /* if neither, move the piece */
-        choose_to_move_computer(Row, Column, Board, NewBoard)
-        
-        ).
+        checkComputerNearbyEnemies(Row, Column, Board),
+        choose_to_capture(Row, Column, Board, NewBoard). 
+
+main_action_logic(Coords, Board, NewBoard, _, BotType):-
+        nth0(0, Coords, Row),
+        nth0(1, Coords, Column),
+        BotType == agressive,
+        checkComputerNearbyEnemies(Row, Column, Board),
+        choose_to_retreat(Row, Column, Board, NewBoard). 
+
+main_action_logic(Coords, Board, NewBoard, _, BotType):-
+        nth0(0, Coords, Row),
+        nth0(1, Coords, Column),
+        BotType == agressive,
+        checkComputerNearbyEnemies(Row, Column, Board),
+        choose_to_move_computer(Row, Column, Board, NewBoard).
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == easy,
-        
-        (checkComputerNearbyEnemies(Row, Column, Board) ->
-         
-        /* found nearby enemy */
-        /* tries to retreat if possible, if not, will capture */
-       
-        (write('tried retreat'), nl , choose_to_retreat(Row, Column, Board, NewBoard) ;  write('didnt work tried capture'), nl, choose_to_capture(Row, Column, Board, NewBoard))
-        
-        ;
-         
-        /* if neither, move the piece */
-        write('tried to move'), nl, choose_to_move_computer(Row, Column, Board, NewBoard)
-        
-        ).
+        checkComputerNearbyEnemies(Row, Column, Board),
+        choose_to_retreat(Row, Column, Board, NewBoard). 
 
-main_action_logic(Coords, Board, NewBoard, Player, BotType):-
+main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
-        format("~w:~w", [Row, Column]), nl,
-        choose_action_computer(Board, NewBoard, Player, BotType).
+        BotType == easy,
+        checkComputerNearbyEnemies(Row, Column, Board),
+        choose_to_capture(Row, Column, Board, NewBoard). 
+
+main_action_logic(Coords, Board, NewBoard, _, BotType):-
+        nth0(0, Coords, Row),
+        nth0(1, Coords, Column),
+        BotType == easy,
+        choose_to_move_computer(Row, Column, Board, NewBoard). 
 
 /* capture*/
 choose_to_capture(Row1, Column1, Board, NewBoard):-
