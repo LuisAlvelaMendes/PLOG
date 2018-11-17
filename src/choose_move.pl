@@ -17,7 +17,7 @@ choose_action_computer(Board, NewBoard, Player, BotType):-
         length(BlackPieces,Len),
         random(0,Len,N),
         nth0(N, BlackPieces, Coords),
-        main_action_logic(Coords, Board, NewBoard, Player, BotType).
+        main_action_logic(Coords, Board, NewBoard, Player, BotType), !.
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
