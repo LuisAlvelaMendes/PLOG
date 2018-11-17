@@ -171,16 +171,16 @@ humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
 humanVsComputer(Board, RedCityColumn, BlackCityColumn, BotType):-
         write('Red player turn!'), nl,
         format("~w:", BotType), nl,
-        choose_action_computer(Board, N, red, easy),
+        choose_action_computer(Board, N, red, BotType),
         display_game(N),
         \+ game_over(N, RedCityColumn, BlackCityColumn), 
         write('Black player turn!'), nl,
         choose_action(N, FinalBoard, black),
         display_game(FinalBoard), 
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
-        humanVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).
+        humanVsComputer(FinalBoard, RedCityColumn, BlackCityColumn, BotType).
 
-humanVsComputer(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityColumn, BlackCityColumn).
+humanVsComputer(Board, RedCityColumn, BlackCityColumn, _):- game_over(Board, RedCityColumn, BlackCityColumn).
 
 /* COMPUTER ONLY */
 

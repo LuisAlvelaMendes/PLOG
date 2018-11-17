@@ -4,10 +4,13 @@
 choose_action_computer(Board, NewBoard, Player, BotType):-
         Player == red,
         nl,
+        write('1'), nl,
         findall([MRow,MColumn],matrixred(Board, MColumn, MRow),RedPieces),
         length(RedPieces,Len),
+        write('2'), nl,
         random(0,Len,N),
         nth0(N, RedPieces, Coords),
+        write('3'), nl,
         main_action_logic(Coords, Board, NewBoard, Player, BotType).
 
 choose_action_computer(Board, NewBoard, Player, BotType):-
@@ -45,20 +48,24 @@ main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(1, Coords, Column),
         BotType == easy,
         checkComputerNearbyEnemies(Row, Column, Board),
-        choose_to_retreat(Row, Column, Board, NewBoard). 
+        choose_to_retreat(Row, Column, Board, NewBoard),
+        write('one'), nl. 
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == easy,
         checkComputerNearbyEnemies(Row, Column, Board),
-        choose_to_capture(Row, Column, Board, NewBoard). 
+        choose_to_capture(Row, Column, Board, NewBoard),
+        write('two'), nl. 
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == easy,
-        choose_to_move_computer(Row, Column, Board, NewBoard). 
+        write('why cant you move?'), nl,
+        choose_to_move_computer(Row, Column, Board, NewBoard),
+        write('three'), nl. 
 
 /* capture*/
 choose_to_capture(Row1, Column1, Board, NewBoard):-
