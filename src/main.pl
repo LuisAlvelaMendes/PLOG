@@ -25,12 +25,12 @@ cannon:-
         Selection =< 3,
         initialBoard(Board),
         /* if the selection was 2, before doing anything you need to select bot difficulty */
-        /* (Selection == 2 -> (chooseComputerDifficulty(BotType))), */
+        (Selection == 2 -> (chooseComputerDifficulty(BotType))),
         display_game(Board),
         /* first thing to do in any gamemode is to place the city */
         menuOptionCityPlacement(Selection, Board, NewBoard, RedCityColumn, BlackCityColumn, CityPlacementMethod),
         CityPlacementMethod, !,
-        menuOptionMainGame(Selection, NewBoard, RedCityColumn, BlackCityColumn, agressive, GameMode),
+        menuOptionMainGame(Selection, NewBoard, RedCityColumn, BlackCityColumn, BotType, GameMode),
         GameMode, !.
 
 /* Each menu option will have matching city placement predicates to start the game */
