@@ -3,8 +3,6 @@
 :- use_module(library(lists)).
 :- use_module(library(clpfd)).
 
-/* Obten��o de uma lista de jogadas poss�veis valid_moves(+Board, +Player, -ListOfMoves) faz-se com find all*/
-
 /* Option 0: place city, placing the city also counts as part of the game, and the city must be placed in a given row without counting the corners */
 validateCityPlace(Column, red):-
   Column \= 0,

@@ -2,7 +2,6 @@
 
 :-include('valid_moves.pl').
 :-include('valid_computer_moves.pl').
-:-include('value.pl').
 :-include('choose_move.pl').
 :-include('game_over.pl').
 :-include('menu.pl').
@@ -25,11 +24,13 @@ cannon:-
         Selection >= 1,
         Selection =< 3,
         initialBoard(Board),
+        /* if the selection was 2, before doing anything you need to select bot difficulty */
+        /* (Selection == 2 -> (chooseComputerDifficulty(BotType))), */
         display_game(Board),
         /* first thing to do in any gamemode is to place the city */
         menuOptionCityPlacement(Selection, Board, NewBoard, RedCityColumn, BlackCityColumn, CityPlacementMethod),
         CityPlacementMethod, !,
-        menuOptionMainGame(Selection, NewBoard, RedCityColumn, BlackCityColumn, GameMode),
+        menuOptionMainGame(Selection, NewBoard, RedCityColumn, BlackCityColumn, agressive, GameMode),
         GameMode, !.
 
 /* Each menu option will have matching city placement predicates to start the game */
@@ -38,9 +39,9 @@ menuOptionCityPlacement(2, Board, NewBoard, RedCityColumn, BlackCityColumn, huma
 menuOptionCityPlacement(3, Board, NewBoard, RedCityColumn, BlackCityColumn, computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
 
 /* Each menu option will have a matching selection for what game to play's main logic */
-menuOptionMainGame(1, Board, RedCityColumn, BlackCityColumn, humanVsHuman(Board, RedCityColumn, BlackCityColumn)).
-menuOptionMainGame(2, Board, RedCityColumn, BlackCityColumn, humanVsComputer(Board, RedCityColumn, BlackCityColumn)).
-menuOptionMainGame(3, Board, RedCityColumn, BlackCityColumn, computerVsComputer(Board, RedCityColumn, BlackCityColumn)).
+menuOptionMainGame(1, Board, RedCityColumn, BlackCityColumn, _, humanVsHuman(Board, RedCityColumn, BlackCityColumn)).
+menuOptionMainGame(2, Board, RedCityColumn, BlackCityColumn, BotType, humanVsComputer(Board, RedCityColumn, BlackCityColumn, BotType)).
+menuOptionMainGame(3, Board, RedCityColumn, BlackCityColumn, _, computerVsComputer(Board, RedCityColumn, BlackCityColumn)).
 
 /* HUMANS logic */
 
@@ -148,6 +149,16 @@ humanVsHuman(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityCo
 
 /* COMPUTER logic human vs computer*/
 
+/* choosing bot mode */
+chooseComputerDifficulty(BotType):-
+        nl,
+        write('Agressive Computer (1) or Easy Computer (0)?'), nl,
+        read(Decision), nl,
+        matchDecision(Decision, BotType).
+        
+matchDecision(0, easy).
+matchDecision(1, agressive).
+
 /* choosing city - Player vs Computer */
 humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
         write('Red is now choosing city placement'), nl,
@@ -157,9 +168,10 @@ humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
 
 /* Main loop */
 
-humanVsComputer(Board, RedCityColumn, BlackCityColumn):-
+humanVsComputer(Board, RedCityColumn, BlackCityColumn, BotType):-
         write('Red player turn!'), nl,
-        choose_action_computer(Board, N, red),
+        format("~w:", BotType), nl,
+        choose_action_computer(Board, N, red, easy),
         display_game(N),
         \+ game_over(N, RedCityColumn, BlackCityColumn), 
         write('Black player turn!'), nl,
@@ -183,12 +195,12 @@ computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
 
 computerVsComputer(Board, RedCityColumn, BlackCityColumn):-
         write('Red player turn!'), nl,
-        choose_action_computer(Board, N, red),
+        choose_action_computer(Board, N, red, agressive),
         sleep(1),
         display_game(N),
         \+ game_over(N, RedCityColumn, BlackCityColumn),
         write('Black player turn!'), nl,
-        choose_action_computer(N, FinalBoard, black),
+        choose_action_computer(N, FinalBoard, black, agressive),
         sleep(1),
         display_game(FinalBoard),
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
