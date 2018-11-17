@@ -17,9 +17,9 @@
 
 /* Menu loop */
 cannon:-
-        repeat, 
+        repeat,
         mainMenu,
-        write('Enter game mode: '), 
+        write('Enter game mode: '),
         read(Selection),
         Selection >= 1,
         Selection =< 3,
@@ -44,7 +44,7 @@ selectGameMode(Selection, Board):-
         display_game(Board),
         computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn),
         computerVsComputer(NewBoard, RedCityColumn, BlackCityColumn).
-        
+
 
 /* HUMANS logic */
 
@@ -85,7 +85,7 @@ capture_choice(Row, Column, Board, NewBoard):-
         move(Position, Row, Column, Board, NewBoard).
 
 /* cannons */
-check_number_valid(Number, FinalNumber):- Number < FinalNumber, Number >= 0.    
+check_number_valid(Number, FinalNumber):- Number < FinalNumber, Number >= 0.
 
 ask_which_cannon(ReturnList, CannonType, PieceNumber):-
         repeat, nl,
@@ -148,7 +148,7 @@ humanVsHuman(Board, RedCityColumn, BlackCityColumn):-
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
         humanVsHuman(FinalBoard, RedCityColumn, BlackCityColumn).
 
-humanVsHuman(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityColumn, BlackCityColumn).
+humanVsHuman(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityColumn, BlackCityColumn), fail.
 
 /* COMPUTER logic human vs computer*/
 
@@ -158,7 +158,7 @@ chooseComputerDifficulty(BotType):-
         write('Agressive Computer (1) or Easy Computer (0)?'), nl,
         read(Decision), nl,
         matchDecision(Decision, BotType).
-        
+
 matchDecision(0, easy).
 matchDecision(1, agressive).
 
@@ -176,14 +176,14 @@ humanVsComputer(Board, RedCityColumn, BlackCityColumn, BotType):-
         format("~w:", BotType), nl,
         choose_action_computer(Board, N, red, BotType),
         display_game(N),
-        \+ game_over(N, RedCityColumn, BlackCityColumn), 
+        \+ game_over(N, RedCityColumn, BlackCityColumn),
         write('Black player turn!'), nl,
         choose_action(N, FinalBoard, black),
-        display_game(FinalBoard), 
+        display_game(FinalBoard),
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
         humanVsComputer(FinalBoard, RedCityColumn, BlackCityColumn, BotType).
 
-humanVsComputer(Board, RedCityColumn, BlackCityColumn, _):- game_over(Board, RedCityColumn, BlackCityColumn).
+humanVsComputer(Board, RedCityColumn, BlackCityColumn, _):- game_over(Board, RedCityColumn, BlackCityColumn), fail.
 
 /* COMPUTER ONLY */
 
@@ -209,4 +209,4 @@ computerVsComputer(Board, RedCityColumn, BlackCityColumn):-
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn),
         computerVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).
 
-computerVsComputer(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityColumn, BlackCityColumn).
+computerVsComputer(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityColumn, BlackCityColumn), fail.
