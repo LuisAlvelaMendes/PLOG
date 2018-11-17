@@ -81,7 +81,6 @@ choose_to_retreat(Row1, Column1, Board, NewBoard):-
 
 /* move normally */
 choose_to_move_computer(Row1, Column1, Board, NewBoard):-
-        format("~w:~w", [Row1, Column1]), nl,
         findall([CurrentMove], validateComputerMove(Row1, Column1, _, _, Board, CurrentMove), Moves),
         length(Moves,LenMoves),
         random(0,LenMoves,M),
@@ -91,7 +90,6 @@ choose_to_move_computer(Row1, Column1, Board, NewBoard):-
 
 /* move cannon */
 choose_to_move_cannon(Row1, Column1, Board, NewBoard):-
-        format("~w:~w", [Row1, Column1]), nl,
         checkPieceInCannonComputer(Row1, Column1, Board, _, CannonType, PieceNumber),
         findall([CurrentMove], validateComputerMoveCannon(Row1, Column1, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove), Moves),
         length(Moves,LenMoves),

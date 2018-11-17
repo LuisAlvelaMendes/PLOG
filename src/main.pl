@@ -24,24 +24,27 @@ cannon:-
         Selection >= 1,
         Selection =< 3,
         initialBoard(Board),
-        /* if the selection was 2, before doing anything you need to select bot difficulty */
-        (Selection == 2 -> (chooseComputerDifficulty(BotType))),
+        selectGameMode(Selection, Board), !.
+
+selectGameMode(Selection, Board):-
+        Selection == 1,
         display_game(Board),
-        /* first thing to do in any gamemode is to place the city */
-        menuOptionCityPlacement(Selection, Board, NewBoard, RedCityColumn, BlackCityColumn, CityPlacementMethod),
-        CityPlacementMethod, !,
-        menuOptionMainGame(Selection, NewBoard, RedCityColumn, BlackCityColumn, BotType, GameMode),
-        GameMode, !.
+        humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn),
+        humanVsHuman(NewBoard, RedCityColumn, BlackCityColumn).
 
-/* Each menu option will have matching city placement predicates to start the game */
-menuOptionCityPlacement(1, Board, NewBoard, RedCityColumn, BlackCityColumn, humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
-menuOptionCityPlacement(2, Board, NewBoard, RedCityColumn, BlackCityColumn, humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
-menuOptionCityPlacement(3, Board, NewBoard, RedCityColumn, BlackCityColumn, computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn)).
+selectGameMode(Selection, Board):-
+        Selection == 2,
+        chooseComputerDifficulty(BotType),
+        display_game(Board),
+        humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn),
+        humanVsComputer(NewBoard, RedCityColumn, BlackCityColumn, BotType).
 
-/* Each menu option will have a matching selection for what game to play's main logic */
-menuOptionMainGame(1, Board, RedCityColumn, BlackCityColumn, _, humanVsHuman(Board, RedCityColumn, BlackCityColumn)).
-menuOptionMainGame(2, Board, RedCityColumn, BlackCityColumn, BotType, humanVsComputer(Board, RedCityColumn, BlackCityColumn, BotType)).
-menuOptionMainGame(3, Board, RedCityColumn, BlackCityColumn, _, computerVsComputer(Board, RedCityColumn, BlackCityColumn)).
+selectGameMode(Selection, Board):-
+        Selection == 3,
+        display_game(Board),
+        computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn),
+        computerVsComputer(NewBoard, RedCityColumn, BlackCityColumn).
+        
 
 /* HUMANS logic */
 
