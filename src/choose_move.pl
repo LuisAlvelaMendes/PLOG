@@ -8,7 +8,7 @@ choose_action_computer(Board, NewBoard, Player, BotType):-
         length(RedPieces,Len),
         random(0,Len,N),
         nth0(N, RedPieces, Coords),
-        main_action_logic(Coords, Board, NewBoard, Player, BotType).
+        main_action_logic(Coords, Board, NewBoard, Player, BotType), !.
 
 choose_action_computer(Board, NewBoard, Player, BotType):-
         Player == black,
@@ -23,21 +23,34 @@ main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
+        write('trying capture'), nl,
         checkComputerNearbyEnemies(Row, Column, Board),
+        write('cant capture'), nl,
         choose_to_capture(Row, Column, Board, NewBoard). 
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
+        write('trying retreat'), nl,
         checkComputerNearbyEnemies(Row, Column, Board),
+        write('cant retreat'), nl,
         choose_to_retreat(Row, Column, Board, NewBoard). 
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
-        choose_to_move_computer(Row, Column, Board, NewBoard).
+        write('trying move'), nl,
+        choose_to_move_computer(Row, Column, Board, NewBoard),
+        write('moved'), nl.
+
+main_action_logic(Coords, Board, NewBoard, _, BotType):-
+        nth0(0, Coords, Row),
+        nth0(1, Coords, Column),
+        BotType == agressive,
+        choose_to_move_cannon(Row, Column, Board, NewBoard),
+        write('moved'), nl.
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
@@ -58,6 +71,16 @@ main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(1, Coords, Column),
         BotType == easy,
         choose_to_move_computer(Row, Column, Board, NewBoard). 
+
+main_action_logic(Coords, Board, NewBoard, _, BotType):-
+        nth0(0, Coords, Row),
+        nth0(1, Coords, Column),
+        BotType == easy,
+        choose_to_move_cannon(Row, Column, Board, NewBoard),
+        write('moved'), nl.
+
+main_action_logic(_, Board, NewBoard, Player, BotType):-
+        choose_action_computer(Board, NewBoard, Player, BotType).
 
 /* capture*/
 choose_to_capture(Row1, Column1, Board, NewBoard):-
@@ -90,8 +113,11 @@ choose_to_move_computer(Row1, Column1, Board, NewBoard):-
 
 /* move cannon */
 choose_to_move_cannon(Row1, Column1, Board, NewBoard):-
-        checkPieceInCannonComputer(Row1, Column1, Board, _, CannonType, PieceNumber),
-        findall([CurrentMove], validateComputerMoveCannon(Row1, Column1, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove), Moves),
+        format("~w:~w:", [Row1, Column1]), nl,
+        getPiece(Row1, Column1, Board, Piece),
+        format("~w:", Piece), nl,
+        checkPieceInCannonComputer(Row1, Column1, Board, Piece, CannonType, PieceNumber),
+        findall([CurrentMove], validateComputerMoveCannon(Row1, Column1, _, _, Board, CannonType, PieceNumber, CurrentMove), Moves),
         length(Moves,LenMoves),
         random(0,LenMoves,M),
         nth0(M, Moves, Move),

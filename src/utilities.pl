@@ -4,7 +4,7 @@
 checkEmptyPossibleTail([]).
 parseCoordsList([Column | [Row | PossibleTail ] ], ColumnUserSelected, RowUserSelected):- checkEmptyPossibleTail(PossibleTail), atom_codes(ColumnUserSelected, [Column]), number_codes(RowUserSelected, [Row]).
 parseCoordsList([Column | [_ | [PossibleTail | [] ] ] ], ColumnUserSelected, RowUserSelected):- number_codes(Temp, [PossibleTail]), Temp is 0, atom_codes(ColumnUserSelected, [Column]), RowUserSelected = 10.
-parseCoordsList(_, _, _):- write("Invalid coords."), nl, fail.
+parseCoordsList(_, _, _):- write('Invalid coords.'), nl, fail.
 
 askCoords(Row, Column):-
         repeat,

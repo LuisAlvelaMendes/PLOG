@@ -469,12 +469,16 @@ checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         PieceNumber = 1,
         Row2 is Row + 1,
         Column2 is Column,
+        write('here fail'), nl,
         getPiece(Row2, Column2, Board, BackPiece),
         BackPiece == Piece,
         Row3 is Row + 2,
         Column3 is Column,
+        write('httttere fail'), nl,
         getPiece(Row3, Column3, Board, SecondBackPiece),
-        SecondBackPiece == Piece.
+        format("~w:~w:~w", [Row3, Column3, SecondBackPiece]),
+        SecondBackPiece == Piece,
+        write('did not fail'), nl.
 
 /* imagining Piece 2 */
 checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
