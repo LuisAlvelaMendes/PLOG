@@ -767,7 +767,7 @@ validateComputerCaptureCannonFront(Row, Column, Row1, Column1, Board, CannonType
         getPiece(Row2, Column, Board, EmptyPiece),
         EmptyPiece == emptyCell,
         (
-        (Row1 = Row - (PieceNumber+1),
+        (Row1 is Row - (PieceNumber+1),
           getPiece(Row1, Column, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -778,7 +778,7 @@ validateComputerCaptureCannonFront(Row, Column, Row1, Column1, Board, CannonType
           ))
         )
         ;
-          (Row1 = Row - (PieceNumber+2),
+          (Row1 is Row - (PieceNumber+2),
           getPiece(Row1, Column, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece))
@@ -798,7 +798,7 @@ validateComputerCaptureCannonBack(Row, Column, Row1, Column1, Board, CannonType,
         getPiece(Row2, Column, Board, EmptyPiece),
         EmptyPiece == emptyCell,
         (
-        (Row1 = Row + (5-PieceNumber),
+        (Row1 is Row + (5-PieceNumber),
           getPiece(Row1, Column, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -809,7 +809,7 @@ validateComputerCaptureCannonBack(Row, Column, Row1, Column1, Board, CannonType,
           ))
         )
         ;
-          (Row1 = Row + (5-PieceNumber),
+          (Row1 is Row + (5-PieceNumber),
           getPiece(Row1, Column, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -830,7 +830,7 @@ validateComputerCaptureLeftSide(Row, Column, Row1, Column1, Board, CannonType, P
         getPiece(Row, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
         (
-        (Column1 = Column - (PieceNumber+1),
+        (Column1 is Column - (PieceNumber+1),
           getPiece(Row, Column1, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -841,7 +841,7 @@ validateComputerCaptureLeftSide(Row, Column, Row1, Column1, Board, CannonType, P
           ))
         )
         ;
-          (Column1 = Column - (PieceNumber+2),
+          (Column1 is Column - (PieceNumber+2),
           getPiece(Row, Column1, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -862,7 +862,7 @@ validateComputerCaptureRightSide(Row, Column, Row1, Column1, Board, CannonType, 
         getPiece(Row, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
         (
-        (Column1 = Column + 5 - PieceNumber,
+        (Column1 is Column + 5 - PieceNumber,
           getPiece(Row, Column1, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -873,7 +873,7 @@ validateComputerCaptureRightSide(Row, Column, Row1, Column1, Board, CannonType, 
           ))
         )
         ;
-          (Column1 = Column + 6 - PieceNumber,
+          (Column1 is Column + 6 - PieceNumber,
           getPiece(Row, Column1, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -894,8 +894,8 @@ validateComputerCaptureNE(Row, Column, Row1, Column1, Board, CannonType, PieceNu
         getPiece(Row2, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
         (
-        ( Column1 = Column + PieceNumber+1,
-          Row1 = Row - (PieceNumber + 1),
+        ( Column1 is Column + PieceNumber+1,
+          Row1 is Row - (PieceNumber + 1),
           getPiece(Row1, Column1, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -906,8 +906,8 @@ validateComputerCaptureNE(Row, Column, Row1, Column1, Board, CannonType, PieceNu
           ))
         )
         ;
-          (Column1 = Column + PieceNumber+2,
-          Row1 = Row - (PieceNumber + 2),
+          (Column1 is Column + PieceNumber+2,
+          Row1 is Row - (PieceNumber + 2),
           getPiece(Row1, Column1, Board, EnemyPiece),
           (
             (Piece == blackSoldier,
@@ -930,8 +930,8 @@ validateComputerCaptureNW(Row, Column, Row1, Column1, Board, CannonType, PieceNu
         getPiece(Row2, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
         (
-        ( Column1 = Column - (PieceNumber + 1),
-          Row1 = Row - (PieceNumber + 1),
+        ( Column1 is Column - (PieceNumber + 1),
+          Row1 is Row - (PieceNumber + 1),
           getPiece(Row1, Column1, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -942,8 +942,8 @@ validateComputerCaptureNW(Row, Column, Row1, Column1, Board, CannonType, PieceNu
           ))
         )
         ;
-          (Column1 = Column - (PieceNumber + 2),
-          Row1 = Row - (PieceNumber + 2),
+          (Column1 is Column - (PieceNumber + 2),
+          Row1 is Row - (PieceNumber + 2),
           getPiece(Row1, Column1, Board, EnemyPiece),
           (
             (Piece == blackSoldier,
@@ -966,8 +966,8 @@ validateComputerCaptureSW(Row, Column, Row1, Column1, Board, CannonType, PieceNu
         getPiece(Row2, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
         (
-        ( Column1 = Column - (5 - PieceNumber),
-          Row1 = Row + (5-PieceNumber),
+        ( Column1 is Column - (5 - PieceNumber),
+          Row1 is Row + (5-PieceNumber),
           getPiece(Row1, Column1, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -978,8 +978,8 @@ validateComputerCaptureSW(Row, Column, Row1, Column1, Board, CannonType, PieceNu
           ))
         )
         ;
-          (Column1 = Column - (6 - PieceNumber),
-          Row1 = Row + (6-PieceNumber),
+          (Column1 is Column - (6 - PieceNumber),
+          Row1 is Row + (6-PieceNumber),
           getPiece(Row1, Column1, Board, EnemyPiece),
           (
             (Piece == blackSoldier,
@@ -1002,8 +1002,8 @@ validateComputerCaptureSE(Row, Column, Row1, Column1, Board, CannonType, PieceNu
         getPiece(Row2, Column2, Board, EmptyPiece),
         EmptyPiece == emptyCell,
         (
-        ( Column1 = Column + (5 - PieceNumber),
-          Row1 = Row + (5 - PieceNumber),
+        ( Column1 is Column + (5 - PieceNumber),
+          Row1 is Row + (5 - PieceNumber),
           getPiece(Row1, Column1, Board, EnemyPiece),
           ((Piece == blackSoldier,
           (EnemyPiece == redSoldier; EnemyPiece == redCityPiece)
@@ -1014,8 +1014,8 @@ validateComputerCaptureSE(Row, Column, Row1, Column1, Board, CannonType, PieceNu
           ))
         )
         ;
-          (Column1 = Column + (6 - PieceNumber),
-          Row1 = Row + (6 - PieceNumber),
+          (Column1 is Column + (6 - PieceNumber),
+          Row1 is Row + (6 - PieceNumber),
           getPiece(Row1, Column1, Board, EnemyPiece),
           (
             (Piece == blackSoldier,
