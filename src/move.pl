@@ -239,7 +239,7 @@ move_cannon(backward, Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         replaceInMatrix(TempBoard, DestinationRow, DestinationColumn, Piece, NewBoard).
 
 
-  /* Capturing black cannon front */
+  /* Capturing with cannon  */
 
 capture_cannon(Row, Column, Board, NewBoard):-
         replaceInMatrix(Board, Row, Column, emptyCell, NewBoard).

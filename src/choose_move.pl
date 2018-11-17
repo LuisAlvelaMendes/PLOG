@@ -49,6 +49,14 @@ main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
+        write('trying shoot cannon'), nl,
+        choose_to_capture_cannon(Row, Column, Board, NewBoard),
+        write('shot'), nl.
+
+main_action_logic(Coords, Board, NewBoard, _, BotType):-
+        nth0(0, Coords, Row),
+        nth0(1, Coords, Column),
+        BotType == agressive,
         choose_to_move_cannon(Row, Column, Board, NewBoard),
         write('moved'), nl.
 
@@ -123,3 +131,12 @@ choose_to_move_cannon(Row1, Column1, Board, NewBoard):-
         nth0(M, Moves, Move),
         nth0(0, Move, CurrentMove),
         move_cannon(CurrentMove, Row1, Column1, Board, NewBoard, CannonType, PieceNumber).
+
+/* capture cannon */
+choose_to_capture_cannon(Row1, Column1, Board, NewBoard):-
+        write('entered capture cannon'), nl,
+        getPiece(Row1, Column1, Board, Piece),
+        format("~w:", Piece), nl,
+        checkPieceInCannonComputer(Row1, Column1, Board, Piece, CannonType, PieceNumber),
+        validateComputerCaptureCannon(Row1, Column1, Row2, Column2, Board, CannonType, PieceNumber),
+        capture_cannon(Row2, Column2, Board, NewBoard).
