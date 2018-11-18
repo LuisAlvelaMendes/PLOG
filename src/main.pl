@@ -17,14 +17,27 @@
 
 /* Menu loop */
 cannon:-
-        repeat, 
-        mainMenu, !,
-        write('Enter game mode: '), 
+        write('g'),
+        repeat,
+        between(0,4,Flag),
+        playAgain(Flag),
+                write('h'),
+        format('        ~w',[Flag]),
+        mainMenu,
+        write('Enter game mode: '),
         read(Selection),
         Selection >= 1,
         Selection =< 3,
         initialBoard(Board),
-        selectGameMode(Selection, Board), !.
+        selectGameMode(Selection, Board),!.
+
+playAgain(Flag):-
+write('Play  '),
+Flag == 0;
+        (
+        write('Play again (0/1)? '),
+        read(Selection),
+        Selection == 1).
 
 selectGameMode(Selection, Board):-
         Selection == 1,
@@ -74,15 +87,32 @@ choose_move_option(Row, Column, Board, 3, NewBoard, cannon_choice(Row, Column, B
 /* move and capture */
 move_choice(Row, Column, Board, NewBoard):-
         write('Where do you want to move?'), nl,
+        findall([Move,Row2,Column2], validateComputerMove(Row, Column, Row2, Column2, Board, Move), MovesN),
+        findall([Move,Row2,Column2], validateComputerRetreat(Row, Column, Row2, Column2, Board, Move), MovesR),
+        append(MovesN,MovesR,Moves),
+        format('Possible moves are: ~w', [Moves]),nl,
         askCoords(Row1, Column1),
-        validateMove(Row, Column, Row1, Column1, Board, CurrentMove),
+        findMoves(Moves,Row1,Column1,CurrentMove),
+        format('test after check move: ~w',[CurrentMove]),
+        /*validateMove(Row, Column, Row1, Column1, Board, CurrentMove),*/
         move(CurrentMove, Row, Column, Board, NewBoard).
 
 capture_choice(Row, Column, Board, NewBoard):-
         write('Capture target?'), nl,
+        findall([Position,Row2,Column2], validateComputerCapture(Row, Column, Row2, Column2, Board, Position), Captures),
+        format('Possible capture targets are: ~w', [Captures]),nl,
         askCoords(Row1, Column1),
-        validateCapture(Row, Column, Row1, Column1, Board, Position),
+        findMoves(Captures,Row1,Column1,Position),
+        /*validateCapture(Row, Column, Row1, Column1, Board, Position),*/
         move(Position, Row, Column, Board, NewBoard).
+
+
+findMoves([],Row1,Column1,CurrentMove):-write('Cannot do this!'),sleep(1),nl,fail.
+findMoves([Move|Tail],Row1,Column1,CurrentMove):-
+        nth0(1,Move,Row1),
+        nth0(2,Move,Column1),
+        nth0(0,Move,CurrentMove);
+        findMoves(Tail,Row1,Column1,CurrentMove).
 
 /* cannons */
 check_number_valid(Number, FinalNumber):- Number < FinalNumber, Number >= 0.
@@ -124,16 +154,28 @@ choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, 6, c
 
 move_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         write('Where do you want to move?'), nl,
+        findall([CurrentMove,Row2,Column2], validateComputerMoveCannon(Row, Column, Row2, Column2, Board, CannonType, PieceNumber, CurrentMove), Moves),
+        format('Possible moves are: ~w', [Moves]),nl,
         askCoords(Row1, Column1),
-        validateMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove),
+        findMoves(Moves,Row1,Column1,CurrentMove),
+        /*validateMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove),*/
         write(CurrentMove), nl,
         move_cannon(CurrentMove, Row, Column, Board, NewBoard, CannonType, PieceNumber).
 
 capture_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         write('Which target do you want to shoot?'), nl,
+        findall([Row2,Column2], validateComputerCaptureCannon(Row, Column, Row2, Column2, Board, CannonType, PieceNumber), Moves),
+        format('Possible moves are: ~w', [Moves]),nl,
         askCoords(Row1, Column1),
-        validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber),
+        findMovesCap(Moves,Row1,Column1),
+        /*validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber),*/
         capture_cannon(Row1, Column1, Board, NewBoard).
+
+findMovesCap([],Row1,Column1):-write('Cannot do this!'),sleep(1),nl,fail.
+findMovesCap([Move|Tail],Row1,Column1):-
+        nth0(0,Move,Row1),
+        nth0(1,Move,Column1);
+        findMovesCap(Tail,Row1,Column1).
 
 /* Main game loop */
 
@@ -179,7 +221,7 @@ humanVsComputer(Board, RedCityColumn, BlackCityColumn, BotType):-
         \+ game_over(N, RedCityColumn, BlackCityColumn),
         write('Black player turn!'), nl,
         choose_action(N, FinalBoard, black),
-        display_game(FinalBoard), 
+        display_game(FinalBoard),
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn), !,
         humanVsComputer(FinalBoard, RedCityColumn, BlackCityColumn, BotType).
 
@@ -199,12 +241,12 @@ computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
 computerVsComputer(Board, RedCityColumn, BlackCityColumn):-
         write('Red player turn!'), nl,
         choose_action_computer(Board, N, red, agressive),
-        sleep(1),
+        sleep(0),
         display_game(N),
         \+ game_over(N, RedCityColumn, BlackCityColumn),
         write('Black player turn!'), nl,
         choose_action_computer(N, FinalBoard, black, agressive),
-        sleep(1),
+        sleep(0),
         display_game(FinalBoard),
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn), !,
         computerVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).

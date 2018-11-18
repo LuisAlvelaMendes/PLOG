@@ -344,7 +344,7 @@ validateComputerRetreatBack(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   checkComputerNearbyEnemies(Row, Column, Board),
-  Row1 = Row - 2,
+  Row1 is Row - 2,
   Column1 = Column,
   Row1 >= 0,
   getPiece(Row1, Column, Board, OtherPiece),
@@ -358,7 +358,7 @@ validateComputerRetreatBack(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
   checkComputerNearbyEnemies(Row, Column, Board),
-  Row1 = Row + 2,
+  Row1 is Row + 2,
   Column1 = Column,
   Row1 =< 9,
   getPiece(Row1, Column, Board, OtherPiece),
@@ -374,8 +374,8 @@ validateComputerRetreatLeft(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   checkComputerNearbyEnemies(Row, Column, Board),
-  Row1 = Row - 2,
-  Column1 = Column - 2,
+  Row1 is Row - 2,
+  Column1 is Column - 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
   OtherPiece == emptyCell,
@@ -389,8 +389,8 @@ validateComputerRetreatLeft(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
   checkComputerNearbyEnemies(Row, Column, Board),
-  Row1 = Row + 2,
-  Column1 = Column - 2,
+  Row1 is Row + 2,
+  Column1 is Column - 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
   OtherPiece == emptyCell,
@@ -406,8 +406,8 @@ validateComputerRetreatRight(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == redSoldier,
   checkComputerNearbyEnemies(Row, Column, Board),
-  Row1 = Row - 2,
-  Column1 = Column + 2,
+  Row1 is Row - 2,
+  Column1 is Column + 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
   OtherPiece == emptyCell,
@@ -421,8 +421,8 @@ validateComputerRetreatRight(Row, Column, Row1, Column1, Board):-
   getPiece(Row, Column, Board, Piece),
   Piece == blackSoldier,
   checkComputerNearbyEnemies(Row, Column, Board),
-  Row1 = Row + 2,
-  Column1 = Column + 2,
+  Row1 is Row + 2,
+  Column1 is Column + 2,
   Row1 =< 9,
   getPiece(Row1, Column1, Board, OtherPiece),
   OtherPiece == emptyCell,
@@ -658,8 +658,8 @@ validateComputerMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType,
         getPiece(Row, Column, Board, Piece),
         Piece == redSoldier,
         CannonType == verticalCannon,
-        Row1 = Row + (4 - PieceNumber),
-        Column1 = Column,
+        Row1 is Row + (4 - PieceNumber),
+        Column1 is Column,
         getPiece(Row1, Column1, Board, OtherPiece),
         OtherPiece == emptyCell.
 
@@ -668,8 +668,8 @@ validateComputerMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType,
         getPiece(Row, Column, Board, Piece),
         Piece == blackSoldier,
         CannonType == verticalCannon,
-        Row1 = Row - PieceNumber,
-        Column1 = Column,
+        Row1 is Row - PieceNumber,
+        Column1 is Column,
         getPiece(Row1, Column1, Board, OtherPiece),
         OtherPiece == emptyCell.
 
@@ -677,8 +677,8 @@ validateComputerMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType,
 
 validateComputerMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         CannonType == diagonalNWSECannon,
-        Row1 = Row - PieceNumber,
-        Column1 = Column - PieceNumber,
+        Row1 is Row - PieceNumber,
+        Column1 is Column - PieceNumber,
         getPiece(Row1, Column1, Board, Piece),
         Piece == emptyCell.
 
@@ -686,8 +686,8 @@ validateComputerMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType,
 
 validateComputerMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         CannonType == diagonalSWNECannon,
-        Row1 = Row - PieceNumber,
-        Column1 = Column + PieceNumber,
+        Row1 is Row - PieceNumber,
+        Column1 is Column + PieceNumber,
         getPiece(Row1, Column1, Board, Piece),
         Piece == emptyCell.
 
@@ -695,8 +695,8 @@ validateComputerMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType,
 
 validateComputerMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         CannonType == horizontalCannon,
-        Row1 = Row,
-        Column1 = Column + (4-PieceNumber),
+        Row1 is Row,
+        Column1 is Column + (4-PieceNumber),
         getPiece(Row1, Column1, Board, Piece),
         Piece == emptyCell.
 
@@ -709,8 +709,8 @@ validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType
         getPiece(Row, Column, Board, Piece),
         Piece == redSoldier,
         CannonType == verticalCannon,
-        Row1 = Row - PieceNumber,
-        Column1 = Column,
+        Row1 is Row - PieceNumber,
+        Column1 is Column,
         getPiece(Row1, Column1, Board, OtherPiece),
         OtherPiece == emptyCell.
 
@@ -719,8 +719,8 @@ validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType
         getPiece(Row, Column, Board, Piece),
         Piece == blackSoldier,
         CannonType == verticalCannon,
-        Row1 = Row + (4 - PieceNumber),
-        Column1 = Column,
+        Row1 is Row + (4 - PieceNumber),
+        Column1 is Column,
         getPiece(Row1, Column1, Board, OtherPiece),
         OtherPiece == emptyCell.
 
@@ -728,8 +728,8 @@ validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType
 
 validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         CannonType == diagonalNWSECannon,
-        Row1 = Row + (4 - PieceNumber),
-        Column1 = Column + (4 - PieceNumber),
+        Row1 is Row + (4 - PieceNumber),
+        Column1 is Column + (4 - PieceNumber),
         getPiece(Row1, Column1, Board, Piece),
         Piece == emptyCell.
 
@@ -737,8 +737,8 @@ validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType
 
 validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         CannonType == diagonalSWNECannon,
-        Row1 = Row + (4 - PieceNumber),
-        Column1 = Column - (4-PieceNumber),
+        Row1 is Row + (4 - PieceNumber),
+        Column1 is Column - (4-PieceNumber),
         getPiece(Row1, Column1, Board, Piece),
         Piece == emptyCell.
 
@@ -746,8 +746,8 @@ validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType
 
 validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):-
         CannonType == horizontalCannon,
-        Row1 = Row,
-        Column1 = Column - PieceNumber,
+        Row1 is Row,
+        Column1 is Column - PieceNumber,
         getPiece(Row1, Column1, Board, Piece),
         Piece == emptyCell.
 
