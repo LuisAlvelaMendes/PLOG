@@ -1,6 +1,5 @@
 /* -*- Mode:Prolog; coding:iso-8859-1; indent-tabs-mode:nil; prolog-indent-width:8; prolog-paren-indent:4; tab-width:8; -*- */
 
-:-include('valid_moves.pl').
 :-include('valid_computer_moves.pl').
 :-include('choose_move.pl').
 :-include('game_over.pl').
@@ -19,7 +18,7 @@
 cannon:-
         repeat,
         clearConsole,
-        mainMenu,
+        mainMenu, !,
         write('Enter game mode: '),
         read(Selection),
         Selection >= 1,
@@ -30,6 +29,8 @@ cannon:-
 selectGameMode(Selection, Board):-
         Selection == 1,
         display_game(Board),
+        variavel(Y),
+        format('cema : ~w',[Y]),
         humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn), !,
         humanVsHuman(NewBoard, RedCityColumn, BlackCityColumn).
 
@@ -46,7 +47,6 @@ selectGameMode(Selection, Board):-
         computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn), !,
         computerVsComputer(NewBoard, RedCityColumn, BlackCityColumn).
 
-
 /* HUMANS logic */
 
 /* choosing city - Player vs Player */
@@ -60,7 +60,7 @@ humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
 choose_action(Board, NewBoard, Player):-
         repeat,
         nl,
-        write('Select your piece!'), nl,
+        write('Select your piece!'), nl,nl,
         askCoords(Row, Column),
         check_if_invalid_piece(Row, Column, Board, Player),
         write('Would you like to move (either retreat/forward) (1), capture (2), cannon(3)? '),
@@ -120,7 +120,7 @@ cannon_choice(Row, Column, Board, NewBoard):-
         Check == ask,
         ask_which_cannon(ReturnList, CannonType, PieceNumber),
         write('Move cannon(5), or capture with cannon(6)? '),
-        read(Answer),
+        read(Answer),nl,
         choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, Answer, FinalAction),
         FinalAction.
 
@@ -128,9 +128,9 @@ cannon_choice(Row, Column, Board, NewBoard):-
         getPiece(Row, Column, Board, Piece),
         findall_cannon_possibledirections(Row, Column, Board, Piece, Check, _),
         Check == dont,
-        checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber),
+        checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber),
         write('Move cannon(5), or capture with cannon(6)? '),
-        read(Answer),
+        read(Answer),nl,
         choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, Answer, FinalAction),
         FinalAction.
 
@@ -143,23 +143,23 @@ choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, 6, c
 move_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         write('Where do you want to move?'), nl,
         findall([CurrentMove,Row2,Column2], validateComputerMoveCannon(Row, Column, Row2, Column2, Board, CannonType, PieceNumber, CurrentMove), Moves),
-        format('Possible moves are: ~w', [Moves]),nl,
+        /*format('Possible moves are: ~w', [Moves]),nl,*/
         askCoords(Row1, Column1),
         findMoves(Moves,Row1,Column1,CurrentMove),
-        /*validateMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove),*/
         write(CurrentMove), nl,
         move_cannon(CurrentMove, Row, Column, Board, NewBoard, CannonType, PieceNumber).
 
 capture_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber):-
-        write('Which target do you want to shoot?'), nl,
         findall([Row2,Column2], validateComputerCaptureCannon(Row, Column, Row2, Column2, Board, CannonType, PieceNumber), Moves),
-        format('Possible moves are: ~w', [Moves]),nl,
+        length(Moves,N),
+        (N>0;write('There are no possible targets'),nl,fail),
+        write('Which target do you want to shoot?'), nl,
+        /*format('Possible moves are: ~w', [Moves]),nl,*/
         askCoords(Row1, Column1),
         findMovesCap(Moves,Row1,Column1),
-        /*validateCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber),*/
         capture_cannon(Row1, Column1, Board, NewBoard).
 
-findMovesCap([],Row1,Column1):-write('Cannot do this!'),sleep(1),nl,fail.
+findMovesCap([],_,_):-write('Cannot do this!'),sleep(1),nl,fail.
 findMovesCap([Move|Tail],Row1,Column1):-
         nth0(0,Move,Row1),
         nth0(1,Move,Column1);
@@ -203,7 +203,6 @@ humanVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
 
 humanVsComputer(Board, RedCityColumn, BlackCityColumn, BotType):-
         write('Red player turn!'), nl,
-        format("~w:", BotType), nl,
         choose_action_computer(Board, N, red, BotType),
         sleep(1),
         display_game(N),

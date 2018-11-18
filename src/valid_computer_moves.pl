@@ -641,7 +641,7 @@ checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         getPiece(Row2, Column2, Board, SecondFrontPiece),
         SecondFrontPiece == Piece.
 
-checkPieceInCannonComputer(_, _, _, _, _, _):- write('This Piece is not in a cannon!'), nl, fail.
+checkPieceInCannonComputer(_, _, _, _, _, _):- nl, fail.
 
 /* now for actual movement validity */
 

@@ -109,9 +109,7 @@ choose_to_move_computer(Row1, Column1, Board, NewBoard):-
 
 /* move cannon */
 choose_to_move_cannon(Row1, Column1, Board, NewBoard):-
-        format("~w:~w:", [Row1, Column1]), nl,
         getPiece(Row1, Column1, Board, Piece),
-        format("~w:", Piece), nl,
         checkPieceInCannonComputer(Row1, Column1, Board, Piece, CannonType, PieceNumber),
         findall([CurrentMove], validateComputerMoveCannon(Row1, Column1, _, _, Board, CannonType, PieceNumber, CurrentMove), Moves),
         length(Moves,LenMoves),
@@ -123,7 +121,6 @@ choose_to_move_cannon(Row1, Column1, Board, NewBoard):-
 /* capture cannon */
 choose_to_capture_cannon(Row1, Column1, Board, NewBoard):-
         getPiece(Row1, Column1, Board, Piece),
-        format("~w:", Piece), nl,
         checkPieceInCannonComputer(Row1, Column1, Board, Piece, CannonType, PieceNumber),
         validateComputerCaptureCannon(Row1, Column1, Row2, Column2, Board, CannonType, PieceNumber),
         capture_cannon(Row2, Column2, Board, NewBoard).

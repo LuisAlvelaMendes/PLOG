@@ -9,7 +9,7 @@ parseCoordsList(_, _, _):- write('Invalid coords.'), nl, fail.
 askCoords(Row, Column):-
         repeat,
         write('Coordinates (Lowercase Column followed by Row): '),
-        read(FullCoords),
+        read(FullCoords),nl,
         atom_codes(FullCoords, CoordsList),
         parseCoordsList(CoordsList, ColumnUserSelected, RowUserSelected),
         columnIndex(ColumnUserSelected, Column),
