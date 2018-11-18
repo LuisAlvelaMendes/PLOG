@@ -106,14 +106,14 @@ print_list([H|T], I, FinalNumber):-
 
 print_list([], I, FinalNumber):- FinalNumber = I.
 
-find_list_element([[CannonTypeList, PieceNumberList]|_], 0, CannonType, PieceNumber):- 
+find_list_element([[CannonTypeList, PieceNumberList]|_], 0, CannonType, PieceNumber):-
         CannonType = CannonTypeList,
         PieceNumber = PieceNumberList.
 
 find_list_element([_|T], Number, CannonType, PieceNumber):-
         Number > 0,
         N1 is Number - 1,
-        find_list_element(T, N1, CannonType, PieceNumber).  
+        find_list_element(T, N1, CannonType, PieceNumber).
 
 /* getting the Piece of index [row][col] from the list */
 
@@ -159,3 +159,6 @@ matrixblack(Matrix, I, J) :-
     nth0(J, Matrix, Row),
     nth0(I, Row, Value),
     Value == blackSoldier.
+
+clearConsole:-
+    write('\33\[2J').

@@ -1,13 +1,13 @@
 initialBoard([
                      [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
-                     [emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, emptyCell],
-                     [emptyCell, emptyCell, redSoldier, emptyCell, emptyCell, redSoldier, emptyCell, emptyCell, emptyCell, emptyCell],
-                     [emptyCell, emptyCell, blackSoldier, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
-                     [emptyCell, emptyCell, emptyCell, emptyCell, redSoldier, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
-                     [emptyCell, blackSoldier, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
-                     [blackSoldier, emptyCell, redSoldier, blackSoldier, emptyCell, emptyCell, blackSoldier, emptyCell, emptyCell, emptyCell],
-                     [emptyCell, emptyCell, redSoldier, blackSoldier, emptyCell, emptyCell, emptyCell, emptyCell, blackSoldier, emptyCell],
-                     [redSoldier, emptyCell, emptyCell, redSoldier, emptyCell, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell],
+                     [emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
+                     [emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
+                     [emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier, emptyCell, redSoldier],
+                     [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+                     [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+                     [blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell],
+                     [blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell],
+                     [blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell, blackSoldier, emptyCell],
                      [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell,emptyCell, emptyCell,  emptyCell, emptyCell]
            ]).
 

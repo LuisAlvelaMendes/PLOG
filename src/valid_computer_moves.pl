@@ -469,16 +469,12 @@ checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
         PieceNumber = 1,
         Row2 is Row + 1,
         Column2 is Column,
-        write('here fail'), nl,
         getPiece(Row2, Column2, Board, BackPiece),
         BackPiece == Piece,
         Row3 is Row + 2,
         Column3 is Column,
-        write('httttere fail'), nl,
         getPiece(Row3, Column3, Board, SecondBackPiece),
-        format("~w:~w:~w", [Row3, Column3, SecondBackPiece]),
-        SecondBackPiece == Piece,
-        write('did not fail'), nl.
+        SecondBackPiece == Piece.
 
 /* imagining Piece 2 */
 checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber):-
@@ -753,7 +749,7 @@ validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType
 
 validateComputerMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove):- validateComputerMoveCannonForward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber), CurrentMove = forward.
 validateComputerMoveCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber, CurrentMove):- validateComputerMoveCannonBackward(Row, Column, Row1, Column1, Board, CannonType, PieceNumber), CurrentMove = backward.
-validateComputerMoveCannon(_, _, _, _, _, _, _, _):- write('Cannot move there.'), nl, !, fail.
+validateComputerMoveCannon(_, _, _, _, _, _, _, _):- nl, !, fail.
 
 /* Option 2.2: capture cannon */
 
@@ -1038,4 +1034,4 @@ validateComputerCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, Pie
 validateComputerCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateComputerCaptureSE(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
 validateComputerCaptureCannon(Row, Column, Row1, Column1, Board, CannonType, PieceNumber):- validateComputerCaptureSW(Row, Column, Row1, Column1, Board, CannonType, PieceNumber).
 
-validateComputerCaptureCannon(_, _, _, _, _, _, _):- write('Invalid cell to capture! Select again ..'), nl, fail.
+validateComputerCaptureCannon(_, _, _, _, _, _, _):- nl, fail.

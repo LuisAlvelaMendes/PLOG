@@ -23,49 +23,40 @@ main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
-        write('trying capture'), nl,
         checkComputerNearbyEnemies(Row, Column, Board),
-        write('cant capture'), nl,
-        choose_to_capture(Row, Column, Board, NewBoard). 
+        choose_to_capture(Row, Column, Board, NewBoard).
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
-        write('trying retreat'), nl,
         checkComputerNearbyEnemies(Row, Column, Board),
-        write('cant retreat'), nl,
-        choose_to_retreat(Row, Column, Board, NewBoard). 
+        choose_to_retreat(Row, Column, Board, NewBoard).
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
-        write('trying move'), nl,
-        choose_to_move_computer(Row, Column, Board, NewBoard),
-        write('moved'), nl.
+        choose_to_move_computer(Row, Column, Board, NewBoard).
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
-        write('trying shoot cannon'), nl,
-        choose_to_capture_cannon(Row, Column, Board, NewBoard),
-        write('shot'), nl.
+        choose_to_capture_cannon(Row, Column, Board, NewBoard).
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == agressive,
-        choose_to_move_cannon(Row, Column, Board, NewBoard),
-        write('moved'), nl.
+        choose_to_move_cannon(Row, Column, Board, NewBoard).
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == easy,
         checkComputerNearbyEnemies(Row, Column, Board),
-        choose_to_retreat(Row, Column, Board, NewBoard). 
+        choose_to_retreat(Row, Column, Board, NewBoard).
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
@@ -78,21 +69,19 @@ main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == easy,
-        choose_to_move_computer(Row, Column, Board, NewBoard). 
+        choose_to_move_computer(Row, Column, Board, NewBoard).
 
 main_action_logic(Coords, Board, NewBoard, _, BotType):-
         nth0(0, Coords, Row),
         nth0(1, Coords, Column),
         BotType == easy,
-        choose_to_move_cannon(Row, Column, Board, NewBoard),
-        write('moved'), nl.
+        choose_to_move_cannon(Row, Column, Board, NewBoard).
 
 main_action_logic(_, Board, NewBoard, Player, BotType):-
         choose_action_computer(Board, NewBoard, Player, BotType).
 
 /* capture*/
 choose_to_capture(Row1, Column1, Board, NewBoard):-
-        write('entered capture'), nl,
         findall([Position], validateComputerCapture(Row1, Column1, _, _, Board, Position), Positions),
         length(Positions,LenPositions),
         random(0,LenPositions,M),
@@ -102,7 +91,6 @@ choose_to_capture(Row1, Column1, Board, NewBoard):-
 
 /* retreat */
 choose_to_retreat(Row1, Column1, Board, NewBoard):-
-        write('entered retreat'), nl, 
         findall([CurrentMove], validateComputerRetreat(Row1, Column1, _, _, Board, CurrentMove), Moves),
         length(Moves,LenMoves),
         random(0,LenMoves,M),
@@ -134,7 +122,6 @@ choose_to_move_cannon(Row1, Column1, Board, NewBoard):-
 
 /* capture cannon */
 choose_to_capture_cannon(Row1, Column1, Board, NewBoard):-
-        write('entered capture cannon'), nl,
         getPiece(Row1, Column1, Board, Piece),
         format("~w:", Piece), nl,
         checkPieceInCannonComputer(Row1, Column1, Board, Piece, CannonType, PieceNumber),

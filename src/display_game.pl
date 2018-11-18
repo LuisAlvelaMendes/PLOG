@@ -2,7 +2,7 @@
 
 /*Separador de cima */
 printGenericSeparator:-write('   _______________________________________'), nl.
-                       
+
 /*Spearador do meio */
 printMiddleSeparator:-write('  |___|___|___|___|___|___|___|___|___|___|'), nl.
 
@@ -32,6 +32,6 @@ displayID(ID):- ID = '10', write(ID).
 display_game_aux([], []):-printLetters, nl.
 display_game_aux([Head|Tail], [RHead|RTail]):- displayID(RHead), display_board_line(Head), display_game_aux(Tail, RTail).
 
-display_game(Board):- printGenericSeparator, display_game_aux(Board, ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']).
+display_game(Board):- clearConsole, printGenericSeparator, display_game_aux(Board, ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']).
 
 /*display_game(+Board,+Player)*/

@@ -17,12 +17,8 @@
 
 /* Menu loop */
 cannon:-
-        write('g'),
         repeat,
-        between(0,4,Flag),
-        playAgain(Flag),
-                write('h'),
-        format('        ~w',[Flag]),
+        clearConsole,
         mainMenu,
         write('Enter game mode: '),
         read(Selection),
@@ -30,14 +26,6 @@ cannon:-
         Selection =< 3,
         initialBoard(Board),
         selectGameMode(Selection, Board),!.
-
-playAgain(Flag):-
-write('Play  '),
-Flag == 0;
-        (
-        write('Play again (0/1)? '),
-        read(Selection),
-        Selection == 1).
 
 selectGameMode(Selection, Board):-
         Selection == 1,
@@ -107,7 +95,7 @@ capture_choice(Row, Column, Board, NewBoard):-
         move(Position, Row, Column, Board, NewBoard).
 
 
-findMoves([],Row1,Column1,CurrentMove):-write('Cannot do this!'),sleep(1),nl,fail.
+findMoves([],_,_,_):-write('Cannot do this!'),sleep(1),nl,fail.
 findMoves([Move|Tail],Row1,Column1,CurrentMove):-
         nth0(1,Move,Row1),
         nth0(2,Move,Column1),
@@ -217,6 +205,7 @@ humanVsComputer(Board, RedCityColumn, BlackCityColumn, BotType):-
         write('Red player turn!'), nl,
         format("~w:", BotType), nl,
         choose_action_computer(Board, N, red, BotType),
+        sleep(1),
         display_game(N),
         \+ game_over(N, RedCityColumn, BlackCityColumn),
         write('Black player turn!'), nl,
@@ -241,12 +230,12 @@ computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
 computerVsComputer(Board, RedCityColumn, BlackCityColumn):-
         write('Red player turn!'), nl,
         choose_action_computer(Board, N, red, agressive),
-        sleep(0),
+        sleep(1),
         display_game(N),
         \+ game_over(N, RedCityColumn, BlackCityColumn),
         write('Black player turn!'), nl,
         choose_action_computer(N, FinalBoard, black, agressive),
-        sleep(0),
+        sleep(1),
         display_game(FinalBoard),
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn), !,
         computerVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).
