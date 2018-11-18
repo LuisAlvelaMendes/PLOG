@@ -79,7 +79,6 @@ move_choice(Row, Column, Board, NewBoard):-
         askCoords(Row1, Column1),
         findMoves(Moves,Row1,Column1,CurrentMove),
         format('test after check move: ~w',[CurrentMove]),
-        /*validateMove(Row, Column, Row1, Column1, Board, CurrentMove),*/
         move(CurrentMove, Row, Column, Board, NewBoard).
 
 capture_choice(Row, Column, Board, NewBoard):-
@@ -87,7 +86,6 @@ capture_choice(Row, Column, Board, NewBoard):-
         findall([Position,Row2,Column2], validateComputerCapture(Row, Column, Row2, Column2, Board, Position), Captures),
         askCoords(Row1, Column1),
         findMoves(Captures,Row1,Column1,Position),
-        /*validateCapture(Row, Column, Row1, Column1, Board, Position),*/
         move(Position, Row, Column, Board, NewBoard).
 
 
@@ -223,12 +221,12 @@ computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
 computerVsComputer(Board, RedCityColumn, BlackCityColumn):-
         write('Red player turn!'), nl,
         choose_action_computer(Board, N, red, agressive),
-        sleep(0),
+        sleep(1),
         display_game(N),
         \+ game_over(N, RedCityColumn, BlackCityColumn),
         write('Black player turn!'), nl,
         choose_action_computer(N, FinalBoard, black, agressive),
-        sleep(0),
+        sleep(1),
         display_game(FinalBoard),
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn), !,
         computerVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).
