@@ -29,8 +29,6 @@ cannon:-
 selectGameMode(Selection, Board):-
         Selection == 1,
         display_game(Board),
-        variavel(Y),
-        format('cema : ~w',[Y]),
         humanVsHumanPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn), !,
         humanVsHuman(NewBoard, RedCityColumn, BlackCityColumn).
 
@@ -78,7 +76,6 @@ move_choice(Row, Column, Board, NewBoard):-
         findall([Move,Row2,Column2], validateComputerMove(Row, Column, Row2, Column2, Board, Move), MovesN),
         findall([Move,Row2,Column2], validateComputerRetreat(Row, Column, Row2, Column2, Board, Move), MovesR),
         append(MovesN,MovesR,Moves),
-        format('Possible moves are: ~w', [Moves]),nl,
         askCoords(Row1, Column1),
         findMoves(Moves,Row1,Column1,CurrentMove),
         format('test after check move: ~w',[CurrentMove]),
@@ -88,7 +85,6 @@ move_choice(Row, Column, Board, NewBoard):-
 capture_choice(Row, Column, Board, NewBoard):-
         write('Capture target?'), nl,
         findall([Position,Row2,Column2], validateComputerCapture(Row, Column, Row2, Column2, Board, Position), Captures),
-        format('Possible capture targets are: ~w', [Captures]),nl,
         askCoords(Row1, Column1),
         findMoves(Captures,Row1,Column1,Position),
         /*validateCapture(Row, Column, Row1, Column1, Board, Position),*/
@@ -143,7 +139,6 @@ choose_cannon_option(Row, Column, Board, NewBoard, CannonType, PieceNumber, 6, c
 move_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         write('Where do you want to move?'), nl,
         findall([CurrentMove,Row2,Column2], validateComputerMoveCannon(Row, Column, Row2, Column2, Board, CannonType, PieceNumber, CurrentMove), Moves),
-        /*format('Possible moves are: ~w', [Moves]),nl,*/
         askCoords(Row1, Column1),
         findMoves(Moves,Row1,Column1,CurrentMove),
         write(CurrentMove), nl,
@@ -154,7 +149,6 @@ capture_cannon_choice(Row, Column, Board, NewBoard, CannonType, PieceNumber):-
         length(Moves,N),
         (N>0;write('There are no possible targets'),nl,fail),
         write('Which target do you want to shoot?'), nl,
-        /*format('Possible moves are: ~w', [Moves]),nl,*/
         askCoords(Row1, Column1),
         findMovesCap(Moves,Row1,Column1),
         capture_cannon(Row1, Column1, Board, NewBoard).
@@ -229,12 +223,12 @@ computerVsComputerPlaceCity(Board, NewBoard, RedCityColumn, BlackCityColumn):-
 computerVsComputer(Board, RedCityColumn, BlackCityColumn):-
         write('Red player turn!'), nl,
         choose_action_computer(Board, N, red, agressive),
-        sleep(1),
+        sleep(0),
         display_game(N),
         \+ game_over(N, RedCityColumn, BlackCityColumn),
         write('Black player turn!'), nl,
         choose_action_computer(N, FinalBoard, black, agressive),
-        sleep(1),
+        sleep(0),
         display_game(FinalBoard),
         \+ game_over(FinalBoard, RedCityColumn, BlackCityColumn), !,
         computerVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).

@@ -39,7 +39,7 @@ placeCity(Board, NewBoard, Player, RedCityColumn):-
         Player == red,
         write('Where to place?'), nl,
         askColumn(RedCityColumn),
-        validateCityPlace(RedCityColumn, Player),
+        validateComputerCityPlace(RedCityColumn, Player),
         replaceInMatrix(Board, 0, RedCityColumn, redCityPiece, NewBoard),
         display_game(NewBoard).
 
@@ -47,7 +47,7 @@ placeCity(Board, NewBoard, Player, BlackCityColumn):-
         Player == black,
         write('Where to place?'), nl,
         askColumn(BlackCityColumn),
-        validateCityPlace(BlackCityColumn, Player),
+        validateComputerCityPlace(BlackCityColumn, Player),
         replaceInMatrix(Board, 9, BlackCityColumn, blackCityPiece, NewBoard),
         display_game(NewBoard).
 
@@ -91,7 +91,7 @@ check_if_invalid_piece(_, _, _, _).
 /* finding possible directions for cannons in case the selected piece can be in more than one cannon */
 findall_cannon_possibledirections(Row, Column, Board, Piece, Check, ReturnList):-
         Check = ask,
-        findall([CannonType, PieceNumber], checkPieceInCannon(Row, Column, Board, Piece, CannonType, PieceNumber), ReturnList),
+        findall([CannonType, PieceNumber], checkPieceInCannonComputer(Row, Column, Board, Piece, CannonType, PieceNumber), ReturnList),
         length(ReturnList, Size),
         Size > 1.
 
