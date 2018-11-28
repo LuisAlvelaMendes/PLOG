@@ -15,7 +15,7 @@
 /* Main game running file, contains game loop */
 
 /* Menu loop */
-cannon:-
+play:-
         repeat,
         clearConsole,
         mainMenu, !,
@@ -232,3 +232,20 @@ computerVsComputer(Board, RedCityColumn, BlackCityColumn):-
         computerVsComputer(FinalBoard, RedCityColumn, BlackCityColumn).
 
 computerVsComputer(Board, RedCityColumn, BlackCityColumn):- game_over(Board, RedCityColumn, BlackCityColumn), fail.
+
+value(Board, Player, Value):-
+        Player==red,
+        findall([MRow,MColumn],matrixred(Board, MColumn, MRow),RedPieces),
+        length(RedPieces,RLen),
+        findall([MRow,MColumn],matrixblack(Board, MColumn, MRow),BlackPieces),
+        length(BlackPieces,BLen),
+        Value is (RLen/(RLen+BLen))*100.
+
+
+value(Board, Player, Value):-
+        Player==black,
+        findall([MRow,MColumn],matrixred(Board, MColumn, MRow),RedPieces),
+        length(RedPieces,RLen),
+        findall([MRow,MColumn],matrixblack(Board, MColumn, MRow),BlackPieces),
+        length(BlackPieces,BLen),
+        Value is (BLen/(RLen+BLen))*100.
