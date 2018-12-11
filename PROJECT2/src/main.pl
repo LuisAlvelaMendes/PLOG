@@ -39,7 +39,6 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         
         % All houses must be connected to some other house, but only one-to-one
         % Go through houses and find lengths, there must be H/2 lengths
-        
         goThroughHouses(HousePair1, HousePair2, HouseCoordsX, HouseCoordsY, Lengths),
         
         % there can only be 2 distinct lenghs
@@ -48,3 +47,11 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         append(HousePair1, HousePair2, Result),
         
         labeling([], Result).
+
+play(Puzzle, Pairs, Lengths):-
+        Puzzle == 1,
+        board4x4(B), solveBoard(B, 8, [0,0,2,3,2,3,3,3], [0,3,0,0,1,1,2,3], Pairs, Lengths).
+
+play(Puzzle, Pairs, Lengths):-
+        Puzzle == 2,
+        board5x5(B), solveBoard(B, 10, [3,4,4,0,0,1,2,4,4,0], [0,0,1,1,2,2,3,3,4,4], Pairs, Lengths).
