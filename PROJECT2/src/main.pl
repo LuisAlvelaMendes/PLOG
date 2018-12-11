@@ -14,6 +14,8 @@ goThroughHouses([H1|Hs1], [H2|Hs2], HouseCoordsX, HouseCoordsY, [L|Ls]):-
         element(H1, HouseCoordsY, Y1),
         element(H2, HouseCoordsX, X2),
         element(H2, HouseCoordsY, Y2),
+
+        %H1 #>= H2,             tirar simetrias? nao sei bem como
        
         L #= ((X1-X2)*(X1-X2) + (Y1-Y2)*(Y1-Y2)),
         
@@ -50,8 +52,12 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
 
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 1,
-        board4x4(B), solveBoard(B, 8, [0,0,2,3,2,3,2,3], [0,3,0,0,1,1,2,3], Pairs, Lengths).
+        board4x4(B),
+        display_game(B),
+        solveBoard(B, 8, [0,0,2,3,2,3,2,3], [0,3,0,0,1,1,2,3], Pairs, Lengths).
 
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 2,
-        board5x5(B), solveBoard(B, 10, [3,4,4,0,0,1,2,4,4,0], [0,0,1,1,2,2,3,3,4,4], Pairs, Lengths).
+        board5x5(B),
+        display_game(B),
+         solveBoard(B, 10, [3,4,0,4,0,1,2,4,0,4], [0,0,1,1,2,2,3,3,4,4], Pairs, Lengths).

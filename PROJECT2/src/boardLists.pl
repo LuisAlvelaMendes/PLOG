@@ -1,21 +1,21 @@
 /* puzzle 1:
 
-     [houseCell_1, emptyCell, houseCell_3, houseCell_4],
-     [emptyCell, emptyCell, houseCell_5, houseCell_6],
-     [emptyCell, emptyCell, houseCell_7, emptyCell],
-     [houseCell_2, emptyCell, emptyCell, houseCell_8]
+     [houseCell_1, emptyCell, houseCell_2, houseCell_3],
+     [emptyCell, emptyCell, houseCell_4, houseCell_5],
+     [emptyCell, emptyCell, houseCell_6, emptyCell],
+     [houseCell_7, emptyCell, emptyCell, houseCell_8]
 
 H1:     H2:     H3:     H4:     H5:     H6:     H7:     H8:
-x:0     0       2       3       2       3       2       3       [0,0,2,3,2,3,2,3]
-y:0     3       0       0       1       1       2       3       [0,3,0,0,1,1,2,3]
+x:0     2       3       2       3       2       0       3       [0,2,3,2,3,2,0,3]
+y:0     0       0       1       1       2       3       3       [0,0,0,1,1,2,3,3]
 
 
 one of the expected answers:
 
-connected(houseCell1, houseCell2, Length1)
-connected(houseCell3, houseCell6, Length2)
-connected(houseCell5, houseCell4, Length2)
-connected(houseCell7, houseCell8, Length2)
+connected(houseCell_1, houseCell_7, Length1)
+connected(houseCell_3, houseCell_4, Length2)
+connected(houseCell_2, houseCell_5, Length2)
+connected(houseCell_6, houseCell_8, Length2)
 
 in list form, pairs of connected houses with a given Length:
 [(H1-H2, L1), (H3-H6, L2), (H5-H4, L2), (H7-H8, L2)]
@@ -32,24 +32,24 @@ board4x4([
 
 /* puzzle 2:
 
-     [emptyCell, emptyCell, emptyCell, houseCell1, houseCell2],
-     [houseCell4, emptyCell, emptyCell, emptyCell, houseCell3],
-     [houseCell5, houseCell6, emptyCell, emptyCell, emptyCell],
-     [emptyCell, emptyCell, houseCell7, emptyCell, houseCell8],
-     [houseCell10, emptyCell, emptyCell, emptyCell, houseCell9]
+     [emptyCell, emptyCell, emptyCell, houseCell_1, houseCell_2],
+     [houseCell_3, emptyCell, emptyCell, emptyCell, houseCell_4],
+     [houseCell_5, houseCell_6, emptyCell, emptyCell, emptyCell],
+     [emptyCell, emptyCell, houseCell_7, emptyCell, houseCell_8],
+     [houseCell_9, emptyCell, emptyCell, emptyCell, houseCell_10]
 
 H1:     H2:     H3:     H4:     H5:     H6:     H7:     H8:     H9:     H10:
-x:3     4       4       0       0       1       2       4       4       0       [3,4,4,0,0,1,2,4,4,0]
+x:3     4       0       4       0       1       2       4       0       4       [3,4,0,4,0,1,2,4,0,4]
 y:0     0       1       1       2       2       3       3       4       4       [0,0,1,1,2,2,3,3,4,4]
 
 
 one of the expected answers:
 
-connected(houseCell1, houseCell9, Length1)
-connected(houseCell4, houseCell2, Length1)
-connected(houseCell5, houseCell3, Length1)
-connected(houseCell6, houseCell7, Length2)
-connected(houseCell10, houseCell8, Length1)
+connected(houseCell_1, houseCell_10, Length1)
+connected(houseCell_2, houseCell_3, Length1)
+connected(houseCell_4, houseCell_5, Length1)
+connected(houseCell_6, houseCell_7, Length2)
+connected(houseCell_8, houseCell_9, Length1)
         
 */
 

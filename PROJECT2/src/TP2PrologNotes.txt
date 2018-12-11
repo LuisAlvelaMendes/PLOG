@@ -27,3 +27,6 @@ distance = (xi - x)^2 + (yi - y)^2 (não usar square root porque os
 domínios têm que ser inteiros)
 
 L1 #=/= L2
+
+
+Falta tirar as simetrias
