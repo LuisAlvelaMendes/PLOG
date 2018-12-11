@@ -50,7 +50,7 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
 
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 1,
-        board4x4(B), solveBoard(B, 8, [0,0,2,3,2,3,3,3], [0,3,0,0,1,1,2,3], Pairs, Lengths).
+        board4x4(B), solveBoard(B, 8, [0,0,2,3,2,3,2,3], [0,3,0,0,1,1,2,3], Pairs, Lengths).
 
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 2,

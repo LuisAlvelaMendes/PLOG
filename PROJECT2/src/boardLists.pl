@@ -1,12 +1,12 @@
 /* puzzle 1:
 
-     [houseCell1, emptyCell, houseCell3, houseCell4],
-     [emptyCell, emptyCell, houseCell5, houseCell6],
-     [emptyCell, emptyCell, houseCell7, emptyCell],
-     [houseCell2, emptyCell, emptyCell, houseCell8]
+     [houseCell_1, emptyCell, houseCell_3, houseCell_4],
+     [emptyCell, emptyCell, houseCell_5, houseCell_6],
+     [emptyCell, emptyCell, houseCell_7, emptyCell],
+     [houseCell_2, emptyCell, emptyCell, houseCell_8]
 
 H1:     H2:     H3:     H4:     H5:     H6:     H7:     H8:
-x:0     0       2       3       2       3       3       3       [0,0,2,3,2,3,3,3]
+x:0     0       2       3       2       3       2       3       [0,0,2,3,2,3,2,3]
 y:0     3       0       0       1       1       2       3       [0,3,0,0,1,1,2,3]
 
 
