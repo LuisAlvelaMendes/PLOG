@@ -5,6 +5,11 @@
      [emptyCell, emptyCell, houseCell7, emptyCell],
      [houseCell2, emptyCell, emptyCell, houseCell8]
 
+H1:     H2:     H3:     H4:     H5:     H6:     H7:     H8:
+x:0     0       2       3       2       3       3       3       [0,0,2,3,2,3,3,3]
+y:0     3       0       0       1       1       2       3       [0,3,0,0,1,1,2,3]
+
+
 expected answer:
 
 connected(houseCell1, houseCell2, Length1)

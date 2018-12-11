@@ -1,25 +1,26 @@
 :- use_module(library(clpfd)).
 :- use_module(library(lists)).
 :- use_module(library(random)).
+:- include('display.pl').
 
 % We need to know if the board is a 4x4 or a 5x5 etc ..
 getBoardSize([Head|_], N):-
         length(Head, N).
 
-% Gets a coordinate (I, J) based on value
-matrix(Matrix, I, J, Value) :-
-    nth0(J, Matrix, Row),
-    nth0(I, Row, Value).
-
-solveBoard(Board, H, Result):-
+goThroughHouses([], [], _, _, []).
+goThroughHouses([H1|Hs1], [H2|Hs2], HouseCoordsX, HouseCoordsY, [L|Ls]):-
+        
+        element(H1, HouseCoordsX, X1),
+        element(H1, HouseCoordsY, Y1),
+        element(H2, HouseCoordsX, X2),
+        element(H2, HouseCoordsY, Y2),
+       
+        L #= ((X1-X2)*(X1-X2) + (Y1-Y2)*(Y1-Y2)),
+        
+        goThroughHouses(Hs1, Hs2, HouseCoordsX, HouseCoordsY, Ls).
+        
+solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         getBoardSize(Board, N),
-        
-        % The maximum length would be the diagonal of the square "board"
-        MaxLength is (N*N + N*N),
-        Lengths = [L1, L2], domain(Lengths, 1, MaxLength),
-        
-        % There can only be two possible lengths for connecting houses and they are distinct
-        all_distinct(Lengths),
 
         % A board NxN can not have more than N*2 houses
         H #=< N*2,
@@ -27,23 +28,23 @@ solveBoard(Board, H, Result):-
         % The number of houses must be even
         H mod 2 #= 0,
         
-        % There is a maximum of N connections
-        ResultLength #=< N,
-        length(Result, ResultLength),
+        Half is H//2, 
         
-        % Houses cannot be a part of more than 1 connection
-        % por ex: connected(H1, H2, L1) => connected(X, Y, <any length>) X \= H1 e Y \= H2, já não pode aparecer mais
-       /* nvalue pode não ser o mais correto a utilizar aqui --> */ nvalue(ResultLength, [H1, H2, L]), 
+        % connect each half of houses through two lists in which elements represent the house number
+        % elements in the same index of each list are paired together
+        length(HousePair1, Half), domain(HousePair1, 1, H),
+        length(HousePair2, Half), domain(HousePair2, 1, H),
+        append(HousePair1, HousePair2, HouseList),
+        all_distinct(HouseList),
         
-        H1 #= H2, 
-        matrix(Board, X1, Y1, H1),
-        matrix(Board, X2, Y2, H2),
+        % All houses must be connected to some other house, but only one-to-one
+        % Go through houses and find lengths, there must be H/2 lengths
         
-        L = ((X1-X2)*(X1-X2) + (Y1-Y2)*(Y1-Y2)),
-        element(Pos, Lengths, L),
-        (Pos #= 1 #\/ Pos #=2), 
+        goThroughHouses(HousePair1, HousePair2, HouseCoordsX, HouseCoordsY, Lengths),
         
-        % There cannot be a pair of houses without a connection
-
-        labeling([], Result),
-        nl.
+        % there can only be 2 distinct lenghs
+        nvalue(2, Lengths),
+        
+        append(HousePair1, HousePair2, Result),
+        
+        labeling([], Result).
