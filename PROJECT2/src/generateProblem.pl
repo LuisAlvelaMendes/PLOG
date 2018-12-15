@@ -26,9 +26,8 @@ transformBoard(Board, N, [H|T]):-
         H = Temp,
         trim(Board, N, LatestBoard),
         transformBoard(LatestBoard, N, T).
-        
 
-makeRandomBoard(FinalResult):-
+makeRandomBoard(FinalResult, N):-
         generateRandomBoard(Board, N),
         random_permutation(Board, ShuffledBoard),
         replace(1, emptyCell, ShuffledBoard, Temp),

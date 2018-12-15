@@ -2,6 +2,7 @@
 :- use_module(library(lists)).
 :- include('display.pl').
 :- include('generateProblem.pl').
+:- include('utilities.pl').
 
 % We need to know if the board is a 4x4 or a 5x5 etc ..
 getBoardSize([Head|_], N):-
@@ -50,11 +51,24 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         
         labeling([], Result).
 
+dynamicCoordinates(_, _, _, Final, Final).
+dynamicCoordinates(Board, [X|T], [Y|Z], Counter, Final):-
+        nth0(Y, Board, Row),
+        nth0(X, Row, houseCell),
+        replace(houseCell, emptyCell, Board, NewBoard), 
+        C1 is Counter+1,
+        dynamicCoordinates(NewBoard, T, Z, C1, Final).
+
 % puzzle "0" is actually a random auto-generated puzzle
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 0,
-        makeRandomBoard(Board),
+        makeRandomBoard(Board, N),
+        Houses is N*2,
         display_game(Board).
+       /* dynamicCoordinates(Board, Xlist, Ylist, 0, Houses),
+        write(Xlist), nl,
+        write(Ylist), nl,
+        solveBoard(Board, Houses, Xlist, Ylist, Pairs, Lengths), !.*/
 
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 1,
