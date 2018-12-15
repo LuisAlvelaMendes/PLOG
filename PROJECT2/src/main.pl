@@ -1,7 +1,7 @@
 :- use_module(library(clpfd)).
 :- use_module(library(lists)).
-:- use_module(library(random)).
 :- include('display.pl').
+:- include('generateProblem.pl').
 
 % We need to know if the board is a 4x4 or a 5x5 etc ..
 getBoardSize([Head|_], N):-
@@ -50,6 +50,12 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         
         labeling([], Result).
 
+% puzzle "0" is actually a random auto-generated puzzle
+play(Puzzle, Pairs, Lengths):-
+        Puzzle == 0,
+        makeRandomBoard(Board),
+        display_game(Board).
+
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 1,
         board4x4(B),
@@ -60,4 +66,4 @@ play(Puzzle, Pairs, Lengths):-
         Puzzle == 2,
         board5x5(B),
         display_game(B),
-         solveBoard(B, 10, [3,4,0,4,0,1,2,4,0,4], [0,0,1,1,2,2,3,3,4,4], Pairs, Lengths).
+        solveBoard(B, 10, [3,4,0,4,0,1,2,4,0,4], [0,0,1,1,2,2,3,3,4,4], Pairs, Lengths).
