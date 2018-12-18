@@ -43,8 +43,8 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         % All houses must be connected to some other house, but only one-to-one
         % Go through houses and find lengths, there must be H/2 lengths
         goThroughHouses(HousePair1, HousePair2, HouseCoordsX, HouseCoordsY, Lengths),
-        
-        % there can only be 2 distinct lenghs
+
+        % there can only be 2 distinct lenghts
         nvalue(2, Lengths),
         
         append(HousePair1, HousePair2, Result),
@@ -55,7 +55,7 @@ dynamicCoordinates(_, _, _, Final, Final).
 dynamicCoordinates(Board, [X|T], [Y|Z], Counter, Final):-
         nth0(Y, Board, Row),
         nth0(X, Row, houseCell),
-        replace(houseCell, emptyCell, Board, NewBoard), 
+        replace(houseCell, emptyCell, Board, NewBoard),
         C1 is Counter+1,
         dynamicCoordinates(NewBoard, T, Z, C1, Final).
 
@@ -64,11 +64,35 @@ play(Puzzle, Pairs, Lengths):-
         Puzzle == 0,
         makeRandomBoard(Board, N),
         Houses is N*2,
-        display_game(Board).
-       /* dynamicCoordinates(Board, Xlist, Ylist, 0, Houses),
-        write(Xlist), nl,
-        write(Ylist), nl,
-        solveBoard(Board, Houses, Xlist, Ylist, Pairs, Lengths), !.*/
+        display_game(Board),
+
+        findall(X, matrix(Board, X, _, houseCell), Xlist),
+        findall(Y, matrix(Board, _, Y, houseCell), Ylist),
+
+        length(Xlist,XL),
+        HXL is XL//2,
+        trim(Xlist,HXL,XFinalList),
+
+        length(Ylist,YL),
+        HYL is YL//2,
+        trim(Ylist,HYL,YFinalList),
+
+        format('~nlist X: ~w ~n',[XFinalList]),
+        format('~nlist Y: ~w ~n',[YFinalList]),
+        solveBoard(Board, Houses, XFinalList, YFinalList, Pairs, Lengths),
+        format('~nP: ~w ~n',[Pairs]),
+        format('~nL: ~w ~n~n',[Lengths]),
+        displaySolution(Pairs,Lengths).
+
+displaySolution(Pairs,Length):-
+        div(Pairs,A,B),
+        goThroughPairs(A,B).
+
+goThroughPairs([],[]).
+goThroughPairs([HA|TA],[HB|TB]):-
+        format('~w - ~w~n',[HA,HB]),
+        goThroughPairs(TA,TB).
+
 
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 1,

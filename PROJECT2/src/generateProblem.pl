@@ -6,7 +6,7 @@
 
 generateRandomBoard(Board, N):-
         initializeRandomSeed,
-        random(4, 20, N),
+        random(4, 10, N),
         
         Size is N*N,
         length(Board, Size),
