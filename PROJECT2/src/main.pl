@@ -16,7 +16,7 @@ goThroughHouses([H1|Hs1], [H2|Hs2], HouseCoordsX, HouseCoordsY, [L|Ls]):-
         element(H2, HouseCoordsX, X2),
         element(H2, HouseCoordsY, Y2),
 
-        %H1 #>= H2,             tirar simetrias? nao sei bem como
+        H1 #> H2,            
        
         L #= ((X1-X2)*(X1-X2) + (Y1-Y2)*(Y1-Y2)),
         
@@ -49,23 +49,26 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         
         append(HousePair1, HousePair2, Result),
         
-        labeling([], Result).
+        labeling([ffc], Result).
 
-dynamicCoordinates(_, _, _, Final, Final).
-dynamicCoordinates(Board, [X|T], [Y|Z], Counter, Final):-
-        nth0(Y, Board, Row),
-        nth0(X, Row, houseCell),
-        replace(houseCell, emptyCell, Board, NewBoard),
-        C1 is Counter+1,
-        dynamicCoordinates(NewBoard, T, Z, C1, Final).
+
+displaySolution(Pairs, Lengths):-
+        div(Pairs,A,B),
+        goThroughPairs(A,B,Lengths).
+
+goThroughPairs([],[],[]).
+goThroughPairs([HA|TA],[HB|TB], [LH|LT]):-
+        format('Pair ~w - ~w Length: ~w~n',[HA,HB, LH]),
+        goThroughPairs(TA,TB, LT).
 
 % puzzle "0" is actually a random auto-generated puzzle
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 0,
-        makeRandomBoard(Board, N),
+        makeRandomBoard(Board, N, HouseCoordsX, HouseCoordsY),
         Houses is N*2,
-        display_game(Board),
+        display_game(Board).
 
+/*
         findall(X, matrix(Board, X, _, houseCell), Xlist),
         findall(Y, matrix(Board, _, Y, houseCell), Ylist),
 
@@ -83,17 +86,9 @@ play(Puzzle, Pairs, Lengths):-
         format('~nP: ~w ~n',[Pairs]),
         format('~nL: ~w ~n~n',[Lengths]),
         displaySolution(Pairs,Lengths).
+*/
 
-displaySolution(Pairs,Length):-
-        div(Pairs,A,B),
-        goThroughPairs(A,B).
-
-goThroughPairs([],[]).
-goThroughPairs([HA|TA],[HB|TB]):-
-        format('~w - ~w~n',[HA,HB]),
-        goThroughPairs(TA,TB).
-
-
+% hardcoded puzzles
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 1,
         board4x4(B),

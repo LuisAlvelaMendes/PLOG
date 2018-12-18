@@ -1,3 +1,5 @@
+
+
 initializeRandomSeed:-
         now(Usec), Seed is Usec mod 30269,
         getrand(random(X, Y, Z, _)),
@@ -25,3 +27,7 @@ replace(O, R, [H|T], [H|T2]) :- H \= O, replace(O, R, T, T2).
 matrix(Matrix, I, J, Value) :-
     nth0(J, Matrix, Row),
     nth0(I, Row, Value).
+
+% fill a list with a value
+fill([], _, 0).
+fill([X|Xs], X, N) :- N0 is N-1, fill(Xs, X, N0).

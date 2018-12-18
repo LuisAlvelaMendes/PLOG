@@ -4,21 +4,58 @@
 :- use_module(library(lists)).
 :- include('utilities.pl').
 
-generateRandomBoard(Board, N):-
+findCoords(_, _, [], _, _).
+findCoords([X1,X2|Xs], [Y1,Y2|Ys], [L|T], L1, L2):-
+       
+        L #= ((X1-X2)*(X1-X2) + (Y1-Y2)*(Y1-Y2)),
+        
+        list_to_fdset([L1, L2], FD),
+        
+        L in_set FD,
+        
+        findCoords(Xs, Ys, T, L1, L2).
+
+generateRandomBoard(Board, N, HouseCoordsX, HouseCoordsY):-
         initializeRandomSeed,
         random(4, 10, N),
         
         Size is N*N,
-        length(Board, Size),
-        domain(Board, 1, 2),
+        fill(Board, 1, Size),
         
+        MaxDistance is (N*N + N*N),
+        
+        %gerar duas distâncias aleatórias e posicionar as casas em relação às distâncias
+        random(1, MaxDistance, L1),
+        random(1, MaxDistance, L2),
+        
+        L1 #\= L2,
+        
+        %obter as coordenadas de cada casa e fornecer isso ao solve
+        
+        SuperiorLimit is N-1,
         Houses is N*2,
-        count(2, Board, #=, Houses),
         
-        RemainingSize is N*N - N*2,
-        count(1, Board, #=, RemainingSize),
+        length(HouseCoordsX, Houses),
+        length(HouseCoordsY, Houses),
         
-        labeling([], Board), !.
+        domain(HouseCoordsX, 0, SuperiorLimit),
+        domain(HouseCoordsY, 0, SuperiorLimit),
+
+        findCoords(HouseCoordsX, HouseCoordsY, Lengths, L1, L2),
+        
+        write('here'), nl,
+        
+        nvalue(2, Lengths),
+        
+        write('after nvalue'), nl,
+        
+        append(HouseCoordsX, HouseCoordsY, Coords),
+        
+        write(Coords), nl,
+        
+        labeling([], Coords),
+        
+        write('here again').
 
 transformBoard([], _, []).
 transformBoard(Board, N, [H|T]):-
@@ -27,9 +64,8 @@ transformBoard(Board, N, [H|T]):-
         trim(Board, N, LatestBoard),
         transformBoard(LatestBoard, N, T).
 
-makeRandomBoard(FinalResult, N):-
-        generateRandomBoard(Board, N),
-        random_permutation(Board, ShuffledBoard),
-        replace(1, emptyCell, ShuffledBoard, Temp),
-        replace(2, houseCell, Temp, Result),
-        transformBoard(Result, N, FinalResult).
+makeRandomBoard(FinalResult, N, HouseCoordsX, HouseCoordsY):-
+        generateRandomBoard(Board, N, HouseCoordsX, HouseCoordsY),
+        replace(1, emptyCell, Board, Temp),
+        transformBoard(Temp, N, FinalResult).
+        %predicate to replace emptyCells with coords
