@@ -1,5 +1,6 @@
+:- use_module(library(random)).
 
-
+% adds random seed
 initializeRandomSeed:-
         now(Usec), Seed is Usec mod 30269,
         getrand(random(X, Y, Z, _)),
@@ -31,3 +32,35 @@ matrix(Matrix, I, J, Value) :-
 % fill a list with a value
 fill([], _, 0).
 fill([X|Xs], X, N) :- N0 is N-1, fill(Xs, X, N0).
+
+% make pairs of coordinates with two lists
+makeCoordPairs([], [], []).
+makeCoordPairs([X|Tx], [Y|Ty], [Result|Tr]):-
+        Result = [X, Y],
+        makeCoordPairs(Tx, Ty, Tr).
+
+% make sure a pair of coordinates is unique
+dif_all([]).
+dif_all([H|T]) :-
+    maplist(dif(H),T),
+    dif_all(T).
+
+% flatten list
+flatten2([], []) :- !.
+flatten2([L|Ls], FlatL) :-
+    !,
+    flatten2(L, NewL),
+    flatten2(Ls, NewLs),
+    append(NewL, NewLs, FlatL).
+flatten2(L, [L]).
+
+% generate two distinct random numbers
+gen(N,X) :-
+ random(1, N, X).
+gen(N,X) :-  % the make it backtrack bit...
+ !,gen(N,X).
+ 
+gen_2_num(N,X,Y) :-
+ gen(N,X),
+ gen(N,Y),
+ \+ X = Y, !.

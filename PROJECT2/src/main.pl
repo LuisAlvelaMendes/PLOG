@@ -49,17 +49,7 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         
         append(HousePair1, HousePair2, Result),
         
-        labeling([ffc], Result).
-
-
-displaySolution(Pairs, Lengths):-
-        div(Pairs,A,B),
-        goThroughPairs(A,B,Lengths).
-
-goThroughPairs([],[],[]).
-goThroughPairs([HA|TA],[HB|TB], [LH|LT]):-
-        format('Pair ~w - ~w Length: ~w~n',[HA,HB, LH]),
-        goThroughPairs(TA,TB, LT).
+        labeling([ffc], Result), !.
 
 % puzzle "0" is actually a random auto-generated puzzle
 play(Puzzle, Pairs, Lengths):-
@@ -93,10 +83,12 @@ play(Puzzle, Pairs, Lengths):-
         Puzzle == 1,
         board4x4(B),
         display_game(B),
-        solveBoard(B, 8, [0,0,2,3,2,3,2,3], [0,3,0,0,1,1,2,3], Pairs, Lengths).
+        solveBoard(B, 8, [0,0,2,3,2,3,2,3], [0,3,0,0,1,1,2,3], Pairs, Lengths),
+        displaySolution(Pairs, Lengths), !.
 
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 2,
         board5x5(B),
         display_game(B),
-        solveBoard(B, 10, [3,4,0,4,0,1,2,4,0,4], [0,0,1,1,2,2,3,3,4,4], Pairs, Lengths).
+        solveBoard(B, 10, [3,4,0,4,0,1,2,4,0,4], [0,0,1,1,2,2,3,3,4,4], Pairs, Lengths),
+        displaySolution(Pairs, Lengths), !.

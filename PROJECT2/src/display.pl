@@ -21,3 +21,12 @@ display_game_aux([],_):- nl.
 display_game_aux([Head|Tail],N):- display_board_line(Head,N,NN), display_game_aux(Tail,NN).
 
 display_game(Board):- display_game_aux(Board,1).
+
+displaySolution(Pairs, Lengths):-
+        div(Pairs,A,B),
+        goThroughPairs(A,B,Lengths).
+
+goThroughPairs([],[],[]).
+goThroughPairs([HA|TA],[HB|TB], [LH|LT]):-
+        format('Pair ~w - ~w Length: ~w~n', [HA,HB, LH]),
+        goThroughPairs(TA,TB, LT).
