@@ -60,3 +60,43 @@ board5x5([
               [emptyCell, emptyCell, houseCell, emptyCell, houseCell],
               [houseCell, emptyCell, emptyCell, emptyCell, houseCell]
           ]).
+
+/* puzzle 3:
+
+     [houseCell_1, emptyCell, emptyCell, houseCell_2, emptyCell, houseCell_3, houseCell_4],
+     [emptyCell, emptyCell, emptyCell, houseCell_5, emptyCell, emptyCell, houseCell_6],
+     [houseCell_7, emptyCell, emptyCell, houseCell_8, emptyCell, emptyCell, emptyCell],
+     [houseCell_9, emptyCell, emptyCell, emptyCell, emptyCell, houseCell_10, emptyCell],
+     [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, houseCell_11],
+     [emptyCell, emptyCell, emptyCell, emptyCell, houseCell_12, emptyCell, emptyCell],
+     [emptyCell, emptyCell, emptyCell, houseCell_13, emptyCell, houseCell_14, emptyCell]
+     
+
+H1:     H2:     H3:     H4:     H5:     H6:     H7:     H8:     H9:     H10:    H11:     H12:     H13:    H14: 
+x:0     3       5       6       3       6       0       3       0       5       6        4         3       5            [0,3,5,6,3,6,0,3,0,5,6,4,3,5]
+y:0     0       0       0       1       1       2       2       3       3       4        5         6       6            [0,0,0,0,1,1,2,2,3,3,4,5,6,6]                   
+
+        
+*/
+
+board7x7([
+               [houseCell, emptyCell, emptyCell, houseCell, emptyCell, houseCell, houseCell],
+               [emptyCell, emptyCell, emptyCell, houseCell, emptyCell, emptyCell, houseCell],
+               [houseCell, emptyCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell],
+               [houseCell, emptyCell, emptyCell, emptyCell, emptyCell, houseCell, emptyCell],
+               [emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell, houseCell],
+               [emptyCell, emptyCell, emptyCell, emptyCell, houseCell, emptyCell, emptyCell],
+               [emptyCell, emptyCell, emptyCell, houseCell, emptyCell, houseCell, emptyCell]
+           ]).
+
+/* (... ) */
+board8x8([
+               [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+               [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+               [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+               [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, houseCell, emptyCell],
+               [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+               [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+               [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+               [emptyCell, emptyCell, emptyCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell]
+           ]).

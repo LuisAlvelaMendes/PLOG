@@ -14,15 +14,19 @@ findCoords([X1, X2|Xs], [Y1, Y2|Ys], FD):-
 
 generateRandomHouseCoords(N, HouseCoordsX, HouseCoordsY):-
         initializeRandomSeed,
-        random(4, 10, N), 
+        %random(4, 8, N), 
         
-        write(N), nl,
+        %write(N), nl,
         
-		% Max distance is the diagonal of the square, but coordinates only go from 0 to N-1
+        N = 7,
+        
+        % Max distance is the diagonal of the square, but coordinates only go from 0 to N-1
         MaxDistance is ((N-1)*(N-1) + (N-1)*(N-1)),
         
+        Half is MaxDistance//2,
+        
         % generate two random distances L1 and L2, they are guaranteed to be distinct.
-        gen_2_num(MaxDistance, L1, L2),
+        gen_2_num(Half, L1, L2),
         
         write(L1), nl,
         write(L2), nl,
@@ -30,11 +34,11 @@ generateRandomHouseCoords(N, HouseCoordsX, HouseCoordsY):-
         % domain variables are our coordinates .. each coordinate only goes from 0 to N-1
         SuperiorLimit is N-1,
 		
-		% generating puzzles with an even number of houses always
-        Houses is N*2,
-		% Houses mod 2 #= 0,
+	% generating puzzles with an even number of houses always
+         Houses is N*2,
+	%Houses mod 2 #= 0,
         
-		% HouseCoordsX holds all X coordinates, HouseCoords Y holds the Y for each house
+	% HouseCoordsX holds all X coordinates, HouseCoords Y holds the Y for each house
         length(HouseCoordsX, Houses),
         length(HouseCoordsY, Houses),
         domain(HouseCoordsX, 0, SuperiorLimit),
@@ -46,15 +50,15 @@ generateRandomHouseCoords(N, HouseCoordsX, HouseCoordsY):-
         %make sure all coords are different
         dif_all(Result),
         
-		% set of valid distances
+	% set of valid distances
         list_to_fdset([L1, L2], FD),
 
-		% finding coordinates that satisfy that set
+	% finding coordinates that satisfy that set
         findCoords(HouseCoordsX, HouseCoordsY, FD),
         
         append(HouseCoordsX, HouseCoordsY, FlatResult),
         
-        labeling([ffc], FlatResult), !,
+        labeling([max], FlatResult), !,
         write(HouseCoordsX), nl,
         write(HouseCoordsY).
 

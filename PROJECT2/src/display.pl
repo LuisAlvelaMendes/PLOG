@@ -5,7 +5,7 @@ getSymbol(emptyCell, ' ').
 getSymbol(houseCell, 'H').
 
 /*Imprime um daqueles carateres com barras a volta*/
-printCell(Char):- write('| '), write(Char), write(' ').
+printCell(Char):- write('| '), write(Char).
 
 /*Imprime o numero da House (supondo que estao seguidos) */
 printHouseNumber(Head,N,NN):- (Head == houseCell, write(N), NN is N+1) ; NN is N.

@@ -49,7 +49,7 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         
         append(HousePair1, HousePair2, Result),
         
-        labeling([ffc], Result), !.
+        labeling([min], Result), !.
 
 % puzzle "0" is actually a random auto-generated puzzle
 play(Puzzle, Pairs, Lengths):-
@@ -83,7 +83,7 @@ play(Puzzle, Pairs, Lengths):-
         Puzzle == 1,
         board4x4(B),
         display_game(B),
-        solveBoard(B, 8, [0,0,2,3,2,3,2,3], [0,3,0,0,1,1,2,3], Pairs, Lengths),
+        solveBoard(B, 8, [0,2,3,2,3,2,0,3], [0,0,0,1,1,2,3,3], Pairs, Lengths),
         displaySolution(Pairs, Lengths), !.
 
 play(Puzzle, Pairs, Lengths):-
@@ -91,4 +91,18 @@ play(Puzzle, Pairs, Lengths):-
         board5x5(B),
         display_game(B),
         solveBoard(B, 10, [3,4,0,4,0,1,2,4,0,4], [0,0,1,1,2,2,3,3,4,4], Pairs, Lengths),
+        displaySolution(Pairs, Lengths), !.
+
+play(Puzzle, Pairs, Lengths):-
+        Puzzle == 3,
+        board7x7(B),
+        display_game(B),
+        solveBoard(B, 14, [0,3,5,6,3,6,0,3,0,5,6,4,3,5], [0,0,0,0,1,1,2,2,3,3,4,5,6,6], Pairs, Lengths),
+        displaySolution(Pairs, Lengths), !.   
+
+play(Puzzle, Pairs, Lengths):-
+        Puzzle == 4,
+        board8x8(B),
+        display_game(B),
+        solveBoard(B, 16, [0,0,0,0,0,0,0,2,2,2,2,2,2,2,4,6], [0,1,2,3,4,5,6,0,1,2,3,4,5,6,7,3], Pairs, Lengths),
         displaySolution(Pairs, Lengths), !.
