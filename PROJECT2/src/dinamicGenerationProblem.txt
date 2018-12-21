@@ -1,0 +1,38 @@
+Boa tarde,
+
+O meu grupo está a ter problemas com a geração dinâmica de puzzles para o puzzle House.
+Tentamos gerar aleatoriamente coordenadas de casas que satisfaçam dois comprimentos também aleatoriamente gerados,
+sendo que os comprimentos apenas vão de 1 até MaxDistance (que é (N-1)^2 + (N-1)^2).
+
+As distâncias são calculadas pela forma da distância cartesiana entre dois pontos, sem a
+raíz quadrada.
+
+No nosso predicado de geração random, geramos então as duas lengths únicas que podem ser usadas para ligar as casas, impomos como variaveis de domínio duas listas,
+HouseCoordsX para as abcissas e HouseCoordsY para as ordenadas, e depois impomos que length(HouseCoordsX, Houses).
+Em que Houses is N*2. 
+
+Acho que o problema pode estar aqui, pois desta forma estamos sempre a forçar que vamos gerar um puzzle
+com N*2 casas, quando na realidade poderiam haver menos, desde que o número fosse par.
+
+No entanto, se substituír por Houses mod 2 #= 0, devolve sempre apenas listas vazias após o labeling.
+
+O domínio de cada lista (X e Y) é de 0 até N-1, visto que as coordenadas vão de (0, 0) até (N-1, N-1).
+
+O método utilizado para tentar encontrar as coordenadas é criando um FD set das lengths geradas [L1, L2], e depois, recursivamente,
+percorrer HouseCoordsX e HouseCoordsY tentando encontrar apenas Lengths contidas nesse FD set.
+
+findCoords([], [], _).
+findCoords([X1, X2|Xs], [Y1, Y2|Ys], FD):-
+        L in_set FD,
+       
+        L #= ((X1-X2)*(X1-X2) + (Y1-Y2)*(Y1-Y2)),
+                
+        findCoords(Xs, Ys, FD).
+
+(em que HouseCoordsX é o primeiro argumento e HouseCoordsY o segundo).
+
+No entanto, por vezes o predicado ou simplesmente dá "no" ou encrava. Certas vezes fornece um resultado,
+mas, por exemplo, esse resultado tende a conter sempre certos pontos em comum com outros, principalmente,
+contêm sempre a origem (0,0).
+
+Não estamos a conseguir entender porque isto acontece.
