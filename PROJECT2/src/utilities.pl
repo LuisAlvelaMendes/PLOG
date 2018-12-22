@@ -20,10 +20,20 @@ div(L,A,B):-
 		length(A,N),
 		length(B,N).
 
-% replaces all occurences of an element for another
-replace(_, _, [], []).
-replace(O, R, [O|T], [R|T2]) :- replace(O, R, T, T2).
-replace(O, R, [H|T], [H|T2]) :- H \= O, replace(O, R, T, T2).
+% replaces a specific element for another in a matrix (taken from last project)
+replaceInList([_H|T], 0, Value, [Value|T]).
+replaceInList([H|T], Index, Value, [H|TNew]) :-
+        Index > 0,
+        Index1 is Index - 1,
+        replaceInList(T, Index1, Value, TNew).
+
+replaceInMatrix([H|T], 0, Column,Value, [HNew|T]) :-
+        replaceInList(H, Column, Value, HNew).
+
+replaceInMatrix([H|T], Row, Column, Value, [H|TNew]) :-
+        Row > 0,
+        Row1 is Row - 1,
+        replaceInMatrix(T, Row1, Column, Value, TNew).
 
 matrix(Matrix, I, J, Value) :-
     nth0(J, Matrix, Row),

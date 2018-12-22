@@ -91,7 +91,7 @@ board7x7([
 
 /* (... ) */
 board8x8([
-               [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
+               [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell], 
                [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
                [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
                [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, houseCell, emptyCell],
@@ -100,3 +100,10 @@ board8x8([
                [houseCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell, emptyCell, emptyCell],
                [emptyCell, emptyCell, emptyCell, emptyCell, houseCell, emptyCell, emptyCell, emptyCell]
            ]).
+
+/* 
+
+houseCoordsX: [0,2,0,2,0,2,0,2,6,0,2,0,2,0,2,4]
+houseCoordsY: [0,0,1,1,2,2,3,3,3,4,4,5,5,6,6,7]
+
+*/

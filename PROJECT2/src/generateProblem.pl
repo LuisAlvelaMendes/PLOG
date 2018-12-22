@@ -14,11 +14,7 @@ findCoords([X1, X2|Xs], [Y1, Y2|Ys], FD):-
 
 generateRandomHouseCoords(N, HouseCoordsX, HouseCoordsY):-
         initializeRandomSeed,
-        %random(4, 8, N), 
-        
-        %write(N), nl,
-        
-        N = 7,
+        random(4, 8, N), 
         
         % Max distance is the diagonal of the square, but coordinates only go from 0 to N-1
         MaxDistance is ((N-1)*(N-1) + (N-1)*(N-1)),
@@ -27,9 +23,6 @@ generateRandomHouseCoords(N, HouseCoordsX, HouseCoordsY):-
         
         % generate two random distances L1 and L2, they are guaranteed to be distinct.
         gen_2_num(Half, L1, L2),
-        
-        write(L1), nl,
-        write(L2), nl,
         
         % domain variables are our coordinates .. each coordinate only goes from 0 to N-1
         SuperiorLimit is N-1,
@@ -58,9 +51,7 @@ generateRandomHouseCoords(N, HouseCoordsX, HouseCoordsY):-
         
         append(HouseCoordsX, HouseCoordsY, FlatResult),
         
-        labeling([max], FlatResult), !,
-        write(HouseCoordsX), nl,
-        write(HouseCoordsY).
+        labeling([max], FlatResult), !.
 
 transformBoard([], _, []).
 transformBoard(Board, N, [H|T]):-
@@ -73,5 +64,10 @@ makeRandomBoard(FinalResult, N, HouseCoordsX, HouseCoordsY):-
         generateRandomHouseCoords(N, HouseCoordsX, HouseCoordsY),
         Size is N*N,
         fill(Board, emptyCell, Size),
-        transformBoard(Board, N, FinalBoard).
-        %predicate to replace emptyCells with coords
+        transformBoard(Board, N, TempBoard),
+        replaceEmptyCells(HouseCoordsX, HouseCoordsY, TempBoard, FinalResult).
+
+replaceEmptyCells([], [], FinalBoard, FinalBoard).
+replaceEmptyCells([X|Xs], [Y|Ys], TempBoard, FinalBoard):-
+        replaceInMatrix(TempBoard, Y, X, houseCell, NewBoard),
+        replaceEmptyCells(Xs, Ys, NewBoard, FinalBoard).

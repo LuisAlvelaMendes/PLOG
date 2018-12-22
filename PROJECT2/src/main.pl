@@ -16,8 +16,10 @@ goThroughHouses([H1|Hs1], [H2|Hs2], HouseCoordsX, HouseCoordsY, [L|Ls]):-
         element(H2, HouseCoordsX, X2),
         element(H2, HouseCoordsY, Y2),
 
+        % eliminate simetry, halving the search space
         H1 #> H2,            
-       
+        
+        % distance between two points (without square root)
         L #= ((X1-X2)*(X1-X2) + (Y1-Y2)*(Y1-Y2)),
         
         goThroughHouses(Hs1, Hs2, HouseCoordsX, HouseCoordsY, Ls).
@@ -41,7 +43,7 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         all_distinct(HouseList),
         
         % All houses must be connected to some other house, but only one-to-one
-        % Go through houses and find lengths, there must be H/2 lengths
+        % Go through houses and find lengths
         goThroughHouses(HousePair1, HousePair2, HouseCoordsX, HouseCoordsY, Lengths),
 
         % there can only be 2 distinct lenghts
@@ -54,29 +56,13 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
 % puzzle "0" is actually a random auto-generated puzzle
 play(Puzzle, Pairs, Lengths):-
         Puzzle == 0,
-        makeRandomBoard(Board, N, HouseCoordsX, HouseCoordsY),
+        makeRandomBoard(FinalResult, N, HouseCoordsX, HouseCoordsY),
         Houses is N*2,
-        display_game(Board).
-
-/*
-        findall(X, matrix(Board, X, _, houseCell), Xlist),
-        findall(Y, matrix(Board, _, Y, houseCell), Ylist),
-
-        length(Xlist,XL),
-        HXL is XL//2,
-        trim(Xlist,HXL,XFinalList),
-
-        length(Ylist,YL),
-        HYL is YL//2,
-        trim(Ylist,HYL,YFinalList),
-
-        format('~nlist X: ~w ~n',[XFinalList]),
-        format('~nlist Y: ~w ~n',[YFinalList]),
-        solveBoard(Board, Houses, XFinalList, YFinalList, Pairs, Lengths),
-        format('~nP: ~w ~n',[Pairs]),
-        format('~nL: ~w ~n~n',[Lengths]),
-        displaySolution(Pairs,Lengths).
-*/
+        display_game(FinalResult),
+        write(HouseCoordsX), nl,
+        write(HouseCoordsY), nl,
+        solveBoard(FinalResult, Houses, HouseCoordsX, HouseCoordsY, Pairs, Lengths), 
+        displaySolution(Pairs, Lengths), !.
 
 % hardcoded puzzles
 play(Puzzle, Pairs, Lengths):-
@@ -104,5 +90,5 @@ play(Puzzle, Pairs, Lengths):-
         Puzzle == 4,
         board8x8(B),
         display_game(B),
-        solveBoard(B, 16, [0,0,0,0,0,0,0,2,2,2,2,2,2,2,4,6], [0,1,2,3,4,5,6,0,1,2,3,4,5,6,7,3], Pairs, Lengths),
+        solveBoard(B, 16, [0,2,0,2,0,2,0,2,6,0,2,0,2,0,2,4], [0,0,1,1,2,2,3,3,3,4,4,5,5,6,6,7], Pairs, Lengths),
         displaySolution(Pairs, Lengths), !.
