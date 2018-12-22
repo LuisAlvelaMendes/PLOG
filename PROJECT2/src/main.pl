@@ -63,13 +63,11 @@ tryToMakeBoard(_, _, _, _):- fail.
 
 % puzzle "0" is actually a random auto-generated puzzle
 play(Puzzle, Pairs, Lengths):-
-        repeat,
         Puzzle == 0,
+        repeat,
         tryToMakeBoard(FinalResult, N, HouseCoordsX, HouseCoordsY),
         Houses is N*2,
         display_game2(FinalResult),
-        write(HouseCoordsX), nl,
-        write(HouseCoordsY), nl,
         solveBoard(FinalResult, Houses, HouseCoordsX, HouseCoordsY, Pairs, Lengths),
         displayRandomDiv(HouseCoordsX, HouseCoordsY, Pairs, Lengths), !.
 
