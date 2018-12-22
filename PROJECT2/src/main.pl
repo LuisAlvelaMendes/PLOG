@@ -1,5 +1,6 @@
 :- use_module(library(clpfd)).
 :- use_module(library(lists)).
+:- use_module(library(timeout)).
 :- include('display.pl').
 :- include('generateProblem.pl').
 :- include('utilities.pl').
@@ -53,16 +54,24 @@ solveBoard(Board, H, HouseCoordsX, HouseCoordsY, Result, Lengths):-
         
         labeling([min], Result), !.
 
+
+tryToMakeBoard(FinalResult, N, HouseCoordsX, HouseCoordsY):-
+        time_out(makeRandomBoard(FinalResult, N, HouseCoordsX, HouseCoordsY), 5000, Result),
+        Result == success.
+
+tryToMakeBoard(_, _, _, _):- fail.
+
 % puzzle "0" is actually a random auto-generated puzzle
 play(Puzzle, Pairs, Lengths):-
+        repeat,
         Puzzle == 0,
-        makeRandomBoard(FinalResult, N, HouseCoordsX, HouseCoordsY),
+        tryToMakeBoard(FinalResult, N, HouseCoordsX, HouseCoordsY),
         Houses is N*2,
-        display_game(FinalResult),
+        display_game2(FinalResult),
         write(HouseCoordsX), nl,
         write(HouseCoordsY), nl,
-        solveBoard(FinalResult, Houses, HouseCoordsX, HouseCoordsY, Pairs, Lengths), 
-        displaySolution(Pairs, Lengths), !.
+        solveBoard(FinalResult, Houses, HouseCoordsX, HouseCoordsY, Pairs, Lengths),
+        displayRandomDiv(HouseCoordsX, HouseCoordsY, Pairs, Lengths), !.
 
 % hardcoded puzzles
 play(Puzzle, Pairs, Lengths):-

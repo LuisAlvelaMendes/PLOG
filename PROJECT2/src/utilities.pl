@@ -56,13 +56,10 @@ dif_all([H|T]) :-
     dif_all(T).
 
 % flatten list
-flatten2([], []) :- !.
-flatten2([L|Ls], FlatL) :-
-    !,
-    flatten2(L, NewL),
-    flatten2(Ls, NewLs),
-    append(NewL, NewLs, FlatL).
-flatten2(L, [L]).
+flatten2([], FinalList, FinalList).
+flatten2([H|T], Temp, FinalList):-
+        append(Temp, H, OtherTemp),
+        flatten2(T, OtherTemp, FinalList).
 
 % generate two distinct random numbers
 gen(N,X) :-
