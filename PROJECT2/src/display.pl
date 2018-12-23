@@ -22,20 +22,18 @@ display_game_aux([Head|Tail],N):- display_board_line(Head,N,NN), display_game_au
 
 display_game(Board):- display_game_aux(Board,1).
 
-/*Imprime o numero da House (supondo que estao seguidos) */
-printHouseNumber2(_,_, _).
 
 /*Caso base: quando ja consumiu toda a linha (sublista da lista grande) so imprime uma barra final e um espaco*/
-display_board_line2([],N,N):- write('| ') , nl.
+display_board_line2([]):- write('| ') , nl.
 
 /*Para cada linha, ou seja, sublista, vai tentando encontrar uma correspondencia entre o elemento a analisar nesta etapa, que vai sendo a cabeca, e o charater a imprimir. Depois usa-se tail rescursion para ir passando ao proximo elemento*/
-display_board_line2([Head|Tail],N,NNN):- getSymbol(Head,Char), printCell(Char), printHouseNumber2(Head,N,NN), display_board_line2(Tail,NN,NNN).
+display_board_line2([Head|Tail]):- getSymbol(Head,Char), printCell(Char), display_board_line2(Tail).
 
 /*Vai consumindo cada sublista da lista grande, cada linha [emptyCell, emptyCell, ...] neste caso e um "Head", vai-se usando tail recursion para chegar as outras linhas*/
-display_game_aux2([],_):- nl.
-display_game_aux2([Head|Tail],N):- display_board_line2(Head,N,NN), display_game_aux2(Tail,NN).
+display_game_aux2([]):- nl.
+display_game_aux2([Head|Tail]):- display_board_line2(Head), display_game_aux2(Tail).
 
-display_game2(Board):- display_game_aux2(Board,1).
+display_game2(Board):- display_game_aux2(Board).
 
 displaySolution(Pairs, Lengths):-
         div(Pairs,A,B),
